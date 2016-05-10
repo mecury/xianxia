@@ -21,8 +21,8 @@ public class SAXNewsParse {
     public static List<NewsBean> parse(InputStream is) throws ParserConfigurationException, SAXException, IOException {
         XMLReader xmlReader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         SAXNewsHandler saxHandler = new SAXNewsHandler();
-        xmlReader.setContentHandler(saxHandler);
-        xmlReader.parse(new InputSource(is));
+        xmlReader.setContentHandler(saxHandler); //解析器注册一个事件
+        xmlReader.parse(new InputSource(is)); //读取文件流
         items = saxHandler.getItems();
         return items;
     }

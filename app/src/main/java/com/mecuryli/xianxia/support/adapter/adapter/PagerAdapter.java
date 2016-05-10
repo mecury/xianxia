@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * Created by 海飞 on 2016/5/9.
+ * tab标题的适配器
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 

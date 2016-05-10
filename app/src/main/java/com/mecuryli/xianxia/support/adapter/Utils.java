@@ -20,6 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by 海飞 on 2016/5/9.
+ * 用于解析得到的uews的xml文件
  */
 public class Utils {
 
@@ -32,6 +33,7 @@ public class Utils {
 
     //通过文件的方式获取Document对象
     public static Document getDocmentByIS(InputStream is){
+        //得到DocumentBuilderFactory对象，由该对象得到BuilderBuilder对象
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
         Document doc = null;

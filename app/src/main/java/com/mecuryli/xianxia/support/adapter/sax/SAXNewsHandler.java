@@ -11,13 +11,13 @@ import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/9.
- * 使用SAX解析xml文件，其方法封装在SAXNewsParse
+ * 使用SAX解析xml文件，SAX的handler类
  */
 public class SAXNewsHandler extends DefaultHandler {
 
-    private List<NewsBean> items = new LinkedList<>();
-    private NewsBean tmpBean = new NewsBean();
-    private StringBuffer tmpVal = new StringBuffer();
+    private List<NewsBean> items = new LinkedList<>(); //用于存储解析出来的对象
+    private NewsBean tmpBean = new NewsBean();  //具体的对象
+    private StringBuffer tmpVal = new StringBuffer(); //用于解析的buffer
     private boolean isStart = false;
     private boolean isFirst = true;
     public List<NewsBean> getItems(){

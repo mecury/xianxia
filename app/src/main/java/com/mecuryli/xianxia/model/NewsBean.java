@@ -4,6 +4,7 @@ import com.mecuryli.xianxia.support.adapter.Utils;
 
 /**
  * Created by 海飞 on 2016/5/9.
+ * 存储信息的是实体类
  */
 public class NewsBean {
     private String title;
@@ -16,7 +17,7 @@ public class NewsBean {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = formatClearHtmlable(title);
     }
 
     public String getLink() {
@@ -37,7 +38,7 @@ public class NewsBean {
 
     //将description格式化
     public void setDescriptionWithFormat(String description){
-        this.description = formatDescription(description);
+        this.description = formatClearHtmlable(description);
     }
 
     public String getPubTime() {
@@ -51,8 +52,8 @@ public class NewsBean {
         this.pubTime = formatTime(pubTime);
     }
 
-    private String formatDescription(String description){
-        return this.description = Utils.regexReplace("<[^>]+>",description,"");
+    private String formatClearHtmlable(String string){
+        return this.description = Utils.regexReplace("<[^>\n]*>",string,"");
     }
 
     //得到时间格式

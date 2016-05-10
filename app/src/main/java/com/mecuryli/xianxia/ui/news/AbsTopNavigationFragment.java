@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.ui;
+package com.mecuryli.xianxia.ui.news;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +13,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 /**
  * Created by 海飞 on 2016/5/9.
+ * 侧滑的抽屉列表
  */
 public abstract class AbsTopNavigationFragment extends android.support.v4.app.Fragment {
 

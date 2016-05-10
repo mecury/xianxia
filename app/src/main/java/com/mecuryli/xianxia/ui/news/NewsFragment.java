@@ -37,7 +37,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by 海飞 on 2016/5/9.
- * 新闻界面的fragment
+ * 新闻列表界面的fragment
  */
 
 public class NewsFragment extends android.support.v4.app.Fragment {
@@ -47,7 +47,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private RequestQueue queue;
     private List<NewsBean> items = new ArrayList<>();
-    private NewsAdapter adapter = new NewsAdapter(items);
+    private NewsAdapter adapter ;
     private RecyclerView.LayoutManager mLayoutManager;
     @Nullable
     @Override
@@ -58,6 +58,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     }
 
     void init(){
+        adapter = new NewsAdapter(getContext(), items);
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         final String url = getArguments().getString("url");
@@ -75,6 +76,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         });
     }
 
+    //由网络加载
     private void loadNewsFormNet(String url){
         queue = Volley.newRequestQueue(getContext());
         StringRequest request = new StringRequest(url, new Response.Listener<String>(){
