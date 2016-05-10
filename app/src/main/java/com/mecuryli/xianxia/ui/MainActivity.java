@@ -1,13 +1,16 @@
 package com.mecuryli.xianxia.ui;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -22,17 +25,29 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Drawer drawer;
     private AccountHeader header;
-    private ViewPager viewPager;
+
+    private FrameLayout frameLayout;
+    private android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initData();
+        switchFragment(new BaseNewsFragment());
     }
 
+    //切换fragment
+    private void switchFragment(Fragment fragment){
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment,fragment);
+        fragmentTransaction.commit();
+    }
+
+
     void initData(){
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         header = new AccountHeaderBuilder().withActivity(this)
@@ -56,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case R.mipmap.ic_news:
-                                Toast.makeText(MainActivity.this, "news", Toast.LENGTH_SHORT).show();
+                                switchFragment(new BaseNewsFragment());
                                 break;
                             case R.mipmap.ic_reading:
                                 Toast.makeText(MainActivity.this, "reading", Toast.LENGTH_SHORT).show();

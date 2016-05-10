@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.support.adapter;
+package com.mecuryli.xianxia.support.adapter.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,10 +10,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private String[] titles;
-    public PagerAdapter(FragmentManager fm, String[] titles) {
+
+    public PagerAdapter(FragmentManager fm ,String[] titles) {
         super(fm);
         this.titles = titles;
     }
+
 
     @Override
     public Fragment getItem(int position) {

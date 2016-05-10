@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.mecuryli.xianxia"
-        minSdkVersion 12
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -28,5 +28,7 @@ dependencies {
     compile('com.mikepenz:materialdrawer:4.4.6@aar') {
                 transitive = true
     } //侧滑控件
+    compile files('libs/volley.jar')
+    compile 'com.yalantis:phoenix:1.2.2' //太阳升起的刷新动画
     compile 'com.android.support:design:23.1.0' //官方提供的一些控件支持
 }
