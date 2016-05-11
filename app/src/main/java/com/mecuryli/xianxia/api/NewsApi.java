@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.model;
+package com.mecuryli.xianxia.api;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.support.adapter.Utils;
@@ -12,7 +12,7 @@ import java.io.InputStream;
  * Created by 海飞 on 2016/5/10.
  * 用于存放res/raw/uews_api中的数据
  */
-public class Entity {
+public class NewsApi {
     private static String[] newsUrl = null;
     private static String[] newsTitle = null;
     private static Document document = null;

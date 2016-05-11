@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
+import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.science).withIdentifier(R.mipmap.ic_science),
                         new PrimaryDrawerItem().withName(R.string.video).withIdentifier(R.mipmap.ic_video),
                         new PrimaryDrawerItem().withName(R.string.music).withIdentifier(R.mipmap.ic_music),
+                        new PrimaryDrawerItem().withName(R.string.shake).withIdentifier(R.mipmap.ic_shake),
                         new SectionDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.setting).withIcon(R.mipmap.ic_setting).withIdentifier(R.mipmap.ic_setting),
                         new SecondaryDrawerItem().withName(R.string.about).withIcon(R.mipmap.ic_about).withIdentifier(R.mipmap.ic_about)
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                                 switchFragment(new BaseNewsFragment(), "新闻");
                                 break;
                             case R.mipmap.ic_reading:
-                                Toast.makeText(MainActivity.this, "reading", Toast.LENGTH_SHORT).show();
+                                switchFragment(new BaseReadingFragment(), "阅读");
                                 break;
                             case R.mipmap.ic_science:
                                 Toast.makeText(MainActivity.this, "science", Toast.LENGTH_SHORT).show();
@@ -92,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.mipmap.ic_about:
                                 Toast.makeText(MainActivity.this, "about", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.mipmap.ic_shake:
+                                Toast.makeText(MainActivity.this, "shake", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                         return false;

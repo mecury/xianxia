@@ -3,9 +3,10 @@ package com.mecuryli.xianxia.ui.news;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.mecuryli.xianxia.model.Entity;
+import com.mecuryli.xianxia.api.NewsApi;
 import com.mecuryli.xianxia.support.adapter.Utils;
 import com.mecuryli.xianxia.support.adapter.adapter.PagerAdapter;
+import com.mecuryli.xianxia.ui.AbsTopNavigationFragment;
 
 /**
  * Created by 海飞 on 2016/5/9.
@@ -30,8 +31,8 @@ public class BaseNewsFragment extends AbsTopNavigationFragment {
 //            url[i] = urlList.item(i).getTextContent();
 //            name[i] = nameList.item(i).getTextContent();
 //        }
-        name = Entity.getNewsTitle();
-        url = Entity.getNewsUrl();
+        name = NewsApi.getNewsTitle();
+        url = NewsApi.getNewsUrl();
 
         pagerAdapter = new PagerAdapter(getFragmentManager(),name){
             @Override

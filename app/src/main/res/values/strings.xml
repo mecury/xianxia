@@ -7,4 +7,6 @@
     <string name="music">Music</string>
     <string name="setting">Setting</string>
     <string name="about">about</string>
+    <string name="shake">Shake</string>
+
 </resources>

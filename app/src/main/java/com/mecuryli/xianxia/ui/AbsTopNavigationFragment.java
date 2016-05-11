@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.ui.news;
+package com.mecuryli.xianxia.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +30,7 @@ public abstract class AbsTopNavigationFragment extends android.support.v4.app.Fr
         smartTablayout = (SmartTabLayout) parentView.findViewById(R.id.tab_laout);
         pagerAdapter = initPagerAdapter();
         viewPager.setAdapter(pagerAdapter);
+
         smartTablayout.setViewPager(viewPager);
         return parentView;
     }
