@@ -35,14 +35,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initData();
-        switchFragment(new BaseNewsFragment());
+        switchFragment(new BaseNewsFragment(), "新闻");
     }
 
     //切换fragment
-    private void switchFragment(Fragment fragment){
+    private void switchFragment(Fragment fragment, String title){
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment,fragment);
+        fragmentTransaction.replace(R.id.fragment, fragment);
         fragmentTransaction.commit();
+        this.setTitle(title);
     }
 
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         header = new AccountHeaderBuilder().withActivity(this)
                 .withCompactStyle(false)
                 .withHeaderBackground(R.drawable.header)
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case R.mipmap.ic_news:
-                                switchFragment(new BaseNewsFragment());
+                                switchFragment(new BaseNewsFragment(), "新闻");
                                 break;
                             case R.mipmap.ic_reading:
                                 Toast.makeText(MainActivity.this, "reading", Toast.LENGTH_SHORT).show();

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.NewsBean;
 import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.adapter.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.adapter.NewsAdapter;
 import com.mecuryli.xianxia.support.adapter.sax.SAXNewsParse;
 import com.yalantis.phoenix.PullToRefreshView;
@@ -65,7 +67,10 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
-
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+                DividerItemDecoration.VERTICAL_LIST));
+        loadNewsFormNet(url);
 
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener(){
 

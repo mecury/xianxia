@@ -29,7 +29,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         webView = (WebView) findViewById(R.id.webView);
         textView = (TextView) findViewById(R.id.text_notify);
         final String url = getIntent().getStringExtra("url");
-        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true); //是否支持javaScript
         webView.getSettings().setSupportMultipleWindows(false);
         webView.post(new Runnable() {
             @Override
@@ -37,6 +37,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 webView.loadUrl(url);
             }
         });
+        //setWebViewClient主要用于处理解析，渲染网页等浏览器做的事情
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -49,6 +50,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 return false;
             }
         });
+        //setWebChrome是辅助webView处理javascript的对话框，网站图标、网站title、加载进度
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {

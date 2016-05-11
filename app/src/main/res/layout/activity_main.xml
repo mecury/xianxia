@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="true">
-            <include layout="@layout/widget_appbar"/>
+            <include layout="@layout/widget_toolbar"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
