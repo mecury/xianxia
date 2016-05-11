@@ -30,5 +30,6 @@ dependencies {
     } //侧滑控件
     compile files('libs/volley.jar')
     compile 'com.yalantis:phoenix:1.2.2' //太阳升起的刷新动画
+    compile 'com.google.code.gson:gson:2.3' //解析json数据
     compile 'com.android.support:design:23.1.0' //官方提供的一些控件支持
 }
