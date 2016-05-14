@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_marginBottom="@dimen/tab_height"
+    android:layout_marginLeft="@dimen/tab_height"
+    android:layout_marginRight="@dimen/tab_height"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true">
@@ -11,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/bookImg"
             android:layout_width="109dp"
             android:layout_height="135dp" />
@@ -27,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/md_black_1000"/>
 
             <TextView
                 android:id="@+id/bookInfo"

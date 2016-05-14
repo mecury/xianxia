@@ -81,6 +81,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         });
     }
 
+
     //由网络加载
     private void loadNewsFormNet(String url){
         queue = Volley.newRequestQueue(getContext());

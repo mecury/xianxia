@@ -28,6 +28,7 @@ public abstract class AbsTopNavigationFragment extends android.support.v4.app.Fr
         parentView = View.inflate(getContext(), R.layout.layout_top_navigation,null);
         viewPager = (ViewPager) parentView.findViewById(R.id.inner_viewPager);
         smartTablayout = (SmartTabLayout) parentView.findViewById(R.id.tab_laout);
+
         pagerAdapter = initPagerAdapter();
         viewPager.setAdapter(pagerAdapter);
 

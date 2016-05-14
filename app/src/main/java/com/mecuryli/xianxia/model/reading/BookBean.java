@@ -7,12 +7,7 @@ import java.io.Serializable;
  * Created by 海飞 on 2016/5/11.
  */
 public class BookBean implements Serializable {
-    private int count;
-    private int start;
-    private int total;
-    private Book books[];
 
-    private class Book implements Serializable{
         Rating rating;
         String subTitle;
         String [] author;
@@ -34,220 +29,222 @@ public class BookBean implements Serializable {
         String title;
         String url;
         String alt_title;
-        String aurhor_intro;
+        String author_intro;
         String summary;
         String ebook_price;
         Series series;
-        String price;
 
-        public Rating getRating() {
-            return rating;
-        }
-
-        public void setRating(Rating rating) {
-            this.rating = rating;
-        }
-
-        public String getSubTitle() {
-            return subTitle;
-        }
-
-        public void setSubTitle(String subTitle) {
-            this.subTitle = subTitle;
-        }
-
-        public String[] getAuthor() {
-            return author;
-        }
-
-        public void setAuthor(String[] author) {
-            this.author = author;
-        }
-
-        public String getPubdate() {
-            return pubdate;
-        }
-
-        public void setPubdate(String pubdate) {
-            this.pubdate = pubdate;
-        }
-
-        public Tags[] getTages() {
-            return tages;
-        }
-
-        public void setTages(Tags[] tages) {
-            this.tages = tages;
-        }
-
-        public String getOrigin_title() {
-            return origin_title;
-        }
-
-        public void setOrigin_title(String origin_title) {
-            this.origin_title = origin_title;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public void setImage(String image) {
-            this.image = image;
-        }
-
-        public String getBinding() {
-            return binding;
-        }
-
-        public void setBinding(String binding) {
-            this.binding = binding;
-        }
-
-        public String[] getTranslator() {
-            return translator;
-        }
-
-        public void setTranslator(String[] translator) {
-            this.translator = translator;
-        }
-
-        public String getCatalog() {
-            return catalog;
-        }
-
-        public void setCatalog(String catalog) {
-            this.catalog = catalog;
-        }
-
-        public String getEbook_url() {
-            return ebook_url;
-        }
-
-        public void setEbook_url(String ebook_url) {
-            this.ebook_url = ebook_url;
-        }
-
-        public String getPages() {
-            return pages;
-        }
-
-        public void setPages(String pages) {
-            this.pages = pages;
-        }
-
-        public Images getImages() {
-            return images;
-        }
-
-        public void setImages(Images images) {
-            this.images = images;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getAlt() {
-            return alt;
-        }
-
-        public void setAlt(String alt) {
-            this.alt = alt;
-        }
-
-        public String getPublisher() {
-            return publisher;
-        }
-
-        public void setPublisher(String publisher) {
-            this.publisher = publisher;
-        }
-
-        public String getIsbn10() {
-            return isbn10;
-        }
-
-        public void setIsbn10(String isbn10) {
-            this.isbn10 = isbn10;
-        }
-
-        public String getIsbn13() {
-            return isbn13;
-        }
-
-        public void setIsbn13(String isbn13) {
-            this.isbn13 = isbn13;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getAlt_title() {
-            return alt_title;
-        }
-
-        public void setAlt_title(String alt_title) {
-            this.alt_title = alt_title;
-        }
-
-        public String getAurhor_intro() {
-            return aurhor_intro;
-        }
-
-        public void setAurhor_intro(String aurhor_intro) {
-            this.aurhor_intro = aurhor_intro;
-        }
-
-        public String getSummary() {
-            return summary;
-        }
-
-        public void setSummary(String summary) {
-            this.summary = summary;
-        }
-
-        public String getEbook_price() {
-            return ebook_price;
-        }
-
-        public void setEbook_price(String ebook_price) {
-            this.ebook_price = ebook_price;
-        }
-
-        public Series getSeries() {
-            return series;
-        }
-
-        public void setSeries(Series series) {
-            this.series = series;
-        }
-
-        public String getPrice() {
-            return price;
-        }
-
-        public void setPrice(String price) {
-            this.price = price;
-        }
+    public Rating getRating() {
+        return rating;
     }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
+    public String getSubTitle() {
+        return subTitle;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+    }
+
+    public String[] getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String[] author) {
+        this.author = author;
+    }
+
+    public String getPubdate() {
+        return pubdate;
+    }
+
+    public void setPubdate(String pubdate) {
+        this.pubdate = pubdate;
+    }
+
+    public Tags[] getTages() {
+        return tages;
+    }
+
+    public void setTages(Tags[] tages) {
+        this.tages = tages;
+    }
+
+    public String getOrigin_title() {
+        return origin_title;
+    }
+
+    public void setOrigin_title(String origin_title) {
+        this.origin_title = origin_title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getBinding() {
+        return binding;
+    }
+
+    public void setBinding(String binding) {
+        this.binding = binding;
+    }
+
+    public String[] getTranslator() {
+        return translator;
+    }
+
+    public void setTranslator(String[] translator) {
+        this.translator = translator;
+    }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
+    }
+
+    public String getEbook_url() {
+        return ebook_url;
+    }
+
+    public void setEbook_url(String ebook_url) {
+        this.ebook_url = ebook_url;
+    }
+
+    public String getPages() {
+        return pages;
+    }
+
+    public void setPages(String pages) {
+        this.pages = pages;
+    }
+
+    public Images getImages() {
+        return images;
+    }
+
+    public void setImages(Images images) {
+        this.images = images;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAlt() {
+        return alt;
+    }
+
+    public void setAlt(String alt) {
+        this.alt = alt;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getIsbn10() {
+        return isbn10;
+    }
+
+    public void setIsbn10(String isbn10) {
+        this.isbn10 = isbn10;
+    }
+
+    public String getIsbn13() {
+        return isbn13;
+    }
+
+    public void setIsbn13(String isbn13) {
+        this.isbn13 = isbn13;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getAlt_title() {
+        return alt_title;
+    }
+
+    public void setAlt_title(String alt_title) {
+        this.alt_title = alt_title;
+    }
+
+    public String getAuthor_intro() {
+        return author_intro;
+    }
+
+    public void setAuthor_intro(String author_intro) {
+        this.author_intro = author_intro;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getEbook_price() {
+        return ebook_price;
+    }
+
+    public void setEbook_price(String ebook_price) {
+        this.ebook_price = ebook_price;
+    }
+
+    public Series getSeries() {
+        return series;
+    }
+
+    public void setSeries(Series series) {
+        this.series = series;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    String price;
+
+
 
     private class Rating implements Serializable{
         int max;
@@ -366,33 +363,13 @@ public class BookBean implements Serializable {
         }
     }
 
-    public Book[] getBooks() {
-        return books;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setStart(int start) {
-
-        this.start = start;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public void setBooks(Book[] books) {
-        this.books = books;
-    }
-
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for (Book book : books){
-            sb.append(book.getTitle()+"\n");
+        for ( String s : getAuthor()){
+            sb.append(" " + s);
         }
-        return sb.toString();
+        return "作者：" + sb + "\n出版日期" + getPubdate()
+                +"\n页数;"+getPages()+"\n价格"+getPrice();
     }
 }
