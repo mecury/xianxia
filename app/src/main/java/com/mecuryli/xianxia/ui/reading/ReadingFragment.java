@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,11 +87,9 @@ public class ReadingFragment extends Fragment {
                 @Override
                 public void onResponse(String s) {
                     Gson gson = new Gson();
-                    Log.e("msg" ,"执行到了网罗请求");
                     BookBean [] bookBeans = gson.fromJson(s,ReadingBean.class).getBooks();
                     for (BookBean bookBean : bookBeans){
                         items.add(bookBean);
-                        Log.e("msg",bookBean.getAuthor()+"======="+bookBean.getTitle()+"========"+bookBean.getAuthor_intro());
                     }
                     handler.sendEmptyMessage(0);
                     refreshView.setRefreshing(false);

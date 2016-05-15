@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toolbar;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.support.adapter.adapter.PagerAdapter;
@@ -21,13 +22,15 @@ public abstract class AbsTopNavigationFragment extends android.support.v4.app.Fr
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
     private SmartTabLayout smartTablayout;
+    private Toolbar toolbar;
     protected abstract PagerAdapter initPagerAdapter();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parentView = View.inflate(getContext(), R.layout.layout_top_navigation,null);
         viewPager = (ViewPager) parentView.findViewById(R.id.inner_viewPager);
-        smartTablayout = (SmartTabLayout) parentView.findViewById(R.id.tab_laout);
+        smartTablayout = (SmartTabLayout) getActivity().findViewById(R.id.tab_layout);
+        smartTablayout.setVisibility(View.VISIBLE);
 
         pagerAdapter = initPagerAdapter();
         viewPager.setAdapter(pagerAdapter);

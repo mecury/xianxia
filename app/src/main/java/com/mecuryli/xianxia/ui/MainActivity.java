@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment, fragment);
         fragmentTransaction.commit();
-        this.setTitle(title);
+        getSupportActionBar().setTitle(title);
     }
 
 
@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         header = new AccountHeaderBuilder().withActivity(this)
                 .withCompactStyle(false)
                 .withHeaderBackground(R.drawable.header)
                 .build();
         drawer = new DrawerBuilder().withActivity(this)
                 .withToolbar(toolbar)
+                .withActionBarDrawerToggleAnimated(true)
                 .withAccountHeader(header)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.news).withIdentifier(R.mipmap.ic_news),
