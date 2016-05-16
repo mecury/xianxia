@@ -1,7 +1,10 @@
 package com.mecuryli.xianxia.support.adapter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,8 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.reading.BookBean;
+import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
 
 import java.util.List;
 
@@ -30,17 +35,30 @@ public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_reading,null);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_reading, null);
         final ViewHolder vh = new ViewHolder(itemView);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        BookBean readingBean = getItem(position);
+        final BookBean readingBean = getItem(position);
         holder.titles.setText(readingBean.getTitle());
         holder.info.setText(readingBean.toString());
         holder.imageView.setImageURI(Uri.parse(readingBean.getImage()));
+        holder.parentView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ReadingDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("book",readingBean);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
+        if (Utils.hasString(readingBean.getEbook_url())){
+            holder.parentView.setBackgroundColor(Color.BLUE);
+        }
     }
 
     public BookBean getItem(int pos){
@@ -54,11 +72,13 @@ public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        View parentView;
         SimpleDraweeView imageView;
         TextView titles;
         TextView info;
         public ViewHolder(View itemView) {
             super(itemView);
+            parentView = itemView;
             imageView = (SimpleDraweeView) itemView.findViewById(R.id.bookImg);
             titles = (TextView) itemView.findViewById(R.id.bookTitle);
             info = (TextView) itemView.findViewById(R.id.bookInfo);

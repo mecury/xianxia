@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.NewsBean;
-import com.mecuryli.xianxia.ui.news.NewsDetailsActivity;
+import com.mecuryli.xianxia.ui.news.WebViewActivity;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, NewsDetailsActivity.class);
+                Intent intent = new Intent(mContext, WebViewActivity.class);
                 intent.putExtra("url",getItem(vh.position).getLink());
                 mContext.startActivity(intent);
             }

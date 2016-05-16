@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.api.ReadingApi;
 
 /**
  * Created by 海飞 on 2016/5/15.
@@ -18,13 +19,30 @@ public class ReadingTabFragment extends android.support.v4.app.Fragment {
 
     private View parentView;
     private TextView textView;
-    @TargetApi(Build.VERSION_CODES.M)
+    private int pos;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parentView = View.inflate(getContext(), R.layout.layout_reading_tab,null);
-        textView = (TextView) parentView.findViewById(R.id.text);
-        textView.setText(getArguments().getInt("pos"));
+        initData();
         return parentView;
     }
+
+    public void initData(){
+        pos = getArguments().getInt("pos");
+        textView = (TextView) parentView.findViewById(R.id.text);
+        textView.setText(ReadingApi.getBookInfo(pos, ReadingDetailActivity.bookBean));
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

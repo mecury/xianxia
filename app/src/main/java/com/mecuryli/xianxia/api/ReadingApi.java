@@ -1,5 +1,8 @@
 package com.mecuryli.xianxia.api;
 
+import com.mecuryli.xianxia.model.reading.BookBean;
+import com.mecuryli.xianxia.support.adapter.Utils;
+
 /**
  * Created by 海飞 on 2016/5/11.
  */
@@ -18,6 +21,7 @@ public class ReadingApi {
     public static String LifeTag[]={"爱情","旅行", "生活", "励志", "成长", "心理", "摄影", "女性", "职场", "美食", "教育", "游记", "灵修", "情感", "健康", "手工", "养生", "两性", "人际关系", "家居", "自助游"};
     public static String FinancialTag[] ={"经济学", "管理", "经济", "金融", "商业", "投资", "营销", "创业", "理财", "广告", "股票", "企业史", "策划"};
 
+    public static String bookTab_title[] = {"内容简介","目录","作者简介"};
     public static String[] getApiTag(int pos){
         switch (pos){
             case 0:
@@ -56,5 +60,20 @@ public class ReadingApi {
             res[i] = tag[tmp];
         }
         return res;
+    }
+
+    public static String getBookInfo(int position, BookBean book){
+        switch (position){
+            case 0:
+                if (Utils.hasString(book.getSummary()) == false) break;
+                return book.getSummary();
+            case 1:
+                if (Utils.hasString(book.getCatalog()) == false) break;
+                return book.getCatalog();
+            case 2:
+                if (Utils.hasString(book.getAuthor_intro())== false) break;
+                return book.getAuthor_intro();
+        }
+        return "\n\n\n\n\t\t\t\t\t\t\t\t抱歉，暂无信息";
     }
 }

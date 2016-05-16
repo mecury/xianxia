@@ -13,7 +13,7 @@ import com.mecuryli.xianxia.R;
 /**
  * Created by 海飞 on 2016/5/10.
  */
-public class NewsDetailsActivity extends AppCompatActivity {
+public class WebViewActivity extends AppCompatActivity {
 
     private WebView webView;
     private TextView textView;
@@ -21,7 +21,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_details);
+        setContentView(R.layout.activity_webview);
         initData();
     }
 
@@ -50,6 +50,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 return false;
             }
         });
+
         //setWebChrome是辅助webView处理javascript的对话框，网站图标、网站title、加载进度
         webView.setWebChromeClient(new WebChromeClient(){
             @Override

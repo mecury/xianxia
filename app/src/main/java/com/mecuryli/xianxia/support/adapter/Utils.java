@@ -70,6 +70,13 @@ public class Utils {
         return matcher.replaceAll(replace);
     }
 
+    public static boolean hasString (String str){
+        if (str == null || str.equals("")){
+            return false;
+        }
+        return true;
+    }
+
     public static void showToast(String text){
         Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
     }
