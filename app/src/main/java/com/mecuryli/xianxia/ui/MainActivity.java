@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
+import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                                 switchFragment(new BaseReadingFragment(), "阅读");
                                 break;
                             case R.mipmap.ic_science:
-                                Toast.makeText(MainActivity.this, "science", Toast.LENGTH_SHORT).show();
+                                switchFragment(new BaseScienceFragment(), "科学");
                                 break;
                             case R.mipmap.ic_video:
                                 Toast.makeText(MainActivity.this, "video", Toast.LENGTH_SHORT).show();
