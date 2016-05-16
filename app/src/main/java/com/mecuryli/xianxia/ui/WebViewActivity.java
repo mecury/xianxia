@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.ui.news;
+package com.mecuryli.xianxia.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +28,7 @@ public class WebViewActivity extends AppCompatActivity {
     private void initData(){
         webView = (WebView) findViewById(R.id.webView);
         textView = (TextView) findViewById(R.id.text_notify);
-        final String url = getIntent().getStringExtra("url");
+        final String url = getIntent().getStringExtra(getString(R.string.id_url));
         webView.getSettings().setJavaScriptEnabled(true); //是否支持javaScript
         webView.getSettings().setSupportMultipleWindows(false);
         webView.post(new Runnable() {

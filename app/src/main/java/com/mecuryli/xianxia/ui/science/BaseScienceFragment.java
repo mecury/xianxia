@@ -3,6 +3,7 @@ package com.mecuryli.xianxia.ui.science;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ScienceApi;
 import com.mecuryli.xianxia.support.adapter.adapter.PagerAdapter;
 import com.mecuryli.xianxia.ui.AbsTopNavigationFragment;
@@ -20,7 +21,7 @@ public class BaseScienceFragment extends AbsTopNavigationFragment {
             public Fragment getItem(int position) {
                 ScienceFragment fragment = new ScienceFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("pos",position);
+                bundle.putInt(getString(R.string.id_pos),position);
                 fragment.setArguments(bundle);
                 return fragment;
             }
