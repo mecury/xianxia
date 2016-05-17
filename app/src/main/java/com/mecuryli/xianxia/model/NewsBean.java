@@ -17,7 +17,7 @@ public class NewsBean {
     }
 
     public void setTitle(String title) {
-        this.title = formatClearHtmlable(title);
+        this.title = formatClearHtmlLable(title);
     }
 
     public String getLink() {
@@ -38,11 +38,11 @@ public class NewsBean {
 
     //将description格式化
     public void setDescriptionWithFormat(String description){
-        this.description = formatClearHtmlable(description);
+        this.description = formatClearHtmlLable(description);
     }
 
     public String getPubTime() {
-        return formatTime(pubTime);
+        return pubTime;
     }
 
     public void setPubTime(String pubTime){
@@ -52,20 +52,20 @@ public class NewsBean {
         this.pubTime = formatTime(pubTime);
     }
 
-    private String formatClearHtmlable(String string){
+    private String formatClearHtmlLable(String string){
         return this.description = Utils.regexReplace("<[^>\n]*>",string,"");
     }
 
     //得到时间格式
     private String formatTime(String pubTime){
         Utils.DLog(pubTime);
-        String date = Utils.RegexFind("-.{4}",pubTime)+"年"+
+        String date = Utils.RegexFind("-.{4} ",pubTime)+"年"+
                 formatMonth(Utils.RegexFind("-.{3}-", pubTime)) + "月"+
                 Utils.RegexFind(",.{1,2}-",pubTime) + "日" +
                 Utils.RegexFind(" .{2}:",pubTime) + "点" +
                 Utils.RegexFind(":.{2}:",pubTime) + "分" +
-                Utils.RegexFind(":.{2}",pubTime) + "秒";
-        Utils.DLog(date);
+                Utils.RegexFind(":.{2} ",pubTime) + "秒";
+        Utils.DLog("解析完后："+date);
         return date;
     }
 

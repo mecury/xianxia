@@ -38,7 +38,6 @@ public class ReadingFragment extends Fragment {
     private View parentView;
     private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
-    private List<ReadingBean> readingData = new ArrayList<>();
     private List<BookBean> items = new ArrayList<>();
     private RequestQueue queue;
     private RecyclerView.LayoutManager mLayoutManager;

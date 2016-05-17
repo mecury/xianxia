@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     void initData(){
-
+        frameLayout = (FrameLayout) findViewById(R.id.fragment);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         header = new AccountHeaderBuilder().withActivity(this)
@@ -62,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
                 .withActionBarDrawerToggleAnimated(true)
                 .withAccountHeader(header)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.news).withIdentifier(R.mipmap.ic_news),
-                        new PrimaryDrawerItem().withName(R.string.reading).withIdentifier(R.mipmap.ic_reading),
-                        new PrimaryDrawerItem().withName(R.string.science).withIdentifier(R.mipmap.ic_science),
-                        new PrimaryDrawerItem().withName(R.string.video).withIdentifier(R.mipmap.ic_video),
-                        new PrimaryDrawerItem().withName(R.string.music).withIdentifier(R.mipmap.ic_music),
-                        new PrimaryDrawerItem().withName(R.string.shake).withIdentifier(R.mipmap.ic_shake),
+                        new PrimaryDrawerItem().withName(R.string.news).withIcon(R.mipmap.ic_news).withIdentifier(R.mipmap.ic_news),
+                        new PrimaryDrawerItem().withName(R.string.reading).withIcon(R.mipmap.ic_reading).withIdentifier(R.mipmap.ic_reading),
+                        new PrimaryDrawerItem().withName(R.string.science).withIcon(R.mipmap.ic_science).withIdentifier(R.mipmap.ic_science),
+                        new PrimaryDrawerItem().withName(R.string.video).withIcon(R.mipmap.ic_video).withIdentifier(R.mipmap.ic_video),
+                        new PrimaryDrawerItem().withName(R.string.music).withIcon(R.mipmap.ic_music).withIdentifier(R.mipmap.ic_music),
+                        new PrimaryDrawerItem().withName(R.string.shake).withIcon(R.mipmap.ic_shake).withIdentifier(R.mipmap.ic_shake),
                         new SectionDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.setting).withIcon(R.mipmap.ic_setting).withIdentifier(R.mipmap.ic_setting),
                         new SecondaryDrawerItem().withName(R.string.about).withIcon(R.mipmap.ic_about).withIdentifier(R.mipmap.ic_about)
