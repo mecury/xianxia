@@ -22,8 +22,8 @@ import com.mecuryli.xianxia.model.Daily.DailyItem;
 import com.mecuryli.xianxia.model.Daily.DailyMain;
 import com.mecuryli.xianxia.model.Daily.DailyStories;
 import com.mecuryli.xianxia.support.adapter.Utils;
-import com.mecuryli.xianxia.support.adapter.adapter.DailyAdapter;
-import com.mecuryli.xianxia.support.adapter.adapter.DividerItemDecoration;
+import com.mecuryli.xianxia.support.adapter.DailyAdapter;
+import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import java.util.ArrayList;

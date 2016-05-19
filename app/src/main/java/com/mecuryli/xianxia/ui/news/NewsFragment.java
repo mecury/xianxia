@@ -21,9 +21,9 @@ import com.android.volley.toolbox.Volley;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.news.NewsBean;
 import com.mecuryli.xianxia.support.adapter.Utils;
-import com.mecuryli.xianxia.support.adapter.adapter.DividerItemDecoration;
-import com.mecuryli.xianxia.support.adapter.adapter.NewsAdapter;
-import com.mecuryli.xianxia.support.adapter.sax.SAXNewsParse;
+import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
+import com.mecuryli.xianxia.support.adapter.NewsAdapter;
+import com.mecuryli.xianxia.support.sax.SAXNewsParse;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import org.xml.sax.SAXException;

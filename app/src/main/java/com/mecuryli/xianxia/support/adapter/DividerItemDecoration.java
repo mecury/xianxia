@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.support.adapter.adapter;
+package com.mecuryli.xianxia.support.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -22,8 +22,8 @@ import com.mecuryli.xianxia.api.ScienceApi;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.model.science.ScienceBean;
 import com.mecuryli.xianxia.support.adapter.Utils;
-import com.mecuryli.xianxia.support.adapter.adapter.DividerItemDecoration;
-import com.mecuryli.xianxia.support.adapter.adapter.ScienceAdapter;
+import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
+import com.mecuryli.xianxia.support.adapter.ScienceAdapter;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import java.util.ArrayList;

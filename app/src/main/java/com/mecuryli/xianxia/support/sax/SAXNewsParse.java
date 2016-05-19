@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.support.adapter.sax;
+package com.mecuryli.xianxia.support.sax;
 
 import com.mecuryli.xianxia.model.news.NewsBean;
 

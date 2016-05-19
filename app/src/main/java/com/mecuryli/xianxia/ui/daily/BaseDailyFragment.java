@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.mecuryli.xianxia.api.DailyApi;
-import com.mecuryli.xianxia.support.adapter.adapter.PagerAdapter;
+import com.mecuryli.xianxia.support.adapter.PagerAdapter;
 import com.mecuryli.xianxia.ui.support.AbsTopNavigationFragment;
 
 /**

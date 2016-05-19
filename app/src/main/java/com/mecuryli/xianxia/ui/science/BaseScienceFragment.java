@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ScienceApi;
-import com.mecuryli.xianxia.support.adapter.adapter.PagerAdapter;
+import com.mecuryli.xianxia.support.adapter.PagerAdapter;
 import com.mecuryli.xianxia.ui.support.AbsTopNavigationFragment;
 
 /**
