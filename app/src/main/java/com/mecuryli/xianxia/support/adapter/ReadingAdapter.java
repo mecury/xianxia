@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.support.adapter.adapter;
+package com.mecuryli.xianxia.support.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.reading.BookBean;
-import com.mecuryli.xianxia.support.adapter.Utils;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
 
 import java.util.List;

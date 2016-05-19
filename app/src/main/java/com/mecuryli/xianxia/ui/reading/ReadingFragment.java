@@ -23,8 +23,8 @@ import com.mecuryli.xianxia.api.ReadingApi;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.model.reading.ReadingBean;
 import com.mecuryli.xianxia.support.adapter.Utils;
-import com.mecuryli.xianxia.support.adapter.adapter.DividerItemDecoration;
-import com.mecuryli.xianxia.support.adapter.adapter.ReadingAdapter;
+import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
+import com.mecuryli.xianxia.support.adapter.ReadingAdapter;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import java.util.ArrayList;

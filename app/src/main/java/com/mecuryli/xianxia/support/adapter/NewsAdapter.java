@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.support.adapter.adapter;
+package com.mecuryli.xianxia.support.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.model.NewsBean;
-import com.mecuryli.xianxia.ui.WebViewActivity;
+import com.mecuryli.xianxia.model.news.NewsBean;
+import com.mecuryli.xianxia.ui.support.WebViewActivity;
 
 import java.util.List;
 

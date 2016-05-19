@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.ui.daily.BaseDailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
 import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initData();
-        switchFragment(new BaseNewsFragment(), "新闻");
+        switchFragment(new BaseDailyFragment(), "日报");
     }
 
     //切换fragment
@@ -62,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 .withActionBarDrawerToggleAnimated(true)
                 .withAccountHeader(header)
                 .addDrawerItems(
+                        new PrimaryDrawerItem().withName(R.string.daily).withIcon(R.mipmap.ic_home).withIdentifier(R.mipmap.ic_home),
                         new PrimaryDrawerItem().withName(R.string.news).withIcon(R.mipmap.ic_news).withIdentifier(R.mipmap.ic_news),
                         new PrimaryDrawerItem().withName(R.string.reading).withIcon(R.mipmap.ic_reading).withIdentifier(R.mipmap.ic_reading),
                         new PrimaryDrawerItem().withName(R.string.science).withIcon(R.mipmap.ic_science).withIdentifier(R.mipmap.ic_science),
                         new PrimaryDrawerItem().withName(R.string.video).withIcon(R.mipmap.ic_video).withIdentifier(R.mipmap.ic_video),
-                        new PrimaryDrawerItem().withName(R.string.music).withIcon(R.mipmap.ic_music).withIdentifier(R.mipmap.ic_music),
                         new PrimaryDrawerItem().withName(R.string.shake).withIcon(R.mipmap.ic_shake).withIdentifier(R.mipmap.ic_shake),
                         new SectionDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.setting).withIcon(R.mipmap.ic_setting).withIdentifier(R.mipmap.ic_setting),
@@ -84,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                             case R.mipmap.ic_science:
                                 switchFragment(new BaseScienceFragment(), "科学");
                                 break;
-                            case R.mipmap.ic_video:
-                                Toast.makeText(MainActivity.this, "video", Toast.LENGTH_SHORT).show();
+                            case R.mipmap.ic_home:
+                                switchFragment(new BaseDailyFragment(),"日报");
                                 break;
                             case R.mipmap.ic_music:
                                 Toast.makeText(MainActivity.this, "music", Toast.LENGTH_SHORT).show();

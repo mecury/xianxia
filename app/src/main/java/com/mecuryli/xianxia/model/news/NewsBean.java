@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.model;
+package com.mecuryli.xianxia.model.news;
 
 import com.mecuryli.xianxia.support.adapter.Utils;
 

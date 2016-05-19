@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.ui;
+package com.mecuryli.xianxia.ui.support;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toolbar;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.support.adapter.adapter.PagerAdapter;
+import com.mecuryli.xianxia.support.adapter.PagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 /**

@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.ui.science;
+package com.mecuryli.xianxia.ui.daily;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,64 +18,75 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.api.ScienceApi;
-import com.mecuryli.xianxia.model.science.ArticleBean;
-import com.mecuryli.xianxia.model.science.ScienceBean;
+import com.mecuryli.xianxia.model.Daily.DailyItem;
+import com.mecuryli.xianxia.model.Daily.DailyMain;
+import com.mecuryli.xianxia.model.Daily.DailyStories;
 import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.adapter.DailyAdapter;
 import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
-import com.mecuryli.xianxia.support.adapter.ScienceAdapter;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 海飞 on 2016/5/16.
+ * Created by 海飞 on 2016/5/18.
  */
-public class ScienceFragment extends Fragment {
+public class DailyFragment extends Fragment {
 
     private View parentView;
-    private ScienceBean scienceBean;
-    private List<ArticleBean> items = new ArrayList<>();
-    private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
+    private PullToRefreshView refreshView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ScienceAdapter adapter;
+    private List<DailyItem> items = new ArrayList<>();
     private RequestQueue queue;
+    private DailyAdapter adapter;
     private String url;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        parentView = View.inflate(getContext(), R.layout.layout_commont_list, null);
+        parentView = View.inflate(getContext(), R.layout.layout_commont_list,null);
         initData();
         return parentView;
     }
 
-    private void initData() {
-        url = ScienceApi.science_channel_url + ScienceApi
-                .channel_tag[getArguments().getInt(getString(R.string.id_pos))];
+    public void initData(){
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
-        adapter = new ScienceAdapter(getContext(), items);
+        adapter = new DailyAdapter(getContext(),items);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
-                DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
-        loadNewsFromNet();
+        url = getArguments().getString("url");
+        loadDailyFromNet();
+        refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadDailyFromNet();
+            }
+        });
     }
 
-    private void loadNewsFromNet() {
+    public void loadDailyFromNet(){
         queue = Volley.newRequestQueue(getContext());
-        Utils.DLog(url);
+        Utils.DLog("Daily部分的url：" + url);
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Utils.DLog(s);
                 Gson gson = new Gson();
-                ArticleBean[] articleBeans = gson.fromJson(s, ScienceBean.class).getResult();
-                for (ArticleBean articleBean : articleBeans) {
-                    items.add(articleBean);
+                DailyMain main = gson.fromJson(s, DailyMain.class);
+                List<DailyStories> dailyStories = main.getStories();
+                for (DailyStories d : dailyStories){
+                    DailyItem item = new DailyItem();
+                    item.setTitle(d.getTitle());
+                    item.setGa_prefix(d.getGa_prefix());
+                    item.setId(d.getId());
+                    item.setType(d.getType());
+                    item.setImages(d.getImages());
+                    Utils.DLog(item.getTitle());
+                    items.add(item);
                 }
                 handler.sendEmptyMessage(0);
                 refreshView.setRefreshing(false);
@@ -83,7 +94,7 @@ public class ScienceFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Utils.showToast("网络异常，刷新失败");
+                Utils.showToast("网络错误！");
                 refreshView.setRefreshing(false);
             }
         });
@@ -98,60 +109,3 @@ public class ScienceFragment extends Fragment {
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

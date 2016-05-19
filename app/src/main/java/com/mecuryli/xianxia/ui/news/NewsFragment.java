@@ -19,11 +19,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.model.NewsBean;
+import com.mecuryli.xianxia.model.news.NewsBean;
 import com.mecuryli.xianxia.support.adapter.Utils;
-import com.mecuryli.xianxia.support.adapter.adapter.DividerItemDecoration;
-import com.mecuryli.xianxia.support.adapter.adapter.NewsAdapter;
-import com.mecuryli.xianxia.support.adapter.sax.SAXNewsParse;
+import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
+import com.mecuryli.xianxia.support.adapter.NewsAdapter;
+import com.mecuryli.xianxia.support.sax.SAXNewsParse;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import org.xml.sax.SAXException;
@@ -93,7 +93,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 InputStream is = new ByteArrayInputStream(s.getBytes(StandardCharsets.ISO_8859_1));
                     try {
                         items.clear();
-                        items.addAll(SAXNewsParse.parse(is));
+                        items.addAll(SAXNewsParse.parse(is)); //解析数据，并将数据添加到items中
                     } catch (ParserConfigurationException e) {
                         e.printStackTrace();
                     } catch (SAXException e) {
