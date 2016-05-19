@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.ui.daily.BaseDailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
 import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                                 switchFragment(new BaseScienceFragment(), "科学");
                                 break;
                             case R.mipmap.ic_video:
-                                Toast.makeText(MainActivity.this, "video", Toast.LENGTH_SHORT).show();
+                                switchFragment(new BaseDailyFragment(),"果壳");
                                 break;
                             case R.mipmap.ic_music:
                                 Toast.makeText(MainActivity.this, "music", Toast.LENGTH_SHORT).show();

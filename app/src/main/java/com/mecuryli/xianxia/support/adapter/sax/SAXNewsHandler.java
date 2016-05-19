@@ -1,6 +1,6 @@
 package com.mecuryli.xianxia.support.adapter.sax;
 
-import com.mecuryli.xianxia.model.NewsBean;
+import com.mecuryli.xianxia.model.news.NewsBean;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
