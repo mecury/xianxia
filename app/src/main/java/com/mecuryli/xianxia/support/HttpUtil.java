@@ -33,7 +33,7 @@ public class HttpUtil {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                
+
             }
 
             @Override

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.science.ArticleBean;
-import com.mecuryli.xianxia.ui.support.WebViewActivity;
+import com.mecuryli.xianxia.ui.WebViewUrlActivity;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 //点击跳转到webView浏览器
-                Intent intent = new Intent(mContext, WebViewActivity.class);
+                Intent intent = new Intent(mContext, WebViewUrlActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(mContext.getString(R.string.id_url),articleBean.getUrl());
                 intent.putExtras(bundle);

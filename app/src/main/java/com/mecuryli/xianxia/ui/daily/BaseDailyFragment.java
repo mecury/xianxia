@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.mecuryli.xianxia.api.DailyApi;
 import com.mecuryli.xianxia.support.adapter.PagerAdapter;
-import com.mecuryli.xianxia.ui.support.AbsTopNavigationFragment;
+import com.mecuryli.xianxia.ui.AbsTopNavigationFragment;
 
 /**
  * Created by 海飞 on 2016/5/18.

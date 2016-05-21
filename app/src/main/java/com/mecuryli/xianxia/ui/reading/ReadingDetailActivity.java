@@ -15,9 +15,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
 import com.mecuryli.xianxia.model.reading.BookBean;
-import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.PagerAdapter;
-import com.mecuryli.xianxia.ui.support.WebViewActivity;
+import com.mecuryli.xianxia.ui.BaseWebViewActivity;
 
 /**
  * Created by 海飞 on 2016/5/15.
@@ -43,7 +43,7 @@ public class ReadingDetailActivity extends AppCompatActivity {
         for (String title : ReadingApi.bookTab_title){
             tabLayout.addTab(tabLayout.newTab().setText(title));
         }
-        bookBean = (BookBean) getIntent().getSerializableExtra("book");
+        bookBean = (BookBean) getIntent().getSerializableExtra(getString(R.string.id_book));
         getSupportActionBar().setTitle(bookBean.getTitle());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -57,7 +57,7 @@ public class ReadingDetailActivity extends AppCompatActivity {
             public Fragment getItem(int position) {
                 ReadingTabFragment fragment = new ReadingTabFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("pos",position);
+                bundle.putInt(getString(R.string.id_pos),position);
                 fragment.setArguments(bundle);
                 return fragment;
             }
@@ -69,9 +69,8 @@ public class ReadingDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_ebook,menu);
-        if (bookBean.getEbook_url()==null || bookBean.getEbook_url().equals(""))
+        if (Utils.hasString(bookBean.getEbook_url())==false)
             menu.getItem(0).setVisible(false);
-        else Utils.showToast(bookBean.getEbook_url());
         return true;
     }
 
@@ -79,8 +78,8 @@ public class ReadingDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_ebook:
-                Intent intent = new Intent(ReadingDetailActivity.this, WebViewActivity.class);
-                intent.putExtra("url",ReadingApi.readEBook+Utils.RegexFind("/[0-9]+/",bookBean.getEbook_url()));
+                Intent intent = new Intent(ReadingDetailActivity.this, BaseWebViewActivity.class);
+                intent.putExtra(getString(R.string.id_url),ReadingApi.readEBook+Utils.RegexFind("/[0-9]+/",bookBean.getEbook_url()));
                 break;
         }
         return super.onOptionsItemSelected(item);

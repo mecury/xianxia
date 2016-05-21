@@ -3,9 +3,10 @@ package com.mecuryli.xianxia.ui.reading;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
 import com.mecuryli.xianxia.support.adapter.PagerAdapter;
-import com.mecuryli.xianxia.ui.support.AbsTopNavigationFragment;
+import com.mecuryli.xianxia.ui.AbsTopNavigationFragment;
 
 /**
  * Created by 海飞 on 2016/5/11.
@@ -21,7 +22,7 @@ public class BaseReadingFragment extends AbsTopNavigationFragment {
             public Fragment getItem(int position) {
                 ReadingFragment fragment = new ReadingFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("pos", position);
+                bundle.putInt(getString(R.string.id_pos), position);
                 fragment.setArguments(bundle);
                 return fragment;
             }

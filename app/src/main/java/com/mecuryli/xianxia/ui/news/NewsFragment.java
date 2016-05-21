@@ -1,7 +1,5 @@
 package com.mecuryli.xianxia.ui.news;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,16 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.news.NewsBean;
-import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.HttpUtil;
+import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.NewsAdapter;
 import com.mecuryli.xianxia.support.sax.SAXNewsParse;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import org.xml.sax.SAXException;
@@ -63,7 +62,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         adapter = new NewsAdapter(getContext(), items);
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
-        final String url = getArguments().getString("url");
+        final String url = getArguments().getString(getString(R.string.id_url));
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
@@ -83,44 +82,86 @@ public class NewsFragment extends android.support.v4.app.Fragment {
 
 
     //由网络加载
-    private void loadNewsFormNet(String url){
-        queue = Volley.newRequestQueue(getContext());
-        StringRequest request = new StringRequest(url, new Response.Listener<String>(){
-
-            @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void loadNewsFormNet(final String url){
+//        queue = Volley.newRequestQueue(getContext());
+//        StringRequest request = new StringRequest(url, new Response.Listener<String>(){
+//
+//            @TargetApi(Build.VERSION_CODES.KITKAT)
+//            @Override
+//            public void onResponse(String s) {
+//                InputStream is = new ByteArrayInputStream(s.getBytes(StandardCharsets.ISO_8859_1));
+//                    try {
+//                        items.clear();
+//                        items.addAll(SAXNewsParse.parse(is)); //解析数据，并将数据添加到items中
+//                    } catch (ParserConfigurationException e) {
+//                        e.printStackTrace();
+//                    } catch (SAXException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                handler.sendEmptyMessage(0);
+//                refreshView.setRefreshing(false);
+//            }
+//        },new Response.ErrorListener(){
+//
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                Utils.showToast("网络异常，刷新失败");
+//                refreshView.setRefreshing(false);
+//            }
+//        });
+//        request.setShouldCache(false);
+//        queue.add(request);
+        refreshView.setRefreshing(true);
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(String s) {
-                InputStream is = new ByteArrayInputStream(s.getBytes(StandardCharsets.ISO_8859_1));
-                    try {
-                        items.clear();
-                        items.addAll(SAXNewsParse.parse(is)); //解析数据，并将数据添加到items中
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
-                    } catch (SAXException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            public void run() {
+                Request.Builder builder = new Request.Builder();
+                builder.url(url);
+                Request request = builder.build();
+                HttpUtil.enqueue(request, new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        handler.sendEmptyMessage(CONSTANT.ID_FAILURE);
                     }
-                handler.sendEmptyMessage(0);
-                refreshView.setRefreshing(false);
-            }
-        },new Response.ErrorListener(){
 
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Utils.showToast("网络异常，刷新失败");
-                refreshView.setRefreshing(false);
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        if (response.isSuccessful()==false){
+                            handler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                            return;
+                        }
+                        InputStream is = new ByteArrayInputStream(response.body().string().getBytes(StandardCharsets.UTF_8));
+                        items.clear();
+
+                        try {
+                            items.addAll(SAXNewsParse.parse(is));
+                        } catch (ParserConfigurationException e) {
+                            e.printStackTrace();
+                        } catch (SAXException e) {
+                            e.printStackTrace();
+                        }
+                        handler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
+                    }
+                });
             }
-        });
-        request.setShouldCache(false);
-        queue.add(request);
+        }).start();
     }
 
     private Handler handler = new Handler(new Handler.Callback(){
 
         @Override
         public boolean handleMessage(Message msg) {
-            adapter.notifyDataSetChanged();
+            refreshView.setRefreshing(false);
+            switch (msg.what){
+                case CONSTANT.ID_FAILURE:
+                    Utils.DLog(getString(R.string.Text_Net_Exception));
+                    break;
+                case CONSTANT.ID_SUCCESS:
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
             return false;
         }
     });

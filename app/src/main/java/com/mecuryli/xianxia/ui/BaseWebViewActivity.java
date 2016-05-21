@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.ui.support;
+package com.mecuryli.xianxia.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,18 +6,19 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import com.mecuryli.xianxia.R;
 
 /**
  * Created by 海飞 on 2016/5/10.
  */
-public class WebViewActivity extends AppCompatActivity {
+public abstract class BaseWebViewActivity extends AppCompatActivity {
 
-    private WebView webView;
-    private TextView textView;
-    private boolean isLoading = true;
+    protected WebView webView;
+    protected ProgressBar progressBar;
+    protected boolean isLoading = true;
+    protected String data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,24 +26,24 @@ public class WebViewActivity extends AppCompatActivity {
         initData();
     }
 
+    protected abstract String getData();
+    protected abstract void loadData();
+
     private void initData(){
+        data = getData();
         webView = (WebView) findViewById(R.id.webView);
-        textView = (TextView) findViewById(R.id.text_notify);
-        final String url = getIntent().getStringExtra(getString(R.string.id_url));
+        progressBar = (ProgressBar) findViewById(R.id.pb_progerssbar);
         webView.getSettings().setJavaScriptEnabled(true); //是否支持javaScript
         webView.getSettings().setSupportMultipleWindows(false);
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-                webView.loadUrl(url);
-            }
-        });
+
+        loadData();
+
         //setWebViewClient主要用于处理解析，渲染网页等浏览器做的事情
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                textView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -57,10 +58,10 @@ public class WebViewActivity extends AppCompatActivity {
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
                 if (isLoading){
-                    textView.setText("正在加载。。。"+newProgress*4+"%");
+                    progressBar.incrementProgressBy(newProgress-progressBar.getProgress());
                     if (newProgress > 25){
                         isLoading = false;
-                        textView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }

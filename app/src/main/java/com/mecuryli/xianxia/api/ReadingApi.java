@@ -1,7 +1,9 @@
 package com.mecuryli.xianxia.api;
 
+import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.reading.BookBean;
-import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.Utils;
+import com.mecuryli.xianxia.xianxiaApplication;
 
 /**
  * Created by 海飞 on 2016/5/11.
@@ -74,6 +76,6 @@ public class ReadingApi {
                 if (Utils.hasString(book.getAuthor_intro())== false) break;
                 return book.getAuthor_intro();
         }
-        return "\n\n\n\n\t\t\t\t\t\t\t\t抱歉，暂无信息";
+        return xianxiaApplication.AppContext.getString(R.string.text_noinfo);
     }
 }

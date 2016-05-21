@@ -1,5 +1,7 @@
 package com.mecuryli.xianxia.ui.science;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,20 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ScienceApi;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.model.science.ScienceBean;
-import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.HttpUtil;
+import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.ScienceAdapter;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.yalantis.phoenix.PullToRefreshView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,33 +71,52 @@ public class ScienceFragment extends Fragment {
     }
 
     private void loadNewsFromNet() {
-        queue = Volley.newRequestQueue(getContext());
-        Utils.DLog(url);
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+        refreshView.setRefreshing(true);
+        new Thread(new Runnable() {
+            @TargetApi(Build.VERSION_CODES.KITKAT)
             @Override
-            public void onResponse(String s) {
-                Gson gson = new Gson();
-                ArticleBean[] articleBeans = gson.fromJson(s, ScienceBean.class).getResult();
-                for (ArticleBean articleBean : articleBeans) {
-                    items.add(articleBean);
-                }
-                handler.sendEmptyMessage(0);
-                refreshView.setRefreshing(false);
+            public void run() {
+                Request.Builder builder = new Request.Builder();
+                builder.url(url);
+                Request request = builder.build();
+                HttpUtil.enqueue(request, new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        handler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                    }
+
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        if (response.isSuccessful() == false) {
+                            handler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                            return;
+                            }
+                        Gson gson = new Gson();
+                        ArticleBean[] articleBeans = (gson.fromJson(response.body().string(), ScienceBean.class)).getResult();
+                        items.clear();
+                        for(ArticleBean articleBean: articleBeans){
+                            items.add(articleBean);
+                            }
+                        items.addAll(items);
+                        handler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
+                    }
+                });
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Utils.showToast("网络异常，刷新失败");
-                refreshView.setRefreshing(false);
-            }
-        });
-        request.setShouldCache(false);
-        queue.add(request);
-    }
+        }).start();
+    };
+
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            adapter.notifyDataSetChanged();
+            refreshView.setRefreshing(false);
+            switch (msg.what){
+                case CONSTANT.ID_FAILURE:
+                    Utils.DLog(getString(R.string.Text_Net_Exception));
+                    break;
+                case CONSTANT.ID_SUCCESS:
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
             return false;
         }
     });

@@ -1,6 +1,7 @@
 package com.mecuryli.xianxia.model.news;
 
-import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.Utils;
 
 /**
  * Created by 海飞 on 2016/5/9.
@@ -69,12 +70,9 @@ public class NewsBean {
         return date;
     }
 
-    private final String MONTH[] = {"","Jan","Feb","Mar","Apr",
-            "May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
-
     private int formatMonth(String month){
-        for (int i=1; i<MONTH.length; i++){
-            if (month.equalsIgnoreCase(MONTH[i]))
+        for (int i=1; i< CONSTANT.MONTH.length; i++){
+            if (month.equalsIgnoreCase(CONSTANT.MONTH[i]))
                 return i;
         }
         return -1;

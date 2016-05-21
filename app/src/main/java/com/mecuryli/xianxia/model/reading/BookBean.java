@@ -1,6 +1,11 @@
 package com.mecuryli.xianxia.model.reading;
 
 
+import android.content.Context;
+
+import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.xianxiaApplication;
+
 import java.io.Serializable;
 
 /**
@@ -365,11 +370,14 @@ public class BookBean implements Serializable {
 
     @Override
     public String toString() {
+        Context mContext = xianxiaApplication.AppContext;
         StringBuffer sb = new StringBuffer();
         for ( String s : getAuthor()){
             sb.append(" " + s);
         }
-        return "作者：" + sb + "\n出版日期" + getPubdate()
-                +"\n页数;"+getPages()+"\n价格"+getPrice();
+        return mContext.getString(R.string.text_author) + sb + "\n"+
+                mContext.getString(R.string.text_pubdate)+getPubdate()+"\n" +
+                mContext.getString(R.string.id_pages) + getPages()+"\n"+
+                mContext.getString(R.string.text_price)+getPrice();
     }
 }

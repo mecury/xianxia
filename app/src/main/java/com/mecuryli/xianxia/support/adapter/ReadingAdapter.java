@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.reading.BookBean;
+import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ReadingDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("book",readingBean);
+                bundle.putSerializable(mContext.getString(R.string.id_book),readingBean);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }

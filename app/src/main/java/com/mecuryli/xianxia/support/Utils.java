@@ -1,9 +1,10 @@
-package com.mecuryli.xianxia.support.adapter;
+package com.mecuryli.xianxia.support;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.xianxiaApplication;
 
 import org.w3c.dom.Document;
@@ -82,6 +83,6 @@ public class Utils {
     }
 
     public static void DLog(String text){
-        Log.d("调试数据",text);
+        Log.d(mContext.getString(R.string.text_debug_data),text);
     }
 }

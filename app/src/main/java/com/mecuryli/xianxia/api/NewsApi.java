@@ -1,7 +1,7 @@
 package com.mecuryli.xianxia.api;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.Utils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;

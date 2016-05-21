@@ -13,20 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.model.reading.ReadingBean;
-import com.mecuryli.xianxia.support.adapter.Utils;
+import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.HttpUtil;
+import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.ReadingAdapter;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.yalantis.phoenix.PullToRefreshView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class ReadingFragment extends Fragment {
     }
 
     private void initData(){
-        pos = getArguments().getInt("pos");
+        pos = getArguments().getInt(getString(R.string.id_pos));
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -75,41 +77,53 @@ public class ReadingFragment extends Fragment {
 
 
     private void loadNewsFromNet(int pos){
-        queue = Volley.newRequestQueue(getContext());
+        final String[] tags = ReadingApi.getTags(ReadingApi.getApiTag(pos));
+        refreshView.setRefreshing(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i=0;i<ReadingApi.TAG_LEN;i++){
+                    String url = ReadingApi.searchByTag+tags[i];
+                    Request.Builder builder = new Request.Builder();
+                    builder.url(url);
+                    Request request = builder.build();
+                    HttpUtil.enqueue(request, new Callback() {
+                        @Override
+                        public void onFailure(Request request, IOException e) {
+                            handler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                        }
 
-        String[] tags = ReadingApi.getTags(ReadingApi.getApiTag(pos));
-        for (int i =0; i < ReadingApi.TAG_LEN; i++){
-            String url = ReadingApi.searchByTag+tags[i];
-            Utils.DLog(url);
-
-            StringRequest request = new StringRequest(url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String s) {
-                    Gson gson = new Gson();
-                    BookBean [] bookBeans = gson.fromJson(s,ReadingBean.class).getBooks();
-                    for (BookBean bookBean : bookBeans){
-                        items.add(bookBean);
-                    }
-                    handler.sendEmptyMessage(0);
-                    refreshView.setRefreshing(false);
+                        @Override
+                        public void onResponse(Response response) throws IOException {
+                            if (response.isSuccessful() == false){
+                                handler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                                return;
+                            }
+                            Gson gson = new Gson();
+                            BookBean [] bookBeans = gson.fromJson(response.body().string(), ReadingBean.class).getBooks();
+                            for (BookBean bookBean : bookBeans){
+                                items.add(bookBean);
+                            }
+                            handler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
+                        }
+                    });
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Utils.showToast("网络异常，刷新失败");
-                    refreshView.setRefreshing(false);
-                }
-            });
-
-            request.setShouldCache(false);
-            queue.add(request);
-        }
+            }
+        }).start();
     }
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            adapter.notifyDataSetChanged();
+            refreshView.setRefreshing(false);
+            switch (msg.what){
+                case CONSTANT.ID_FAILURE:
+                    Utils.DLog(getString(R.string.Text_Net_Exception));
+                    break;
+                case CONSTANT.ID_SUCCESS:
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
             return false;
         }
     });

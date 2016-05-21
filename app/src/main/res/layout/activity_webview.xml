@@ -7,10 +7,13 @@
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></WebView>
-    <!--用于错误时的提示信息-->
-    <TextView
-        android:id="@+id/text_notify"
-        android:layout_centerInParent="true"
+
+    <ProgressBar
+        android:id="@+id/pb_progerssbar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:max="25"
+        android:progress="0"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_centerInParent="true"/>
 </RelativeLayout>
