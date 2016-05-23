@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
 import com.google.gson.Gson;
@@ -45,6 +46,7 @@ public class ReadingFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ReadingAdapter adapter;
     private int pos;
+    private ImageView sad_face;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class ReadingFragment extends Fragment {
     }
 
     private void initData(){
+        sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
         pos = getArguments().getInt(getString(R.string.id_pos));
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
@@ -70,6 +73,13 @@ public class ReadingFragment extends Fragment {
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                loadNewsFromNet(pos);
+            }
+        });
+        sad_face.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sad_face.setVisibility(View.GONE);
                 loadNewsFromNet(pos);
             }
         });
@@ -123,6 +133,11 @@ public class ReadingFragment extends Fragment {
                 case CONSTANT.ID_SUCCESS:
                     adapter.notifyDataSetChanged();
                     break;
+            }
+            if (items.isEmpty()){
+                sad_face.setVisibility(View.VISIBLE);
+            }else{
+                sad_face.setVisibility(View.GONE);
             }
             return false;
         }

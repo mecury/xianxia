@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
 import com.mecuryli.xianxia.R;
@@ -50,6 +51,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     private List<NewsBean> items = new ArrayList<>();
     private NewsAdapter adapter ;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ImageView sad_face;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     }
 
     void init(){
+        sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
         adapter = new NewsAdapter(getContext(), items);
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
@@ -71,11 +74,18 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 DividerItemDecoration.VERTICAL_LIST));
         loadNewsFormNet(url);
 
-        refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener(){
+        refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
-            loadNewsFormNet(url);
+                loadNewsFormNet(url);
+            }
+        });
+        sad_face.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sad_face.setVisibility(View.GONE);
+                loadNewsFormNet(url);
             }
         });
     }
@@ -83,36 +93,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
 
     //由网络加载
     private void loadNewsFormNet(final String url){
-//        queue = Volley.newRequestQueue(getContext());
-//        StringRequest request = new StringRequest(url, new Response.Listener<String>(){
-//
-//            @TargetApi(Build.VERSION_CODES.KITKAT)
-//            @Override
-//            public void onResponse(String s) {
-//                InputStream is = new ByteArrayInputStream(s.getBytes(StandardCharsets.ISO_8859_1));
-//                    try {
-//                        items.clear();
-//                        items.addAll(SAXNewsParse.parse(is)); //解析数据，并将数据添加到items中
-//                    } catch (ParserConfigurationException e) {
-//                        e.printStackTrace();
-//                    } catch (SAXException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                handler.sendEmptyMessage(0);
-//                refreshView.setRefreshing(false);
-//            }
-//        },new Response.ErrorListener(){
-//
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                Utils.showToast("网络异常，刷新失败");
-//                refreshView.setRefreshing(false);
-//            }
-//        });
-//        request.setShouldCache(false);
-//        queue.add(request);
         refreshView.setRefreshing(true);
         new Thread(new Runnable() {
             @Override
@@ -161,6 +141,11 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                 case CONSTANT.ID_SUCCESS:
                     adapter.notifyDataSetChanged();
                     break;
+            }
+            if (items.isEmpty()){
+                sad_face.setVisibility(View.VISIBLE);
+            }else{
+                sad_face.setVisibility(View.VISIBLE);
             }
             return false;
         }

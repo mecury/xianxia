@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.reading.BookBean;
-import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
 
 import java.util.List;
@@ -55,11 +54,12 @@ public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHold
                 mContext.startActivity(intent);
             }
         });
-        if (Utils.hasString(readingBean.getEbook_url())){
-            holder.parentView.setBackgroundColor(mContext.getResources().getColor(R.color.item_bg));
-        }else{
-            holder.parentView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-        }
+//        if (Utils.hasString(readingBean.getEbook_url())) {
+//            holder.parentView.setBackgroundColor(mContext.getResources().getDrawable(R.drawable.item_bg_selected, null));
+//        }
+//        else{
+//            holder.parentView.setBackgroundColor(mContext.getResources().getDrawable(R.drawable.item_bg,null));
+//        }
     }
 
     public BookBean getItem(int pos){
