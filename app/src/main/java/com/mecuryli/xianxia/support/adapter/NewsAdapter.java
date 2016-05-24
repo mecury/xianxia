@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.news.NewsBean;
-import com.mecuryli.xianxia.ui.WebViewUrlActivity;
+import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
 
 import java.util.List;
 

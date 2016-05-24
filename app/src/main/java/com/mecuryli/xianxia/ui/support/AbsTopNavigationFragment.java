@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.ui;
+package com.mecuryli.xianxia.ui.support;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

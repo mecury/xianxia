@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.RequestQueue;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.news.NewsBean;
 import com.mecuryli.xianxia.support.CONSTANT;
@@ -47,7 +46,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     private View parentView;
     private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
-    private RequestQueue queue;
     private List<NewsBean> items = new ArrayList<>();
     private NewsAdapter adapter ;
     private RecyclerView.LayoutManager mLayoutManager;

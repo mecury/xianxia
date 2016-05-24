@@ -1,7 +1,6 @@
-package com.mecuryli.xianxia.ui;
+package com.mecuryli.xianxia.ui.support;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.ui.BaseWebViewActivity;
 
 /**
  * Created by 海飞 on 2016/5/21.

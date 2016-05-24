@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.api.DailyApi;
 import com.mecuryli.xianxia.model.Daily.DailyItem;
 import com.mecuryli.xianxia.model.Daily.DailyMain;
 import com.mecuryli.xianxia.model.Daily.DailyStories;
@@ -54,11 +55,11 @@ public class DailyFragment extends Fragment {
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         adapter = new DailyAdapter(getContext(),items);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
-        url = getArguments().getString("url");
+        url = DailyApi.newsLatest;
         loadDailyFromNet();
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override

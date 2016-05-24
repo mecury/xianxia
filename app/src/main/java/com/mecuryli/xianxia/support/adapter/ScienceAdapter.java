@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.science.ArticleBean;
-import com.mecuryli.xianxia.ui.WebViewUrlActivity;
+import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
 
 import java.util.List;
 

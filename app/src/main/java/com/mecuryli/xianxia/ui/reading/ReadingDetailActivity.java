@@ -17,7 +17,7 @@ import com.mecuryli.xianxia.api.ReadingApi;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.PagerAdapter;
-import com.mecuryli.xianxia.ui.BaseWebViewActivity;
+import com.mecuryli.xianxia.ui.support.BaseWebViewActivity;
 
 /**
  * Created by 海飞 on 2016/5/15.
