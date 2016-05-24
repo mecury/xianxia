@@ -39,9 +39,9 @@ import java.util.List;
 public class ReadingFragment extends Fragment {
 
     private View parentView;
-    private PullToRefreshView refreshView;
+    protected PullToRefreshView refreshView;
     private RecyclerView recyclerView;
-    private List<BookBean> items = new ArrayList<>();
+    protected List<BookBean> items = new ArrayList<>();
     private RequestQueue queue;
     private RecyclerView.LayoutManager mLayoutManager;
     private ReadingAdapter adapter;
@@ -55,9 +55,12 @@ public class ReadingFragment extends Fragment {
         return parentView;
     }
 
-    private void initData(){
-        sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
+    protected void getData(){
         pos = getArguments().getInt(getString(R.string.id_pos));
+    }
+    protected void initData(){
+        sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
+        getData();
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -69,24 +72,24 @@ public class ReadingFragment extends Fragment {
         recyclerView.setAdapter(adapter); //将adaper添加到recylcerView中
         refreshView.setRefreshing(true);
         //由网络中加载数据
-        loadNewsFromNet(pos);
+        loadNewsFromNet();
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadNewsFromNet(pos);
+                loadNewsFromNet();
             }
         });
         sad_face.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sad_face.setVisibility(View.GONE);
-                loadNewsFromNet(pos);
+                loadNewsFromNet();
             }
         });
     }
 
 
-    private void loadNewsFromNet(int pos){
+    protected void loadNewsFromNet(){
         final String[] tags = ReadingApi.getTags(ReadingApi.getApiTag(pos));
         refreshView.setRefreshing(true);
         new Thread(new Runnable() {
@@ -122,7 +125,7 @@ public class ReadingFragment extends Fragment {
         }).start();
     }
 
-    private Handler handler = new Handler(new Handler.Callback() {
+    protected Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             refreshView.setRefreshing(false);

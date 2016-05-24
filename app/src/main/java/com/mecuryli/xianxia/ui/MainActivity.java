@@ -1,20 +1,27 @@
 package com.mecuryli.xianxia.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.daily.DailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
+import com.mecuryli.xianxia.ui.reading.ReadingActivity;
 import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -151,9 +158,31 @@ public class MainActivity extends AppCompatActivity {
                 switchFragment(new BaseScienceFragment());
                 break;
             case R.id.menu_search:
-
+                showSearchDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSearchDialog(){
+        final EditText editText = new EditText(this);
+        editText.setGravity(Gravity.CENTER);
+        editText.setSingleLine();
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.text_search_books))
+                .setIcon(R.mipmap.ic_search)
+                .setView(editText)
+                .setPositiveButton(getString(R.string.text_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Utils.hasString(editText.getText().toString())){
+                            Intent intent = new Intent(MainActivity.this, ReadingActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(getString(R.string.id_search_text),editText.getText().toString());
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    }
+                }).show();
     }
 }

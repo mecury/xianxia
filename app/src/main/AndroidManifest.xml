@@ -31,6 +31,7 @@
         <activity android:name=".ui.reading.ReadingDetailActivity"/>
         <activity android:name=".ui.support.WebViewUrlActivity"/>
         <activity android:name=".ui.support.WebViewLocalActivity"/>
+        <activity android:name=".ui.reading.ReadingActivity"/>
     </application>
 
 </manifest>
