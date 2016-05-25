@@ -65,7 +65,6 @@ public class ArticleBean implements Serializable{
             buffer.setCharAt(10, ' ');
             date_published = buffer.substring(0,19);
         }
-        Utils.DLog("Time:"+ this.date_published);
         return date_published;
     }
 

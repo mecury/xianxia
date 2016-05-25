@@ -42,6 +42,7 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
         holder.description.setText(articleBean.getSummary());
         holder.info.setText(articleBean.toString());
         holder.image.setImageURI(Uri.parse(articleBean.getImage_info().getUrl()));
+        holder.comment.setText(String.valueOf(articleBean.getReplies_count()));
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +71,7 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
         private TextView title;
         private TextView description;
         private TextView info;
+        private TextView comment;
         private SimpleDraweeView image;
 
         public ViewHolder(View itemView) {
@@ -79,6 +81,7 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
             description = (TextView) parentView.findViewById(R.id.description);
             info = (TextView) parentView.findViewById(R.id.info);
             image = (SimpleDraweeView) parentView.findViewById(R.id.image);
+            comment = (TextView) parentView.findViewById(R.id.comment);
         }
     }
 }
