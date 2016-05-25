@@ -66,7 +66,6 @@ public class NewsBean {
                 Utils.RegexFind(" .{2}:",pubTime) + "点" +
                 Utils.RegexFind(":.{2}:",pubTime) + "分" +
                 Utils.RegexFind(":.{2} ",pubTime) + "秒";
-        Utils.DLog("解析完后："+date);
         return date;
     }
 

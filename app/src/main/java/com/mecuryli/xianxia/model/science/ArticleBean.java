@@ -1,5 +1,7 @@
 package com.mecuryli.xianxia.model.science;
 
+import com.mecuryli.xianxia.support.Utils;
+
 import java.io.Serializable;
 
 /**
@@ -58,6 +60,12 @@ public class ArticleBean implements Serializable{
 
 
     public String getDate_published() {
+        StringBuffer buffer = new StringBuffer(date_published);
+        if (date_published.length() > 20){
+            buffer.setCharAt(10, ' ');
+            date_published = buffer.substring(0,19);
+        }
+        Utils.DLog("Time:"+ this.date_published);
         return date_published;
     }
 
