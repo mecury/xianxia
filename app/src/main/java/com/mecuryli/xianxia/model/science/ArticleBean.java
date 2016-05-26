@@ -1,7 +1,5 @@
 package com.mecuryli.xianxia.model.science;
 
-import com.mecuryli.xianxia.support.Utils;
-
 import java.io.Serializable;
 
 /**
@@ -10,6 +8,14 @@ import java.io.Serializable;
 public class ArticleBean implements Serializable{
 
     private Author author;
+    private String date_published;
+    private int replies_count;
+    private Image_info image_info;
+    private String url;
+    private String title;
+    private String summary;
+
+
     class Author implements Serializable{
         String nickname;
 
@@ -22,7 +28,7 @@ public class ArticleBean implements Serializable{
         }
 
     }
-    private Image_info image_info;
+
     public class Image_info implements Serializable{
         String url;
 
@@ -34,12 +40,6 @@ public class ArticleBean implements Serializable{
             this.url = url;
         }
     }
-
-    private String date_published;
-    private int replies_count;
-    private String url;
-    private String title;
-    private String summary;
 
 
     public Author getAuthor() {

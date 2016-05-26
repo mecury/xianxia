@@ -1,11 +1,13 @@
 package com.mecuryli.xianxia.support.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.model.Daily.DailyItem;
 
@@ -32,9 +34,17 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final DailyItem dailyItem =getItem(position);
+        String[] images = dailyItem.getImages();
+        Uri uri = Uri.parse(images[0]);
         holder.title.setText(dailyItem.getTitle());
-        holder.description.setText("未定");
+        holder.image.setImageURI(uri);
         holder.info.setText("未定");
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private DailyItem getItem(int position){
@@ -48,13 +58,13 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        private TextView description;
+        private SimpleDraweeView image;
         private TextView info;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
-            description = (TextView) itemView.findViewById(R.id.description);
+            image = (SimpleDraweeView) itemView.findViewById(R.id.image);
             info = (TextView) itemView.findViewById(R.id.info);
         }
     }
