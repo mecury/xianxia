@@ -39,12 +39,23 @@ public class DailyCache extends BaseCache {
     }
 
     @Override
+    protected void putData(Object object) {
+//        DailyBean dailyBean = (DailyBean)object;
+//        values.put(DailyTable.TITLE,dailyBean.getTitle());
+//        values.put(DailyTable.DESCRIPTION,dailyBean.getDescription());
+//        values.put(DailyTable.IMAGE,dailyBean.getImage());
+//        values.put(DailyTable.INFO, dailyBean.getInfo());
+//        db.insert(DailyTable.COLLECTION_NAME, null, values);
+    }
+
+    @Override
     public List<Object> loadFromCache() {
         Cursor cursor = query(table.NAME);
         while(cursor.moveToNext()){
 //            DailyBean dailyBean = new DailyBean();
 //            dailyBean.setTitle(cursor.getString(DailyTable.ID_TITLE));
 //            dailyBean.setImage(cursor.getString(DailyTable.ID_IMAGE));
+ //           dailyBean.setDescription(cursor.getString(DailyTable.ID_DESCRIPTION));
 //            dailyBean.setInfo(cursor.getString(DailyTable.ID_INFO));
 //            dailyBean.setIs_collected(cursor.getInt(DailyTable.ID_IS_COLLETED));
 //            dailyList.add(dailyBean);

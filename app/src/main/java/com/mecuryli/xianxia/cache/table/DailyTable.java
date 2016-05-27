@@ -35,9 +35,9 @@ public class DailyTable {
             " from " + COLLECTION_NAME +")";
     public static String updateCollectionFlag(String title, int flag){
         return "update " + NAME + " set " + IS_COLLECTED + " =" +flag +
-                " where " + TITLE + "=" + title;
+                " where " + TITLE + "=\'" + title + "\'";
     }
     public static String deleteCollectionFlag(String title){
-        return "delete from " + COLLECTION_NAME + " where title="+title;
+        return "delete from " + COLLECTION_NAME + " where title=\'"+title + "\'";
     }
 }

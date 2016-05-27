@@ -16,4 +16,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="CutomCOllectTheme" parent="@android:style/Widget.CompoundButton">
+        <item name="android:button">@drawable/selector_collect</item>
+    </style>
 </resources>

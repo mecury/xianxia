@@ -2,8 +2,6 @@ package com.mecuryli.xianxia.cache.cache;
 
 import android.content.Context;
 
-import com.mecuryli.xianxia.cache.cache.BaseCache;
-
 import java.util.List;
 
 /**
@@ -16,12 +14,18 @@ public class ScienceCache extends BaseCache {
     }
 
     @Override
-    public void cache(List<Object> list) {
+    protected void putData(List<? extends Object> list) {
 
     }
 
     @Override
-    public void loadFromCache() {
+    protected void putData(Object object) {
 
     }
+
+    @Override
+    public List<Object> loadFromCache() {
+        return null;
+    }
+
 }
