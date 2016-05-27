@@ -1,15 +1,17 @@
-package com.mecuryli.xianxia.cache;
+package com.mecuryli.xianxia.cache.cache;
 
 import android.content.Context;
+
+import com.mecuryli.xianxia.cache.cache.BaseCache;
 
 import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/26.
  */
-public class DailyCache extends BaseCache {
+public class NewsCache extends BaseCache {
 
-    protected DailyCache(Context context) {
+    protected NewsCache(Context context) {
         super(context);
     }
 

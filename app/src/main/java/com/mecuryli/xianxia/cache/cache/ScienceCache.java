@@ -1,6 +1,8 @@
-package com.mecuryli.xianxia.cache;
+package com.mecuryli.xianxia.cache.cache;
 
 import android.content.Context;
+
+import com.mecuryli.xianxia.cache.cache.BaseCache;
 
 import java.util.List;
 
