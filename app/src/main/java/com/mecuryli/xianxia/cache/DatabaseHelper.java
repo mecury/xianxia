@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DailyTable.CREATE_TABLE);
         db.execSQL(DailyTable.CREATE_COLLECTION_TABLE);
+
         db.execSQL(NewsTable.CREATE_TABLE);
         db.execSQL(NewsTable.CREATE_COLLECTION_TABLE);
 
@@ -34,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(ReadingTable.CREATE_COLLECTION_TABLE);
 
         db.execSQL(ScienceTable.CREATE_TABLE);
-        db.execSQL(ScienceTable.COMMENT_COUNT);
+        db.execSQL(ScienceTable.CREATE_COLLECTION_TABLE);
     }
 
     @Override

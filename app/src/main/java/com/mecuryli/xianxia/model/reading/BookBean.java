@@ -24,6 +24,24 @@ public class BookBean implements Serializable {
         String author_intro;
         String summary;
 
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public int getIS_COLLECTED() {
+        return IS_COLLECTED;
+    }
+
+    public void setIS_COLLECTED(int IS_COLLECTED) {
+        this.IS_COLLECTED = IS_COLLECTED;
+    }
+
+    public String info;
+    public int IS_COLLECTED;
 
     public String[] getAuthor() {
         return author;

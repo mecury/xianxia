@@ -15,6 +15,26 @@ public class ArticleBean implements Serializable{
     private String title;
     private String summary;
 
+    private String info;
+
+    public int getIs_collected() {
+        return is_collected;
+    }
+
+    public void setIs_collected(int is_collected) {
+        this.is_collected = is_collected;
+    }
+
+    private int is_collected;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
 
     class Author implements Serializable{
         String nickname;
