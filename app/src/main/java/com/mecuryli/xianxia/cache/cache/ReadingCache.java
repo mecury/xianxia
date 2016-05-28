@@ -23,15 +23,20 @@ public class ReadingCache extends BaseCache {
     }
 
     @Override
-    protected void putData(List<? extends Object> list) {
+    protected void putData(List<? extends Object> list, String category) {
         db.execSQL(mHelper.DROP_TABLE + table.NAME);
         db.execSQL(table.CREATE_TABLE);
 
-        for (Object object : list){
-            BookBean bookBean = new BookBean();
+        for (int i=0;i<list.size();i++){
+            BookBean bookBean = (BookBean) list.get(i);
             values.put(ReadingTable.TITLE, bookBean.getTitle());
             values.put(ReadingTable.INFO, bookBean.getInfo());
             values.put(ReadingTable.IMAGE, bookBean.getImage());
+            values.put(ReadingTable.AUTHOR_INTRO, bookBean.getAuthor_intro());
+            values.put(ReadingTable.CATALOG, bookBean.getCatalog());
+            values.put(ReadingTable.EBOOK_URL, bookBean.getEbook_url());
+            values.put(ReadingTable.CATEGORY, category);
+            values.put(ReadingTable.SUMMARY, bookBean.getSummary());
             values.put(ReadingTable.IS_COLLECTED, bookBean.getImage());
             db.insert(ReadingTable.NAME, null, values);
         }
@@ -44,17 +49,31 @@ public class ReadingCache extends BaseCache {
         values.put(ReadingTable.TITLE, bookbean.getTitle());
         values.put(ReadingTable.IMAGE, bookbean.getImage());
         values.put(ReadingTable.INFO, bookbean.getInfo());
+        values.put(ReadingTable.AUTHOR_INTRO, bookbean.getAuthor_intro());
+        values.put(ReadingTable.CATALOG, bookbean.getCatalog());
+        values.put(ReadingTable.EBOOK_URL, bookbean.getEbook_url());
+        values.put(ReadingTable.SUMMARY, bookbean.getSummary());
         db.insert(ReadingTable.NAME,null, values);
     }
 
     @Override
-    public List<Object> loadFromCache() {
-        Cursor cursor = query(table.NAME);
+    public List<Object> loadFromCache(String category) {
+        String sql = null;
+        if (category == null){
+            sql = "select * from " + table.NAME;
+        }else{
+            sql = "select * from " + table.NAME+" where " + table.CATEGORY+ "=\'"+category+"\'";
+        }
+        Cursor cursor = query(sql);
         while(cursor.moveToNext()){
             BookBean bookBean = new BookBean();
             bookBean.setTitle(cursor.getString(table.ID_TITLE));
             bookBean.setImage(cursor.getString(table.ID_IMAGE));
             bookBean.setInfo(cursor.getString(table.ID_INFO));
+            bookBean.setAuthor_intro(cursor.getString(table.ID_AUTHOR_INTRO));
+            bookBean.setCatalog(cursor.getString(table.ID_CATELOG));
+            bookBean.setEbook_url(cursor.getString(table.ID_EBOOK_URL));
+            bookBean.setSummary(cursor.getString(table.ID_SUMMARY));
             bookBean.setIS_COLLECTED(cursor.getInt(table.ID_IS_COLLETED));
             readingList.add(bookBean);
         }

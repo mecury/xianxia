@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.cache.cache.ScienceCache;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
+import com.mecuryli.xianxia.xianxiaApplication;
 
 import java.util.List;
 
@@ -22,10 +24,12 @@ import java.util.List;
 public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHolder> {
     private Context mContext;
     private List<ArticleBean> items;
+    private ScienceCache cache;
 
     public ScienceAdapter(Context mContext, List<ArticleBean> items){
         this.mContext = mContext;
         this.items = items;
+        cache = new ScienceCache(xianxiaApplication.AppContext);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
         final ArticleBean articleBean = getItem(position);
         holder.title.setText(articleBean.getTitle());
         holder.description.setText(articleBean.getSummary());
-        holder.info.setText(articleBean.toString());
+        holder.info.setText(articleBean.getInfo());
         holder.image.setImageURI(Uri.parse(articleBean.getImage_info().getUrl()));
         holder.comment.setText(String.valueOf(articleBean.getReplies_count()));
         holder.parentView.setOnClickListener(new View.OnClickListener() {

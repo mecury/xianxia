@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.cache.cache.NewsCache;
 import com.mecuryli.xianxia.model.news.NewsBean;
 import com.mecuryli.xianxia.support.CONSTANT;
 import com.mecuryli.xianxia.support.HttpUtil;
@@ -20,6 +22,7 @@ import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.NewsAdapter;
 import com.mecuryli.xianxia.support.sax.SAXNewsParse;
+import com.mecuryli.xianxia.xianxiaApplication;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -44,12 +47,18 @@ import javax.xml.parsers.ParserConfigurationException;
 public class NewsFragment extends android.support.v4.app.Fragment {
 
     private View parentView;
+    private ProgressBar progressBar;
     private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
     private List<NewsBean> items = new ArrayList<>();
     private NewsAdapter adapter ;
     private RecyclerView.LayoutManager mLayoutManager;
     private ImageView sad_face;
+
+    private NewsCache cache;
+
+    private String url;
+    private String category;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,36 +70,41 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     void init(){
         sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
         adapter = new NewsAdapter(getContext(), items);
+        progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
+        url = getArguments().getString(getString(R.string.id_url));
+        category = getArguments().getString(getString(R.string.id_category));
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
-        final String url = getArguments().getString(getString(R.string.id_url));
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
-                DividerItemDecoration.VERTICAL_LIST));
-        loadNewsFormNet(url);
+                DividerItemDecoration.VERTICAL_LIST));  //item 间的分割线
+        loadNewsFormNet();
 
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
-                loadNewsFormNet(url);
+                loadNewsFormNet();
             }
         });
         sad_face.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sad_face.setVisibility(View.GONE);
-                loadNewsFormNet(url);
+                loadNewsFormNet();
             }
         });
+
+        cache = new NewsCache(xianxiaApplication.AppContext);
+        loadCache();
     }
 
 
     //由网络加载
-    private void loadNewsFormNet(final String url){
+    private void loadNewsFormNet(){
         refreshView.setRefreshing(true);
         new Thread(new Runnable() {
             @Override
@@ -111,7 +125,6 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                             return;
                         }
                         InputStream is = new ByteArrayInputStream(response.body().string().getBytes(StandardCharsets.UTF_8));
-                        items.clear();
 
                         try {
                             items.addAll(SAXNewsParse.parse(is));
@@ -137,7 +150,13 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                     Utils.DLog(getString(R.string.Text_Net_Exception));
                     break;
                 case CONSTANT.ID_SUCCESS:
-                    adapter.notifyDataSetChanged();
+                    cache.cache(items, category);
+                    items.clear();
+                    loadCache();
+                    break;
+                case CONSTANT.ID_LOAD_FROM_NET:
+                    refreshView.setRefreshing(true);
+                    loadNewsFormNet();
                     break;
             }
             if (items.isEmpty()){
@@ -148,4 +167,18 @@ public class NewsFragment extends android.support.v4.app.Fragment {
             return false;
         }
     });
+
+    private void loadCache(){
+        List<Object> tmpList = cache.loadFromCache(category);
+        for (Object object : tmpList){
+            items.add((NewsBean) object);
+        }
+        if (progressBar.getVisibility() == View.VISIBLE){
+            progressBar.setVisibility(View.GONE);
+            if (items.isEmpty()){
+                handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
 }

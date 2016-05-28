@@ -12,6 +12,7 @@ public class ScienceTable {
     public static final String IMAGE = "image";
     public static final String DESCRIPTION = "description";
     public static final String COMMENT_COUNT = "comment_count";
+    public static final String CATEGORY = "category";
     public static final String IS_COLLECTED = "is_collected";
 
     public static final int ID_TITLE = 0;
@@ -19,14 +20,16 @@ public class ScienceTable {
     public static final int ID_IMAGE = 2;
     public static final int ID_DESCRIPTION = 3;
     public static final int ID_COMMENT_COUNT = 4;
-    public static final int ID_IS_COLLETED = 5;
+    public static final int ID_CATEGORY = 5;
+    public static final int ID_IS_COLLETED = 6;
 
     public static final String CREATE_TABLE = "create table "+NAME+
-            "("+TITLE+" text primary key,"+
+            "("+TITLE+" text,"+
             INFO+" text,"+
             IMAGE+" text,"+
             DESCRIPTION+" text,"+
             COMMENT_COUNT+" integer,"+
+            CATEGORY + " text," +
             IS_COLLECTED+" integer)";
 
 
@@ -35,7 +38,8 @@ public class ScienceTable {
             INFO+" text,"+
             IMAGE+" text,"+
             DESCRIPTION+" text," +
-            "COMMENT_COUNT integer)";
+            COMMENT_COUNT + "integer," +
+            CATEGORY + "text)";
 
     public static final String SQL_INIT_COLLECTION_FLAG= "update "+NAME+
             " set "+IS_COLLECTED+" =1 where "+TITLE+" in ( select "+TITLE+

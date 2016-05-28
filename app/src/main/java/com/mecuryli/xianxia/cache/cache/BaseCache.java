@@ -23,14 +23,14 @@ public abstract class BaseCache {
         mHelper = DatabaseHelper.getInstance(context);
     }
 
-    protected abstract  void putData(List<? extends Object> list);
+    protected abstract  void putData(List<? extends Object> list, String category);
     protected abstract  void putData(Object object);
 
-    public  void cache(List<? extends Object> list){
+    public  void cache(List<? extends Object> list, String category){
         db = mHelper.getWritableDatabase();
         db.beginTransaction();
         values = new ContentValues();
-        putData(list);
+        putData(list, category);
 
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -51,9 +51,9 @@ public abstract class BaseCache {
         db.execSQL(sql);
         db.close();
     }
-    public abstract List<Object> loadFromCache();
+    public abstract List<Object> loadFromCache(String category);
 
-    protected Cursor query(String name){
-        return mHelper.getReadableDatabase().query(name,null,null,null,null,null,null);
+    protected Cursor query(String sql){
+        return mHelper.getReadableDatabase().rawQuery(sql,null);
     }
 }

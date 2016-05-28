@@ -13,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ScienceApi;
+import com.mecuryli.xianxia.cache.cache.ScienceCache;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.model.science.ScienceBean;
 import com.mecuryli.xianxia.support.CONSTANT;
@@ -25,6 +27,7 @@ import com.mecuryli.xianxia.support.HttpUtil;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.ScienceAdapter;
+import com.mecuryli.xianxia.xianxiaApplication;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -42,13 +45,19 @@ public class ScienceFragment extends Fragment {
     private View parentView;
     private ScienceBean scienceBean;
     private List<ArticleBean> items = new ArrayList<>();
+    private List<ArticleBean> tmpitems = new ArrayList<>();
     private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ScienceAdapter adapter;
     private RequestQueue queue;
     private String url;
+
     private ImageView sad_face;
+    private ProgressBar progressBar;
+
+    private String category;
+    private ScienceCache cache;
 
     @Nullable
     @Override
@@ -60,8 +69,10 @@ public class ScienceFragment extends Fragment {
 
     private void initData() {
         sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
+        progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
         url = ScienceApi.science_channel_url + ScienceApi
                 .channel_tag[getArguments().getInt(getString(R.string.id_pos))];
+        category = getArguments().getString(getString(R.string.id_category));
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         adapter = new ScienceAdapter(getContext(), items);
@@ -70,6 +81,7 @@ public class ScienceFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
+        Utils.DLog("Science====>" + category);
         loadNewsFromNet();
         sad_face.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +90,9 @@ public class ScienceFragment extends Fragment {
                 loadNewsFromNet();
             }
         });
+
+        cache = new ScienceCache(xianxiaApplication.AppContext);
+        loadCache();
     }
 
     private void loadNewsFromNet() {
@@ -103,11 +118,11 @@ public class ScienceFragment extends Fragment {
                             }
                         Gson gson = new Gson();
                         ArticleBean[] articleBeans = (gson.fromJson(response.body().string(), ScienceBean.class)).getResult();
-                        items.clear();
                         for(ArticleBean articleBean: articleBeans){
-                            items.add(articleBean);
+                            tmpitems.add(articleBean);
                             }
-                        items.addAll(items);
+                        items.addAll(tmpitems);
+                        tmpitems.clear();
                         handler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
                     }
                 });
@@ -124,7 +139,13 @@ public class ScienceFragment extends Fragment {
                     Utils.DLog(getString(R.string.Text_Net_Exception));
                     break;
                 case CONSTANT.ID_SUCCESS:
+                    cache.cache(items,category);
+                    items.clear();
+                    loadCache();
                     adapter.notifyDataSetChanged();
+                    break;
+                case CONSTANT.ID_LOAD_FROM_NET:
+                    loadNewsFromNet();
                     break;
             }
             if (items.isEmpty()){
@@ -135,6 +156,20 @@ public class ScienceFragment extends Fragment {
             return false;
         }
     });
+
+    private void loadCache(){
+        List<Object> tmpList = cache.loadFromCache(category);
+        for (Object object : tmpList){
+            items.add((ArticleBean) object);
+        }
+        if (progressBar.getVisibility() == View.VISIBLE){
+            progressBar.setVisibility(View.GONE);
+            if (items == null){
+                handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
 }
 
 

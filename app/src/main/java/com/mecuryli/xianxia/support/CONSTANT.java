@@ -9,4 +9,5 @@ public class CONSTANT {
             "Jul","Aug","Sept","Oct","Nov","Dec"};
     public static final int ID_SUCCESS = 1;
     public static final int ID_FAILURE = 2;
+    public static final int ID_LOAD_FROM_NET = 3;
 }

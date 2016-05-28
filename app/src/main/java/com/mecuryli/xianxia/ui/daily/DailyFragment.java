@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -43,6 +44,7 @@ public class DailyFragment extends Fragment {
     private RequestQueue queue;
     private DailyAdapter adapter;
     private String url;
+    private ProgressBar progressBar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class DailyFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
         url = DailyApi.newsLatest;
+        progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
+        progressBar.setVisibility(View.GONE);
         loadDailyFromNet();
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override

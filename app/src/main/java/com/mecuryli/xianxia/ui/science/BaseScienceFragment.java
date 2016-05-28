@@ -22,6 +22,7 @@ public class BaseScienceFragment extends AbsTopNavigationFragment {
                 ScienceFragment fragment = new ScienceFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt(getString(R.string.id_pos),position);
+                bundle.putString(getString(R.string.id_category),ScienceApi.channel_tag[position]);
                 fragment.setArguments(bundle);
                 return fragment;
             }

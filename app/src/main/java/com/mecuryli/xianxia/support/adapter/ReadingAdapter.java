@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.cache.cache.ReadingCache;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
+import com.mecuryli.xianxia.xianxiaApplication;
 
 import java.util.List;
 
@@ -25,10 +27,11 @@ public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHold
 
     private List<BookBean> items ;
     private Context mContext;
-
+    private ReadingCache cache;
     public ReadingAdapter(List<BookBean> items, Context mContext){
         this.items = items;
         this.mContext = mContext;
+        cache = new ReadingCache(xianxiaApplication.AppContext);
     }
 
     @Override
@@ -42,7 +45,7 @@ public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         final BookBean readingBean = getItem(position);
         holder.titles.setText(readingBean.getTitle());
-        holder.info.setText(readingBean.toString());
+        holder.info.setText(readingBean.getInfo());
         holder.imageView.setImageURI(Uri.parse(readingBean.getImage()));
         holder.parentView.setOnClickListener(new View.OnClickListener(){
             @Override

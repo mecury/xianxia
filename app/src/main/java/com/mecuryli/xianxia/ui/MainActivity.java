@@ -20,9 +20,12 @@ import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.daily.DailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
+import com.mecuryli.xianxia.ui.news.NewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
 import com.mecuryli.xianxia.ui.reading.ReadingActivity;
+import com.mecuryli.xianxia.ui.reading.ReadingFragment;
 import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
+import com.mecuryli.xianxia.ui.science.ScienceFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout frameLayout;
     private android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private FragmentTransaction fragmentTransaction;
+    private Fragment currentFragment;
     private Menu menu;
 
     @Override
@@ -48,18 +52,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initData();
-        switchFragment(new DailyFragment(),getString(R.string.daily),R.menu.menu_daily);
+        currentFragment = new DailyFragment();
+        switchFragment();
     }
 
-    private void switchFragment(Fragment fragment){
-        if (fragment instanceof DailyFragment){
-            switchFragment(fragment, getString(R.string.daily), R.menu.menu_daily);
-        }else if (fragment instanceof BaseReadingFragment){
-            switchFragment(fragment, getString(R.string.reading), R.menu.menu_reading);
-        }else if (fragment instanceof BaseNewsFragment){
-            switchFragment(fragment, getString(R.string.news), R.menu.menu_news);
-        }else if (fragment instanceof BaseScienceFragment){
-            switchFragment(fragment, getString(R.string.science),R.menu.menu_science);
+    private void switchFragment(){
+        if (currentFragment instanceof DailyFragment){
+            switchFragment(currentFragment, getString(R.string.daily), R.menu.menu_daily);
+        }else if (currentFragment instanceof BaseReadingFragment){
+            switchFragment(currentFragment, getString(R.string.reading), R.menu.menu_reading);
+        }else if (currentFragment instanceof BaseNewsFragment){
+            switchFragment(currentFragment, getString(R.string.news), R.menu.menu_news);
+        }else if (currentFragment instanceof BaseScienceFragment){
+            switchFragment(currentFragment, getString(R.string.science),R.menu.menu_science);
         }
     }
     //切换fragment
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             menu.clear();
             getMenuInflater().inflate(resourceMenu, menu);
         }
+        currentFragment = null;
     }
 
 
@@ -102,16 +108,28 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (drawerItem.getIdentifier()) {
                             case R.mipmap.ic_news:
-                                switchFragment(new BaseNewsFragment());
+                                if (currentFragment instanceof BaseNewsFragment){
+                                    return false;
+                                }
+                                currentFragment = new NewsFragment();
                                 break;
                             case R.mipmap.ic_reading:
-                                switchFragment(new BaseReadingFragment());
+                                if (currentFragment instanceof BaseReadingFragment){
+                                    return false;
+                                }
+                                currentFragment = new ReadingFragment();
                                 break;
                             case R.mipmap.ic_science:
-                                switchFragment(new BaseScienceFragment());
+                                if (currentFragment instanceof BaseScienceFragment){
+                                    return false;
+                                }
+                                currentFragment = new ScienceFragment();
                                 break;
                             case R.mipmap.ic_home:
-                                switchFragment(new DailyFragment());
+                                if (currentFragment instanceof DailyFragment){
+                                    return false;
+                                }
+                                currentFragment = new DailyFragment();
                                 break;
                             case R.mipmap.ic_music:
                                 Toast.makeText(MainActivity.this, "music", Toast.LENGTH_SHORT).show();
@@ -126,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "shake", Toast.LENGTH_SHORT).show();
                                 break;
                         }
+                        switchFragment();
                         return false;
                     }
                 }).build();
@@ -143,24 +162,26 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_home:
                 drawer.setSelection(R.mipmap.ic_home);
-                switchFragment(new DailyFragment());
+                currentFragment = new DailyFragment();
                 break;
             case R.id.menu_reading:
                 drawer.setSelection(R.mipmap.ic_reading);
-                switchFragment(new BaseReadingFragment());
+                currentFragment = new ReadingFragment();
                 break;
             case R.id.menu_news:
                 drawer.setSelection(R.mipmap.ic_news);
-                switchFragment(new BaseNewsFragment());
+                currentFragment = new NewsFragment();
                 break;
             case R.id.menu_science:
                 drawer.setSelection(R.mipmap.ic_science);
-                switchFragment(new BaseScienceFragment());
+                currentFragment = new ScienceFragment();
                 break;
             case R.id.menu_search:
                 showSearchDialog();
-                break;
+                return  true;
         }
+        switchFragment();
+        currentFragment = null;
         return super.onOptionsItemSelected(item);
     }
 

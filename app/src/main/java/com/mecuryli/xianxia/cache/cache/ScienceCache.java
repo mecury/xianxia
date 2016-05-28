@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.mecuryli.xianxia.cache.table.ScienceTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
+import com.mecuryli.xianxia.support.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +18,18 @@ public class ScienceCache extends BaseCache {
     private ScienceTable table ;
     private List<Object> scienceList = new ArrayList<>();
 
-    protected ScienceCache(Context context) {
+    public ScienceCache(Context context) {
         super(context);
         table = new ScienceTable();
     }
 
     @Override
-    protected void putData(List<? extends Object> list) {
+    protected void putData(List<? extends Object> list, String category) {
         db.execSQL(mHelper.DROP_TABLE + table.NAME);
         db.execSQL(table.CREATE_TABLE);
-        for(Object object:list){
-            ArticleBean articleBean = (ArticleBean) object;
+
+        for(int i=0;i<list.size();i++){
+            ArticleBean articleBean = (ArticleBean) list.get(i);
             values.put(ScienceTable.TITLE,articleBean.getTitle());
             values.put(ScienceTable.DESCRIPTION,articleBean.getSummary());
             values.put(ScienceTable.IMAGE,articleBean.getImage_info().getUrl());
@@ -51,13 +53,23 @@ public class ScienceCache extends BaseCache {
     }
 
     @Override
-    public List<Object> loadFromCache() {
-        Cursor cursor = query(table.NAME);
+    public List<Object> loadFromCache(String category) {
+        String sql = null;
+        if (category == null){
+            sql = "select * from " + table.NAME;
+        }else{
+            sql = "select * from " + table.NAME+ " where "+table.CATEGORY + "=\'" +category+"\'";
+        }
+        Cursor cursor = query(sql);
         while (cursor.moveToNext()){
             ArticleBean articleBean = new ArticleBean();
             articleBean.setTitle(cursor.getString(ScienceTable.ID_TITLE));
             articleBean.setSummary(cursor.getString(ScienceTable.ID_DESCRIPTION));
-            articleBean.getImage_info().setUrl(cursor.getString(ScienceTable.ID_IMAGE));
+            if (articleBean.getImage_info() == null){
+                Utils.DLog(" " + articleBean.getImage_info());
+            }else{
+                articleBean.getImage_info().setUrl(cursor.getString(ScienceTable.ID_IMAGE));
+            }
             articleBean.setReplies_count(cursor.getInt(ScienceTable.ID_COMMENT_COUNT));
             articleBean.setInfo(cursor.getString(ScienceTable.ID_INFO));
             articleBean.setIs_collected(cursor.getInt(ScienceTable.ID_IS_COLLETED));

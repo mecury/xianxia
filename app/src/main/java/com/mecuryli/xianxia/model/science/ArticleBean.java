@@ -10,7 +10,7 @@ public class ArticleBean implements Serializable{
     private Author author;
     private String date_published;
     private int replies_count;
-    private Image_info image_info;
+    private Image_info image_info = new Image_info();
     private String url;
     private String title;
     private String summary;
