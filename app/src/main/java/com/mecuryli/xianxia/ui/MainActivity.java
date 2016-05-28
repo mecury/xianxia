@@ -17,15 +17,13 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.support.ScreenUtil;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.daily.DailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
-import com.mecuryli.xianxia.ui.news.NewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
 import com.mecuryli.xianxia.ui.reading.ReadingActivity;
-import com.mecuryli.xianxia.ui.reading.ReadingFragment;
 import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
-import com.mecuryli.xianxia.ui.science.ScienceFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -51,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ScreenUtil.init(this);
         initData();
         currentFragment = new DailyFragment();
         switchFragment();
     }
 
     private void switchFragment(){
+
         if (currentFragment instanceof DailyFragment){
             switchFragment(currentFragment, getString(R.string.daily), R.menu.menu_daily);
         }else if (currentFragment instanceof BaseReadingFragment){
@@ -111,19 +111,19 @@ public class MainActivity extends AppCompatActivity {
                                 if (currentFragment instanceof BaseNewsFragment){
                                     return false;
                                 }
-                                currentFragment = new NewsFragment();
+                                currentFragment = new BaseNewsFragment();
                                 break;
                             case R.mipmap.ic_reading:
                                 if (currentFragment instanceof BaseReadingFragment){
                                     return false;
                                 }
-                                currentFragment = new ReadingFragment();
+                                currentFragment = new BaseReadingFragment();
                                 break;
                             case R.mipmap.ic_science:
                                 if (currentFragment instanceof BaseScienceFragment){
                                     return false;
                                 }
-                                currentFragment = new ScienceFragment();
+                                currentFragment = new BaseScienceFragment();
                                 break;
                             case R.mipmap.ic_home:
                                 if (currentFragment instanceof DailyFragment){
@@ -166,15 +166,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_reading:
                 drawer.setSelection(R.mipmap.ic_reading);
-                currentFragment = new ReadingFragment();
+                currentFragment = new BaseReadingFragment();
                 break;
             case R.id.menu_news:
                 drawer.setSelection(R.mipmap.ic_news);
-                currentFragment = new NewsFragment();
+                currentFragment = new BaseNewsFragment();
                 break;
             case R.id.menu_science:
                 drawer.setSelection(R.mipmap.ic_science);
-                currentFragment = new ScienceFragment();
+                currentFragment = new BaseScienceFragment();
                 break;
             case R.id.menu_search:
                 showSearchDialog();

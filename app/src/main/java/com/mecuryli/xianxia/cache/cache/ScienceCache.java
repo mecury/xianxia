@@ -35,6 +35,8 @@ public class ScienceCache extends BaseCache {
             values.put(ScienceTable.IMAGE,articleBean.getImage_info().getUrl());
             values.put(ScienceTable.COMMENT_COUNT,articleBean.getReplies_count());
             values.put(ScienceTable.INFO,articleBean.getInfo());
+            values.put(ScienceTable.URL, articleBean.getUrl());
+            values.put(ScienceTable.CATEGORY,category);
             values.put(ScienceTable.IS_COLLECTED,articleBean.getIs_collected());
             db.insert(ScienceTable.NAME,null,values);
             }
@@ -49,11 +51,12 @@ public class ScienceCache extends BaseCache {
         values.put(ScienceTable.IMAGE,articleBean.getImage_info().getUrl());
         values.put(ScienceTable.COMMENT_COUNT,articleBean.getReplies_count());
         values.put(ScienceTable.INFO,articleBean.getInfo());
+        values.put(ScienceTable.URL, articleBean.getUrl());
         db.insert(ScienceTable.COLLECTION_NAME, null, values);
     }
 
     @Override
-    public List<Object> loadFromCache(String category) {
+    public synchronized List<Object> loadFromCache(String category) {
         String sql = null;
         if (category == null){
             sql = "select * from " + table.NAME;
@@ -72,6 +75,7 @@ public class ScienceCache extends BaseCache {
             }
             articleBean.setReplies_count(cursor.getInt(ScienceTable.ID_COMMENT_COUNT));
             articleBean.setInfo(cursor.getString(ScienceTable.ID_INFO));
+            articleBean.setUrl(cursor.getString(ScienceTable.ID_URL));
             articleBean.setIs_collected(cursor.getInt(ScienceTable.ID_IS_COLLETED));
             scienceList.add(articleBean);
             }

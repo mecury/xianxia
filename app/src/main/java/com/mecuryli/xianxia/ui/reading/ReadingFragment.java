@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.android.volley.RequestQueue;
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
@@ -45,7 +44,7 @@ public class ReadingFragment extends Fragment {
     protected PullToRefreshView refreshView;
     private RecyclerView recyclerView;
     protected List<BookBean> items = new ArrayList<>();
-    private RequestQueue queue;
+    private List<BookBean> tmpItems = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
     private ReadingAdapter adapter;
     private int pos;
@@ -56,6 +55,8 @@ public class ReadingFragment extends Fragment {
     private String category;
     private String url;
     private ReadingCache cache;
+
+    private Thread thread;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,8 +83,7 @@ public class ReadingFragment extends Fragment {
                 getActivity(), DividerItemDecoration.VERTICAL_LIST)); //设置item间的分割线
         adapter = new ReadingAdapter(items, getContext()); //适配listview
         recyclerView.setAdapter(adapter); //将adaper添加到recylcerView中
-        //由网络中加载数据
-        loadNewsFromNet();
+
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -129,7 +129,7 @@ public class ReadingFragment extends Fragment {
                             Gson gson = new Gson();
                             BookBean [] bookBeans = gson.fromJson(response.body().string(), ReadingBean.class).getBooks();
                             for (BookBean bookBean : bookBeans){
-                                items.add(bookBean);
+                                tmpItems.add(bookBean);
                             }
                             handler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
                         }
@@ -148,35 +148,48 @@ public class ReadingFragment extends Fragment {
                     Utils.DLog(getString(R.string.Text_Net_Exception));
                     break;
                 case CONSTANT.ID_SUCCESS:
-                    cache.cache(items,category);  //将由网上加载的数据缓存起来
-                    items.clear();
+                    cache.cache(tmpItems,category);  //将由网上加载的数据缓存起来
                     loadCache();
                     break;
                 case CONSTANT.ID_LOAD_FROM_NET:
                     loadNewsFromNet();
                     break;
-            }
-            if (items.isEmpty()){
-                sad_face.setVisibility(View.VISIBLE);
-            }else{
-                sad_face.setVisibility(View.GONE);
+                case CONSTANT.ID_UPDATE_UI:
+                    if (items.isEmpty()){
+                        sad_face.setVisibility(View.VISIBLE);
+                    }else{
+                        sad_face.setVisibility(View.GONE);
+                    }
+                    progressBar.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                    break;
             }
             return false;
         }
     });
 
-    private void loadCache(){
-        List<Object> temList = cache.loadFromCache(category);
-        for (Object object : temList){
-            items.add((BookBean) object);
-        }
-        if (progressBar.getVisibility() == View.VISIBLE){
-            progressBar.setVisibility(View.GONE);
-            if (items.isEmpty()){
-                handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+    private synchronized void loadCache(){
+        thread  = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tmpItems.clear();
+                List<Object> temList = cache.loadFromCache(category);
+                for (Object object : temList){
+                    tmpItems.add((BookBean) object);
+                }
+                temList.clear();
+                items.clear();
+                items.addAll(tmpItems);
+                tmpItems.clear();
+                if (progressBar.getVisibility() == View.VISIBLE) {
+                    if (items.isEmpty()) {
+                        handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+                    }
+                }
+                handler.sendEmptyMessage(CONSTANT.ID_UPDATE_UI);
             }
-        }
-        adapter.notifyDataSetChanged();
+        });
+        thread.start();
     }
 }
 

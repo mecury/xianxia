@@ -9,7 +9,7 @@ import com.mecuryli.xianxia.xianxiaApplication;
  * Created by 海飞 on 2016/5/11.
  */
 public class ReadingApi {
-    public static final int TAG_LEN=5;
+    public static final int TAG_LEN=3;
     public static String searchByTag="http://api.douban.com/v2/book/search?tag=";
     public static String searchByText="http://api.douban.com/v2/book/search?q=";
     public static String searchByID="https://api.douban.com/v2/book/";

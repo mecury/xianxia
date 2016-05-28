@@ -33,6 +33,7 @@ public class NewsCache extends BaseCache {
             values.put(NewsTable.DESCRIPTION, newsBean.getDescription());
             values.put(NewsTable.PUBTIME, newsBean.getPubTime());
             values.put(NewsTable.IS_COLLECTED, newsBean.getIS_COLLECTED());
+            values.put(NewsTable.LINK, newsBean.getLink());
             values.put(NewsTable.CATEGORY, category);
             db.insert(NewsTable.NAME,null,values);
         }
@@ -45,11 +46,12 @@ public class NewsCache extends BaseCache {
         values.put(NewsTable.TITLE, newsBean.getTitle());
         values.put(NewsTable.DESCRIPTION, newsBean.getTitle());
         values.put(NewsTable.PUBTIME, newsBean.getPubTime());
+        values.put(NewsTable.LINK, newsBean.getLink());
         db.insert(NewsTable.COLLECTION_NAME, null,values);
     }
 
     @Override
-    public List<Object> loadFromCache(String category) {
+    public synchronized List<Object> loadFromCache(String category) {
         String sql = null;
         if (category == null){
             sql = "select * from " + table.NAME;
@@ -62,10 +64,11 @@ public class NewsCache extends BaseCache {
             newsBean.setTitle(cursor.getString(NewsTable.ID_TITLE));
             newsBean.setDescription(cursor.getString(NewsTable.ID_DESCRIPTION));
             newsBean.setPubTime(cursor.getString(NewsTable.ID_PUBTIME));
+            newsBean.setLink(cursor.getString(NewsTable.ID_LINK));
             newsBean.setIS_COLLECTED(cursor.getInt(NewsTable.ID_IS_COLLECTED));
             newsList.add(newsBean);
         }
-        cursor.close();
+        //cursor.close();
         return newsList;
     }
 

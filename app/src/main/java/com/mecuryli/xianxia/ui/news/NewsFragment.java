@@ -51,6 +51,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
     private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
     private List<NewsBean> items = new ArrayList<>();
+    private List<NewsBean> tmpItems = new ArrayList<>();
     private NewsAdapter adapter ;
     private RecyclerView.LayoutManager mLayoutManager;
     private ImageView sad_face;
@@ -81,20 +82,19 @@ public class NewsFragment extends android.support.v4.app.Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL_LIST));  //item 间的分割线
-        loadNewsFormNet();
 
         refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
-                loadNewsFormNet();
+                loadNewsFromNet();
             }
         });
         sad_face.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sad_face.setVisibility(View.GONE);
-                loadNewsFormNet();
+                loadNewsFromNet();
             }
         });
 
@@ -104,7 +104,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
 
 
     //由网络加载
-    private void loadNewsFormNet(){
+    private void loadNewsFromNet(){
         refreshView.setRefreshing(true);
         new Thread(new Runnable() {
             @Override
@@ -127,7 +127,8 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                         InputStream is = new ByteArrayInputStream(response.body().string().getBytes(StandardCharsets.UTF_8));
 
                         try {
-                            items.addAll(SAXNewsParse.parse(is));
+                            tmpItems.addAll(SAXNewsParse.parse(is));
+                            is.close();
                         } catch (ParserConfigurationException e) {
                             e.printStackTrace();
                         } catch (SAXException e) {
@@ -150,35 +151,47 @@ public class NewsFragment extends android.support.v4.app.Fragment {
                     Utils.DLog(getString(R.string.Text_Net_Exception));
                     break;
                 case CONSTANT.ID_SUCCESS:
-                    cache.cache(items, category);
-                    items.clear();
+                    cache.cache(tmpItems, category);
                     loadCache();
                     break;
                 case CONSTANT.ID_LOAD_FROM_NET:
-                    refreshView.setRefreshing(true);
-                    loadNewsFormNet();
+                    loadNewsFromNet();
                     break;
-            }
-            if (items.isEmpty()){
-                sad_face.setVisibility(View.VISIBLE);
-            }else{
-                sad_face.setVisibility(View.VISIBLE);
+                case CONSTANT.ID_UPDATE_UI:
+                    if (items.isEmpty()){
+                        sad_face.setVisibility(View.VISIBLE);
+                    }else{
+                        sad_face.setVisibility(View.GONE);
+                    }
+                    progressBar.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                    break;
             }
             return false;
         }
     });
 
-    private void loadCache(){
-        List<Object> tmpList = cache.loadFromCache(category);
-        for (Object object : tmpList){
-            items.add((NewsBean) object);
-        }
-        if (progressBar.getVisibility() == View.VISIBLE){
-            progressBar.setVisibility(View.GONE);
-            if (items.isEmpty()){
-                handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+    private synchronized void loadCache(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tmpItems.clear();
+                List<Object> tmpList = cache.loadFromCache(category);
+                for (Object object : tmpList){
+                    tmpItems.add((NewsBean) object);
+                }
+                tmpList.clear();
+                items.clear();
+                items.addAll(tmpItems);
+                tmpItems.clear();
+                if (progressBar.getVisibility() == View.VISIBLE){
+                    if (items.isEmpty()){
+                        handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+                    }
+                }
+                handler.sendEmptyMessage(CONSTANT.ID_UPDATE_UI);
             }
-        }
-        adapter.notifyDataSetChanged();
+        });
+        thread.start();
     }
 }

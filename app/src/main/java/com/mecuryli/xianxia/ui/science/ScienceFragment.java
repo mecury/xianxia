@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class ScienceFragment extends Fragment {
     private View parentView;
     private ScienceBean scienceBean;
     private List<ArticleBean> items = new ArrayList<>();
-    private List<ArticleBean> tmpitems = new ArrayList<>();
+    private List<ArticleBean> tmpItems = new ArrayList<>();
     private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -58,6 +59,8 @@ public class ScienceFragment extends Fragment {
 
     private String category;
     private ScienceCache cache;
+
+    private Thread thread;
 
     @Nullable
     @Override
@@ -90,7 +93,12 @@ public class ScienceFragment extends Fragment {
                 loadNewsFromNet();
             }
         });
-
+        refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadNewsFromNet();
+            }
+        });
         cache = new ScienceCache(xianxiaApplication.AppContext);
         loadCache();
     }
@@ -119,10 +127,8 @@ public class ScienceFragment extends Fragment {
                         Gson gson = new Gson();
                         ArticleBean[] articleBeans = (gson.fromJson(response.body().string(), ScienceBean.class)).getResult();
                         for(ArticleBean articleBean: articleBeans){
-                            tmpitems.add(articleBean);
+                            tmpItems.add(articleBean);
                             }
-                        items.addAll(tmpitems);
-                        tmpitems.clear();
                         handler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
                     }
                 });
@@ -139,36 +145,48 @@ public class ScienceFragment extends Fragment {
                     Utils.DLog(getString(R.string.Text_Net_Exception));
                     break;
                 case CONSTANT.ID_SUCCESS:
-                    cache.cache(items,category);
-                    items.clear();
+                    cache.cache(tmpItems, category);
                     loadCache();
-                    adapter.notifyDataSetChanged();
                     break;
                 case CONSTANT.ID_LOAD_FROM_NET:
                     loadNewsFromNet();
                     break;
-            }
-            if (items.isEmpty()){
-                sad_face.setVisibility(View.VISIBLE);
-            }else{
-                sad_face.setVisibility(View.GONE);
+                case CONSTANT.ID_UPDATE_UI:
+                    if (items.isEmpty()){
+                        sad_face.setVisibility(View.VISIBLE);
+                    }else{
+                        sad_face.setVisibility(View.GONE);
+                    }
+                    progressBar.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                    break;
             }
             return false;
         }
     });
 
-    private void loadCache(){
-        List<Object> tmpList = cache.loadFromCache(category);
-        for (Object object : tmpList){
-            items.add((ArticleBean) object);
-        }
-        if (progressBar.getVisibility() == View.VISIBLE){
-            progressBar.setVisibility(View.GONE);
-            if (items == null){
-                handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+    private synchronized void loadCache(){
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tmpItems.clear();
+                List<Object> tmpList = cache.loadFromCache(category);
+                for (int i=0; i<tmpList.size(); i++){
+                    tmpItems.add((ArticleBean) tmpList.get(i));
+                }
+                tmpList.clear();
+                items.clear();
+                items.addAll(tmpItems);
+                tmpItems.clear();
+                if (progressBar.getVisibility() == View.VISIBLE){
+                    if (items == null){
+                        handler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_NET);
+                    }
+                }
+                handler.sendEmptyMessage(CONSTANT.ID_UPDATE_UI);
             }
-        }
-        adapter.notifyDataSetChanged();
+        });
+        thread.start();
     }
 }
 
