@@ -2,33 +2,42 @@ package com.mecuryli.xianxia.cache.cache;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Handler;
 
+import com.google.gson.Gson;
+import com.mecuryli.xianxia.api.DailyApi;
 import com.mecuryli.xianxia.cache.table.DailyTable;
 import com.mecuryli.xianxia.model.Daily.DailyBean;
+import com.mecuryli.xianxia.model.Daily.DailyMain;
+import com.mecuryli.xianxia.model.Daily.DailyStories;
+import com.mecuryli.xianxia.model.Daily.DailyTop_stories;
+import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.HttpUtil;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/26.
  */
-public class DailyCache extends BaseCache {
+public class DailyCache extends BaseCache<DailyBean> {
 
     private DailyTable table;
-    private List<Object> dailyList = new ArrayList<>();
 
-    public DailyCache(Context context) {
-        super(context);
-        table = new DailyTable();
+    public DailyCache(Context context, Handler handler) {
+        super(context, handler);
     }
 
     @Override
-    protected void putData(List<? extends Object> list, String category) {
+    protected void putData(String category) {
         db.execSQL(mHelper.DROP_TABLE + table.NAME);
         db.execSQL(table.CREATE_TABLE);
 
-        for (int i=0; i<list.size(); i++){
-            DailyBean tmpDaily = (DailyBean) list.get(i);
+        for (int i=0; i<mList.size(); i++){
+            DailyBean tmpDaily = (DailyBean) mList.get(i);
             values.put(DailyTable.TITLE, tmpDaily.getTitle());
             //values.put(DailyTable.DESCRIPTION,tmpDaily.getDescription());
             values.put(DailyTable.IMAGE,tmpDaily.getImage());
@@ -41,8 +50,7 @@ public class DailyCache extends BaseCache {
     }
 
     @Override
-    protected void putData(Object object) {
-        DailyBean dailyBean = (DailyBean)object;
+    protected void putData(DailyBean dailyBean) {
         values.put(DailyTable.TITLE,dailyBean.getTitle());
         //values.put(DailyTable.DESCRIPTION,dailyBean.getDescription());
         values.put(DailyTable.IMAGE,dailyBean.getImage());
@@ -51,14 +59,10 @@ public class DailyCache extends BaseCache {
     }
 
     @Override
-    public synchronized List<Object> loadFromCache(String category) {
+    public synchronized List<DailyBean> loadFromCache() {
        // String sql = "select * from " + table.NAME;
         String sql = null;
-        if (category == null){
-            sql = "select * from " + table.NAME;
-        }else{
-            //sql = "select * from " + table.NAME+" where " + table.CATEGORY+ "=\'"+category+"\'";
-        }
+        sql = "select * from " + table.NAME;
         Cursor cursor = query(sql);
         while(cursor.moveToNext()){
             DailyBean dailyBean = new DailyBean();
@@ -66,9 +70,52 @@ public class DailyCache extends BaseCache {
             dailyBean.setImage(cursor.getString(DailyTable.ID_IMAGE));
             //dailyBean.setDescription(cursor.getString(DailyTable.ID_DESCRIPTION));
             //dailyBean.setInfo(cursor.getString(DailyTable.ID_INFO));
-            dailyList.add(dailyBean);
+            mList.add(dailyBean);
         }
         cursor.close();
-        return dailyList;
+        return mList;
+    }
+
+    public void load(){
+        Request.Builder builder = new Request.Builder();
+        builder.url(DailyApi.newsLatest);
+        Request request = builder.build();
+        HttpUtil.enqueue(request, new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                mHandler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                if (response.isSuccessful() == false){
+                    mHandler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                }
+                Gson gson = new Gson();
+                String s = response.body().string();
+                DailyMain main = gson.fromJson(s, DailyMain.class);
+                List<DailyStories> dailyStories = main.getStories();
+                List<DailyTop_stories> dailyTop_stories = main.getTop_stories();
+                for (DailyStories d : dailyStories){
+                    DailyBean item = new DailyBean();
+                    item.setTitle(d.getTitle());
+                    item.setGa_prefix(d.getGa_prefix());
+                    item.setId(d.getId());
+                    item.setType(d.getType());
+                    item.setImage(d.getImages()[0]);
+                    mList.add(item);
+                }
+                for (DailyTop_stories d : dailyTop_stories){
+                    DailyBean item = new DailyBean();
+                    item.setTitle(d.getTitle());
+                    item.setGa_prefix(d.getGa_prefix());
+                    item.setId(d.getId());
+                    item.setType(d.getType());
+                    item.setImage(d.getImage());
+                    mList.add(item);
+                }
+                mHandler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
+            }
+        });
     }
 }
