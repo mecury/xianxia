@@ -3,20 +3,29 @@ package com.mecuryli.xianxia.model.Daily;
 /**
  * Created by 海飞 on 2016/5/19.
  */
-public class DailyItem {
-    private String[] images;  //图片
-
+public class DailyBean {
+    private String image;  //图片
     private int type;
     private int id;     //日报id
     private String ga_prefix;
     private String title;   //标题
 
-    public String[] getImages() {
-        return images;
+    private int is_collected = 0;
+
+    public int getIs_collected() {
+        return is_collected;
     }
 
-    public void setImages(String[] images) {
-        this.images = images;
+    public void setIs_collected(int is_collected) {
+        this.is_collected = is_collected;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getType() {

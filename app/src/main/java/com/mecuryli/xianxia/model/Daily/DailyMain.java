@@ -11,6 +11,14 @@ public class DailyMain implements Serializable{
     private List<DailyStories> stories;
     private List<DailyTop_stories> top_stories;
 
+    public List<DailyTop_stories> getTop_stories() {
+        return top_stories;
+    }
+
+    public void setTop_stories(List<DailyTop_stories> top_stories) {
+        this.top_stories = top_stories;
+    }
+
     public String getDate() {
         return date;
     }
@@ -27,11 +35,5 @@ public class DailyMain implements Serializable{
         this.stories = stories;
     }
 
-    public List<DailyTop_stories> getTop_stories() {
-        return top_stories;
-    }
 
-    public void setTop_stories(List<DailyTop_stories> top_stories) {
-        this.top_stories = top_stories;
-    }
 }

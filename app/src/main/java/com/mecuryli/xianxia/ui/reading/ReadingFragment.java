@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,20 +44,19 @@ public class ReadingFragment extends Fragment {
     private View parentView;
     protected PullToRefreshView refreshView;
     private RecyclerView recyclerView;
-    protected List<BookBean> items = new ArrayList<>();
-    private List<BookBean> tmpItems = new ArrayList<>();
     private RecyclerView.LayoutManager mLayoutManager;
-    private ReadingAdapter adapter;
-    private int pos;
-
     private ImageView sad_face;
     private ProgressBar progressBar;
 
+    protected List<BookBean> items = new ArrayList<>();
+    private List<BookBean> tmpItems = new ArrayList<>();
+    private ReadingAdapter adapter;
+    private int pos;
     private String category;
     private String url;
     private ReadingCache cache;
-
     private Thread thread;
+    private boolean isRefreshing = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,19 +68,19 @@ public class ReadingFragment extends Fragment {
     protected void getData(){
         pos = getArguments().getInt(getString(R.string.id_pos));
         category = getArguments().getString(getString(R.string.id_category));
-        Utils.DLog("Reading====>:" + category);
     }
     protected void initData(){
-        sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
-        progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
         getData();
+        sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
+        progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL_LIST)); //设置item间的分割线
+        Utils.DLog("ReadingFragment====>"+items.size());
         adapter = new ReadingAdapter(items, getContext()); //适配listview
         recyclerView.setAdapter(adapter); //将adaper添加到recylcerView中
 
@@ -88,6 +88,17 @@ public class ReadingFragment extends Fragment {
             @Override
             public void onRefresh() {
                 loadNewsFromNet();
+                isRefreshing = true;
+            }
+        });
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isRefreshing){
+                    return true;
+                }else{
+                    return false;
+                }
             }
         });
         sad_face.setOnClickListener(new View.OnClickListener() {
@@ -105,11 +116,10 @@ public class ReadingFragment extends Fragment {
 
     protected void loadNewsFromNet(){
         final String[] tags = ReadingApi.getTags(ReadingApi.getApiTag(pos));
-        refreshView.setRefreshing(true);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i=0;i<ReadingApi.TAG_LEN;i++){
+                for (int i=0;i < ReadingApi.TAG_LEN;i++){
                     url = ReadingApi.searchByTag+tags[i];
                     Request.Builder builder = new Request.Builder();
                     builder.url(url);
@@ -162,6 +172,7 @@ public class ReadingFragment extends Fragment {
                     }
                     progressBar.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
+                    isRefreshing = false;
                     break;
             }
             return false;
@@ -174,8 +185,8 @@ public class ReadingFragment extends Fragment {
             public void run() {
                 tmpItems.clear();
                 List<Object> temList = cache.loadFromCache(category);
-                for (Object object : temList){
-                    tmpItems.add((BookBean) object);
+                for (int i=0;i<temList.size();i++){
+                    tmpItems.add((BookBean) temList.get(i));
                 }
                 temList.clear();
                 items.clear();

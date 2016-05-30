@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.model.Daily.DailyItem;
+import com.mecuryli.xianxia.model.Daily.DailyBean;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
 
-    private List<DailyItem> dailyItems;
+    private List<DailyBean> dailyItems;
     private Context mContext;
-    public DailyAdapter(Context context, List<DailyItem> items){
+    public DailyAdapter(Context context, List<DailyBean> items){
         this.mContext = context;
         this.dailyItems = items;
     }
@@ -33,9 +33,9 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final DailyItem dailyItem =getItem(position);
-        String[] images = dailyItem.getImages();
-        Uri uri = Uri.parse(images[0]);
+        final DailyBean dailyItem =getItem(position);
+        String images = dailyItem.getImage();
+        Uri uri = Uri.parse(images);
         holder.title.setText(dailyItem.getTitle());
         holder.image.setImageURI(uri);
         holder.info.setText("未定");
@@ -47,7 +47,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder>{
         });
     }
 
-    private DailyItem getItem(int position){
+    private DailyBean getItem(int position){
         return dailyItems.get(position);
     }
 

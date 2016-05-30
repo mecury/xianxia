@@ -70,6 +70,7 @@ public class NewsFragment extends android.support.v4.app.Fragment {
 
     void init(){
         sad_face = (ImageView) parentView.findViewById(R.id.sad_face);
+        Utils.DLog("ReadingFragment====>"+items.size());
         adapter = new NewsAdapter(getContext(), items);
         progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
         url = getArguments().getString(getString(R.string.id_url));

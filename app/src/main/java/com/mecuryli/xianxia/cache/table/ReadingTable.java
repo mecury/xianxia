@@ -50,13 +50,13 @@ public class ReadingTable {
             " set " + IS_COLLECTED +" =1 where " + TITLE + " in ( select " + TITLE +
             " from " + COLLECTION_NAME + ")";
 
-    public static String updateCollectionFLag(String title, int flag){
+    public static String updateCollectionFlag(String title, int flag){
         return "update " + NAME + " set " + IS_COLLECTED + " = "+ flag +
-                " where " + TITLE + "=" + title;
+                " where " + TITLE + "=\'" + title + "\'";
     }
 
     public static String deleteCollectionFlag(String title){
-        return "delete from " + COLLECTION_NAME + " where title = " + title;
+        return "delete from " + COLLECTION_NAME + " where title = \'" + title +"\'";
     }
 
 }

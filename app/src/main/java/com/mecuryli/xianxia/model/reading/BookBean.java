@@ -23,8 +23,14 @@ public class BookBean implements Serializable {
         String title;
         String author_intro;
         String summary;
+    /*
+    self define
+     */
+    public String info;
+    public int is_collected = 0;
 
     public String getInfo() {
+        if(info == null) return toString();
         return info;
     }
 
@@ -32,16 +38,13 @@ public class BookBean implements Serializable {
         this.info = info;
     }
 
-    public int getIS_COLLECTED() {
-        return IS_COLLECTED;
+    public int getIs_collected() {
+        return is_collected;
     }
 
-    public void setIS_COLLECTED(int IS_COLLECTED) {
-        this.IS_COLLECTED = IS_COLLECTED;
+    public void setIs_collected(int is_collected) {
+        this.is_collected = is_collected;
     }
-
-    public String info;
-    public int IS_COLLECTED;
 
     public String[] getAuthor() {
         return author;

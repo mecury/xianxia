@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Toolbar;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.PagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -46,7 +45,7 @@ public abstract class AbsTopNavigationFragment extends android.support.v4.app.Fr
         parentView = null;
         viewPager = null;
         pagerAdapter = null;
+        smartTablayout.setVisibility(View.GONE);
         smartTablayout = null;
-        Utils.DLog("special~~~~~~~");
     }
 }

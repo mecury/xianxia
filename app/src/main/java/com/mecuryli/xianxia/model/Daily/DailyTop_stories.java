@@ -6,18 +6,18 @@ import java.io.Serializable;
  * Created by 海飞 on 2016/5/19.
  */
 public class DailyTop_stories implements Serializable {
-    private String[] images;  //图片
+    private String image;  //图片
     private int type;
     private int id;     //日报id
     private String ga_prefix;
     private String title;   //标题
 
-    public String[] getImages() {
-        return images;
+    public String getImage() {
+        return image;
     }
 
-    public void setImages(String[] images) {
-        this.images = images;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getType() {
