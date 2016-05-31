@@ -2,43 +2,11 @@ package com.mecuryli.xianxia.ui.daily;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-import com.android.volley.RequestQueue;
-import com.google.gson.Gson;
-import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.api.DailyApi;
 import com.mecuryli.xianxia.cache.cache.DailyCache;
-import com.mecuryli.xianxia.model.Daily.DailyBean;
-import com.mecuryli.xianxia.model.Daily.DailyMain;
-import com.mecuryli.xianxia.model.Daily.DailyStories;
-import com.mecuryli.xianxia.model.Daily.DailyTop_stories;
-import com.mecuryli.xianxia.support.CONSTANT;
-import com.mecuryli.xianxia.support.HttpUtil;
-import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DailyAdapter;
-import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
-import com.mecuryli.xianxia.xianxiaApplication;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.yalantis.phoenix.PullToRefreshView;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/18.
@@ -61,7 +29,7 @@ public class DailyFragment extends BaseListFragment {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected RecyclerView.Adapter bindAdapter() {
-        return new DailyAdapter(dailyCache,getContext());
+        return new DailyAdapter(getContext(),dailyCache);
     }
 
     @Override
@@ -77,6 +45,11 @@ public class DailyFragment extends BaseListFragment {
     @Override
     protected boolean hasData() {
         return dailyCache.hasData();
+    }
+
+    @Override
+    protected void getArgs() {
+
     }
 
 //    @Nullable

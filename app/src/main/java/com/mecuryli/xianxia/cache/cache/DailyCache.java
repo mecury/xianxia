@@ -32,12 +32,12 @@ public class DailyCache extends BaseCache<DailyBean> {
     }
 
     @Override
-    protected void putData(String category) {
+    protected void putData() {
         db.execSQL(mHelper.DROP_TABLE + table.NAME);
         db.execSQL(table.CREATE_TABLE);
 
         for (int i=0; i<mList.size(); i++){
-            DailyBean tmpDaily = (DailyBean) mList.get(i);
+            DailyBean tmpDaily = mList.get(i);
             values.put(DailyTable.TITLE, tmpDaily.getTitle());
             //values.put(DailyTable.DESCRIPTION,tmpDaily.getDescription());
             values.put(DailyTable.IMAGE,tmpDaily.getImage());
@@ -72,6 +72,7 @@ public class DailyCache extends BaseCache<DailyBean> {
             //dailyBean.setInfo(cursor.getString(DailyTable.ID_INFO));
             mList.add(dailyBean);
         }
+        mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);
         cursor.close();
         return mList;
     }
@@ -114,6 +115,7 @@ public class DailyCache extends BaseCache<DailyBean> {
                     item.setImage(d.getImage());
                     mList.add(item);
                 }
+                cache();
                 mHandler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
             }
         });

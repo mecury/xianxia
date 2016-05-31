@@ -1,49 +1,54 @@
 package com.mecuryli.xianxia.ui.science;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-import com.android.volley.RequestQueue;
-import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ScienceApi;
 import com.mecuryli.xianxia.cache.cache.ScienceCache;
-import com.mecuryli.xianxia.model.science.ArticleBean;
-import com.mecuryli.xianxia.model.science.ScienceBean;
-import com.mecuryli.xianxia.support.CONSTANT;
-import com.mecuryli.xianxia.support.HttpUtil;
-import com.mecuryli.xianxia.support.Utils;
-import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.ScienceAdapter;
-import com.mecuryli.xianxia.xianxiaApplication;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.yalantis.phoenix.PullToRefreshView;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
 /**
  * Created by 海飞 on 2016/5/16.
  */
-public class ScienceFragment extends Fragment {
+public class ScienceFragment extends BaseListFragment {
 
-    private View parentView;
+    private ScienceCache scienceCache;
+    private String mCategory;
+    private String mUrl;
+    @Override
+    protected void onCreateCache() {
+        scienceCache = new ScienceCache(getContext(),handler,mCategory,mUrl);
+    }
+
+    @Override
+    protected RecyclerView.Adapter bindAdapter() {
+        return new ScienceAdapter(getContext(),scienceCache);
+    }
+
+    @Override
+    protected void loadFromNet() {
+        scienceCache.load();
+    }
+
+    @Override
+    protected void loadFromCache() {
+        scienceCache.loadFromCache();
+    }
+
+    @Override
+    protected boolean hasData() {
+        return scienceCache.hasData();
+    }
+
+    @Override
+    protected void getArgs() {
+        mUrl = ScienceApi.science_channel_url+ScienceApi.channel_tag[getArguments().getInt(getString(R.string.id_pos))];
+        mCategory = getArguments().getString(getString(R.string.id_category));
+    }
+
+
+    /*private View parentView;
     private ScienceBean scienceBean;
     private List<ArticleBean> items = new ArrayList<>();
     private List<ArticleBean> tmpItems = new ArrayList<>();
@@ -187,7 +192,7 @@ public class ScienceFragment extends Fragment {
             }
         });
         thread.start();
-    }
+    }*/
 }
 
 

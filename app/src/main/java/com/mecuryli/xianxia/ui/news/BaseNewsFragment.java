@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.NewsApi;
-import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.PagerAdapter;
 import com.mecuryli.xianxia.ui.support.AbsTopNavigationFragment;
 
@@ -25,7 +24,6 @@ public class BaseNewsFragment extends AbsTopNavigationFragment {
         pagerAdapter = new PagerAdapter(getFragmentManager(),name){
             @Override
             public Fragment getItem(int position) {
-                Utils.DLog(name.length + " " + url.length);
                 NewsFragment fragment = new NewsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(getString(R.string.id_url),url[position]);

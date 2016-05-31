@@ -3,22 +3,14 @@ package com.mecuryli.xianxia.ui.reading;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
-import com.mecuryli.xianxia.model.reading.BookBean;
-import com.mecuryli.xianxia.model.reading.ReadingBean;
-import com.mecuryli.xianxia.support.CONSTANT;
-import com.mecuryli.xianxia.support.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import java.io.IOException;
+import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
 /**
  * Created by 海飞 on 2016/5/24.
@@ -45,15 +37,49 @@ public class ReadingActivity extends AppCompatActivity {
             }
         });
         url = ReadingApi.searchByText + getIntent().getStringExtra(getString(R.string.id_search_text));
-        Log.e("","ReadingActivity的url："+url);
         BookListFragment fragment = new BookListFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout,fragment);
         transaction.commit();
     }
 
-    class BookListFragment extends ReadingFragment{
+    class BookListFragment extends BaseListFragment{
+
         @Override
+        protected boolean setHeaderTab() {
+            return false;
+        }
+
+        @Override
+        protected void onCreateCache() {
+
+        }
+
+        @Override
+        protected RecyclerView.Adapter bindAdapter() {
+            return null;
+        }
+
+        @Override
+        protected void loadFromNet() {
+
+        }
+
+        @Override
+        protected void loadFromCache() {
+
+        }
+
+        @Override
+        protected boolean hasData() {
+            return false;
+        }
+
+        @Override
+        protected void getArgs() {
+
+        }
+        /*@Override
         protected void getData() {
         }
 
@@ -88,7 +114,7 @@ public class ReadingActivity extends AppCompatActivity {
                     });
                 }
             }).start();
-        }
+        }*/
     }
 }
 

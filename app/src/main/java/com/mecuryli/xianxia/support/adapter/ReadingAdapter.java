@@ -14,28 +14,20 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.cache.cache.ReadingCache;
+import com.mecuryli.xianxia.cache.cache.ICache;
 import com.mecuryli.xianxia.cache.table.ReadingTable;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
-import com.mecuryli.xianxia.xianxiaApplication;
-
-import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/13.
  * item的适配器
  */
-public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHolder> {
+public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.ViewHolder> {
 
-    private List<BookBean> items ;
-    private Context mContext;
-    private ReadingCache cache;
-    public ReadingAdapter(List<BookBean> mItems, Context mContext){
-        this.items = mItems;
-        this.mContext = mContext;
-        cache = new ReadingCache(xianxiaApplication.AppContext);
+    public ReadingAdapter(Context context, ICache<BookBean> cache){
+        super(context,cache);
     }
 
     @Override
@@ -69,29 +61,25 @@ public class ReadingAdapter extends RecyclerView.Adapter<ReadingAdapter.ViewHold
             holder.parentView.setBackground(mContext.getResources().getDrawable(R.drawable.item_bg, null));
         }
 
+        Utils.DLog("ReadingAdapter====>"+isCollection);
+
+        if (isCollection){
+            return;
+        }
+
         holder.collect_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 bookBean.setIs_collected(isChecked ? 1 : 0);
-                cache.execSQL(ReadingTable.updateCollectionFlag(bookBean.getTitle(), isChecked ? 1 : 0));
+                mCache.execSQL(ReadingTable.updateCollectionFlag(bookBean.getTitle(), isChecked ? 1 : 0));
                 if(isChecked){
-                    cache.addToCollection(bookBean);
+                    mCache.addToCollection(bookBean);
                 }else{
-                    cache.execSQL(ReadingTable.deleteCollectionFlag(bookBean.getTitle()));
+                    mCache.execSQL(ReadingTable.deleteCollectionFlag(bookBean.getTitle()));
                 }
             }
         });
-        holder.collect_cb.setChecked(bookBean.getIs_collected() ==1 ? true:false);
-    }
-
-    public BookBean getItem(int pos){
-        return items.get(pos);
-    }
-
-    @Override
-    public int getItemCount() {
-        Utils.DLog(items.size()+"");
-        return items.size();
+        holder.collect_cb.setChecked(bookBean.getIs_collected()==1 ? true : false);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

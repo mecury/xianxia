@@ -1,52 +1,62 @@
 package com.mecuryli.xianxia.ui.news;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.cache.cache.NewsCache;
-import com.mecuryli.xianxia.model.news.NewsBean;
-import com.mecuryli.xianxia.support.CONSTANT;
-import com.mecuryli.xianxia.support.HttpUtil;
 import com.mecuryli.xianxia.support.Utils;
-import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.NewsAdapter;
-import com.mecuryli.xianxia.support.sax.SAXNewsParse;
-import com.mecuryli.xianxia.xianxiaApplication;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.yalantis.phoenix.PullToRefreshView;
-
-import org.xml.sax.SAXException;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
+import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
 /**
  * Created by 海飞 on 2016/5/9.
  * 新闻列表界面的fragment
  */
 
-public class NewsFragment extends android.support.v4.app.Fragment {
+public class NewsFragment extends BaseListFragment {
 
-    private View parentView;
+    private NewsCache newsCache;
+    private String mUrl;
+    private String mCategory;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    protected void onCreateCache() {
+        newsCache = new NewsCache(getContext(),handler,mCategory,mUrl);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    protected RecyclerView.Adapter bindAdapter() {
+        return new NewsAdapter(getContext(),newsCache);
+    }
+
+    @Override
+    protected void loadFromNet() {
+        newsCache.load();
+    }
+
+    @Override
+    protected void loadFromCache() {
+        newsCache.loadFromCache();
+    }
+
+    @Override
+    protected boolean hasData() {
+        return newsCache.hasData();
+    }
+
+    @Override
+    protected void getArgs() {
+        mUrl = getArguments().getString(getString(R.string.id_url));
+        mCategory = getArguments().getString(getString(R.string.id_category));
+    }
+
+
+
+    /*private View parentView;
     private ProgressBar progressBar;
     private PullToRefreshView refreshView;
     private RecyclerView recyclerView;
@@ -194,5 +204,5 @@ public class NewsFragment extends android.support.v4.app.Fragment {
             }
         });
         thread.start();
-    }
+    }*/
 }

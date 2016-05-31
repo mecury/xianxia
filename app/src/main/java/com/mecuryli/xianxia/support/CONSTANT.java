@@ -11,4 +11,5 @@ public class CONSTANT {
     public static final int ID_FAILURE = 2;
     public static final int ID_LOAD_FROM_NET = 3;
     public static final int ID_UPDATE_UI = 4;
+    public static final int ID_LOAD_FROM_CACHE = 5;
 }

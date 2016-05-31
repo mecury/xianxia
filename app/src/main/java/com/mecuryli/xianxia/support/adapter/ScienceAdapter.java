@@ -7,29 +7,25 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.cache.cache.ScienceCache;
+import com.mecuryli.xianxia.cache.cache.ICache;
+import com.mecuryli.xianxia.cache.table.NewsTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
-import com.mecuryli.xianxia.xianxiaApplication;
-
-import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/16.
  */
-public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHolder> {
-    private Context mContext;
-    private List<ArticleBean> items;
-    private ScienceCache cache;
+public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.ViewHolder> {
 
-    public ScienceAdapter(Context mContext, List<ArticleBean> items){
-        this.mContext = mContext;
-        this.items = items;
-        cache = new ScienceCache(xianxiaApplication.AppContext);
+
+    public ScienceAdapter(Context context, ICache<ArticleBean> cache) {
+        super(context, cache);
     }
 
     @Override
@@ -58,15 +54,26 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
                 mContext.startActivity(intent);
             }
         });
-    }
 
-    private ArticleBean getItem(int position){
-        return items.get(position);
-    }
+        if (isCollection){
+            return;
+        }
 
-    @Override
-    public int getItemCount() {
-        return items.size();
+        holder.collect_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                articleBean.setIs_collected(isChecked ? 1 : 0);
+                mCache.execSQL(NewsTable.updateCollectionFlag(articleBean.getTitle(), isChecked ? 1 : 0));
+                mCache.execSQL(NewsTable.updateCollectionFlag(articleBean.getTitle(), isChecked ? 1 : 0));
+                if (isChecked) {
+                    mCache.addToCollection(articleBean);
+                } else {
+                    mCache.execSQL(NewsTable.deleteCollectionFlag(articleBean.getTitle()));
+                }
+            }
+        });
+        holder.collect_cb.setChecked(articleBean.getIs_collected() == 1 ? true:false);
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -77,6 +84,7 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
         private TextView info;
         private TextView comment;
         private SimpleDraweeView image;
+        private CheckBox collect_cb;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +94,10 @@ public class ScienceAdapter extends RecyclerView.Adapter<ScienceAdapter.ViewHold
             info = (TextView) parentView.findViewById(R.id.info);
             image = (SimpleDraweeView) parentView.findViewById(R.id.image);
             comment = (TextView) parentView.findViewById(R.id.comment);
+
+            if (isCollection == false){
+                collect_cb = (CheckBox) parentView.findViewById(R.id.collect_cb);
+            }
         }
     }
 }

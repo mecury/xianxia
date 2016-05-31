@@ -1,6 +1,5 @@
 package com.mecuryli.xianxia.ui.support;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,7 +22,7 @@ import com.yalantis.phoenix.PullToRefreshView;
 /**
  * Created by 海飞 on 2016/5/30.
  */
-public abstract class BaseListFragment extends Fragment {
+public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected View parentView;
     protected RecyclerView recyclerView;
     protected RecyclerView.LayoutManager mLayoutManager;
@@ -36,17 +35,17 @@ public abstract class BaseListFragment extends Fragment {
 
     protected int mLayout = 0;
 
-    protected boolean withHeaderTab = true;
-    protected boolean withRefresView = true;
-    protected boolean isNewLoad = true;
+    protected boolean withHeaderTab = true;     //tab标题栏
+    protected boolean withRefreshView = true;  //刷新状态
+    protected boolean needCache = true;     //缓存
 
+    //子类需要重写的方法
     protected abstract void onCreateCache();
-
     protected abstract RecyclerView.Adapter bindAdapter();
-
     protected abstract void loadFromNet();
     protected abstract void loadFromCache();
     protected abstract boolean hasData();
+    protected abstract void getArgs();
 
     @Nullable
     @Override
@@ -54,12 +53,12 @@ public abstract class BaseListFragment extends Fragment {
         setLayout();
         parentView = inflater.inflate(mLayout,container,false);
         withHeaderTab = setHeaderTab();
-        withRefresView = setRefreshView();
+        withRefreshView = setRefreshView();
 
         progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         placeHolder = (ImageView) parentView.findViewById(R.id.placeholder);
-
+        getArgs();
         onCreateCache();
 
         adapter = bindAdapter();
@@ -67,6 +66,7 @@ public abstract class BaseListFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(xianxiaApplication.AppContext);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutManager(mLayoutManager);
 
         if (withHeaderTab){
             getActivity().findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);;
@@ -74,7 +74,7 @@ public abstract class BaseListFragment extends Fragment {
             getActivity().findViewById(R.id.tab_layout).setVisibility(View.GONE);
         }
 
-        if (withRefresView){
+        if (withRefreshView){
             refreshView = (PullToRefreshView) parentView.findViewById(R.id.pull_to_refresh);
             refreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
                 @Override
@@ -91,9 +91,7 @@ public abstract class BaseListFragment extends Fragment {
                 }
             });
         }
-
         loadFromNet();
-
         return parentView;
     }
 
@@ -106,7 +104,9 @@ public abstract class BaseListFragment extends Fragment {
     protected void setLayout(){
         mLayout = R.layout.layout_commont_list;
     }
-
+    protected boolean setCache(){
+        return true;
+    }
     protected Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -120,6 +120,16 @@ public abstract class BaseListFragment extends Fragment {
                 case CONSTANT.ID_SUCCESS:
                     if (isAdded()){
                         Utils.DLog(getString(R.string.text_refresh_success));
+                        refreshView.setRefreshing(false);
+                    }
+                    if (needCache){
+
+                    }
+                    break;
+                case CONSTANT.ID_LOAD_FROM_CACHE:
+                    if (withRefreshView && hasData() == false){
+                        loadFromNet();
+                        return false;
                     }
                     break;
             }
@@ -127,9 +137,6 @@ public abstract class BaseListFragment extends Fragment {
             if (hasData()){
                 placeHolder.setVisibility(View.GONE);
             }else{
-                if (isNewLoad && withRefresView){
-                    loadFromNet();
-                }
                 placeHolder.setVisibility(View.VISIBLE);
             }
 

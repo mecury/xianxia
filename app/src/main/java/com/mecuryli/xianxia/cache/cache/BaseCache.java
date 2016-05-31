@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by 海飞 on 2016/5/26.
  */
-public abstract class BaseCache<T> {
+public abstract class BaseCache<T> implements ICache<T>{
     protected Context mContext;
     protected DatabaseHelper mHelper;
     protected SQLiteDatabase db;
@@ -25,6 +25,9 @@ public abstract class BaseCache<T> {
     protected Handler mHandler;
     protected String mCategory;
 
+    protected String mUrl;
+    protected String[] mUrls;
+
     protected BaseCache(Context context,Handler handler, String category){
         mContext = context;
         mHelper = DatabaseHelper.getInstance(context);
@@ -32,19 +35,28 @@ public abstract class BaseCache<T> {
         mCategory = category;
     }
 
+    protected BaseCache(Context context,Handler handler, String category,String[] urls){
+        this(context,handler,category);
+        mUrls = urls;
+    }
+
+    protected BaseCache(Context context,Handler handler, String category, String url){
+        this(context,handler,category);
+        mUrl = url;
+    }
+
     protected BaseCache(Context context, Handler handler){
         this(context,handler,null);
     }
 
-    protected abstract void putData(String category);
+    protected abstract void putData();
     protected abstract void putData(T object);
 
-    public synchronized void cache(String category){
+    public synchronized void cache(){
         db = mHelper.getWritableDatabase();
         db.beginTransaction();
         values = new ContentValues();
-        putData(category);
-
+        putData();
         db.setTransactionSuccessful();
         db.endTransaction();
         //db.close();

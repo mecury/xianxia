@@ -2,41 +2,46 @@ package com.mecuryli.xianxia.cache.cache;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Handler;
 
+import com.google.gson.Gson;
 import com.mecuryli.xianxia.cache.table.ReadingTable;
 import com.mecuryli.xianxia.model.reading.BookBean;
-import com.mecuryli.xianxia.support.Utils;
+import com.mecuryli.xianxia.model.reading.ReadingBean;
+import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.HttpUtil;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/26.
  */
-public class ReadingCache extends BaseCache {
+public class ReadingCache extends BaseCache<BookBean> {
 
     private ReadingTable table;
-    private List<Object> readingList = new ArrayList<>();
 
-    public ReadingCache(Context context) {
-        super(context);
-        table = new ReadingTable();
+    public ReadingCache(Context context, Handler handler, String category,String[] urls) {
+        super(context,handler,category,urls);
     }
 
     @Override
-    protected void putData(List<? extends Object> list, String category) {
+    protected void putData() {
         db.execSQL(mHelper.DROP_TABLE + table.NAME);
         db.execSQL(table.CREATE_TABLE);
 
-        for (int i=0;i<list.size();i++){
-            BookBean bookBean = (BookBean) list.get(i);
+        for (int i=0;i<mList.size();i++){
+            BookBean bookBean = mList.get(i);
             values.put(ReadingTable.TITLE, bookBean.getTitle());
             values.put(ReadingTable.INFO, bookBean.getInfo());
             values.put(ReadingTable.IMAGE, bookBean.getImage());
             values.put(ReadingTable.AUTHOR_INTRO, bookBean.getAuthor_intro()==null ? "":bookBean.getAuthor_intro());
             values.put(ReadingTable.CATALOG, bookBean.getCatalog()==null ? "": bookBean.getCatalog());
             values.put(ReadingTable.EBOOK_URL, bookBean.getEbook_url()==null ? "":bookBean.getEbook_url());
-            values.put(ReadingTable.CATEGORY, category);
+            values.put(ReadingTable.CATEGORY, mCategory);
             values.put(ReadingTable.SUMMARY, bookBean.getSummary()==null ? "" : bookBean.getSummary());
             values.put(ReadingTable.IS_COLLECTED, bookBean.getImage());
             db.insert(ReadingTable.NAME, null, values);
@@ -45,28 +50,26 @@ public class ReadingCache extends BaseCache {
     }
 
     @Override
-    protected void putData(Object object) {
-        BookBean bookbean = (BookBean) object;
-        values.put(ReadingTable.TITLE, bookbean.getTitle());
-        values.put(ReadingTable.IMAGE, bookbean.getImage());
-        values.put(ReadingTable.INFO, bookbean.getInfo());
-        values.put(ReadingTable.AUTHOR_INTRO, bookbean.getAuthor_intro()==null ? "" : bookbean.getAuthor_intro());
-        values.put(ReadingTable.CATALOG, bookbean.getCatalog()==null ? "" : bookbean.getCatalog());
-        values.put(ReadingTable.EBOOK_URL, bookbean.getEbook_url()==null ? "" : bookbean.getEbook_url());
-        values.put(ReadingTable.SUMMARY, bookbean.getSummary()==null ? "" : bookbean.getSummary());
+    protected void putData(BookBean bookBean) {
+        values.put(ReadingTable.TITLE, bookBean.getTitle());
+        values.put(ReadingTable.IMAGE, bookBean.getImage());
+        values.put(ReadingTable.INFO, bookBean.getInfo());
+        values.put(ReadingTable.AUTHOR_INTRO, bookBean.getAuthor_intro()==null ? "" : bookBean.getAuthor_intro());
+        values.put(ReadingTable.CATALOG, bookBean.getCatalog()==null ? "" : bookBean.getCatalog());
+        values.put(ReadingTable.EBOOK_URL, bookBean.getEbook_url()==null ? "" : bookBean.getEbook_url());
+        values.put(ReadingTable.SUMMARY, bookBean.getSummary()==null ? "" : bookBean.getSummary());
         db.insert(ReadingTable.NAME,null, values);
     }
 
     @Override
-    public synchronized List<Object> loadFromCache(String category) {
+    public synchronized List<BookBean> loadFromCache() {
         String sql = null;
-        if (category == null){
+        if (mCategory == null){
             sql = "select * from " + table.NAME;
         }else{
-            sql = "select * from " + table.NAME+" where " + table.CATEGORY+ "=\'"+category+"\'";
+            sql = "select * from " + table.NAME+" where " + table.CATEGORY+ "=\'"+mCategory+"\'";
         }
         Cursor cursor = query(sql);
-        int i=0;
         while(cursor.moveToNext()){
             BookBean bookBean = new BookBean();
             bookBean.setTitle(cursor.getString(table.ID_TITLE));
@@ -77,11 +80,41 @@ public class ReadingCache extends BaseCache {
             bookBean.setEbook_url(cursor.getString(table.ID_EBOOK_URL));
             bookBean.setSummary(cursor.getString(table.ID_SUMMARY));
             bookBean.setIs_collected(cursor.getInt(table.ID_IS_COLLETED));
-            Utils.DLog(i+++"===>"+bookBean.getTitle() + "ReadingCache.loadfromCache()");
-            readingList.add(bookBean);
+            mList.add(bookBean);
         }
+        mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);
         //cursor.close();
-        return readingList;
+        return mList;
     }
 
+    @Override
+    public void load() {
+        for (int i = 0; i < mUrls.length; i++){
+            String url = mUrls[i];
+            Request.Builder builder = new Request.Builder();
+            builder.url(url);
+            Request request = builder.build();
+            HttpUtil.enqueue(request, new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    mHandler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    if (response.isSuccessful() == false){
+                        mHandler.sendEmptyMessage(CONSTANT.ID_FAILURE);
+                        return;
+                    }
+                    Gson gson = new Gson();
+                    BookBean [] bookBeans = gson.fromJson(response.body().string(), ReadingBean.class).getBooks();
+                    for (BookBean bookBean : bookBeans){
+                        mList.add(bookBean);
+                    }
+                    cache();
+                    mHandler.sendEmptyMessage(CONSTANT.ID_SUCCESS);
+                }
+            });
+        }
+    }
 }

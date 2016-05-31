@@ -1,47 +1,65 @@
 package com.mecuryli.xianxia.ui.reading;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-import com.google.gson.Gson;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
 import com.mecuryli.xianxia.cache.cache.ReadingCache;
-import com.mecuryli.xianxia.model.reading.BookBean;
-import com.mecuryli.xianxia.model.reading.ReadingBean;
-import com.mecuryli.xianxia.support.CONSTANT;
-import com.mecuryli.xianxia.support.HttpUtil;
 import com.mecuryli.xianxia.support.Utils;
-import com.mecuryli.xianxia.support.adapter.DividerItemDecoration;
 import com.mecuryli.xianxia.support.adapter.ReadingAdapter;
-import com.mecuryli.xianxia.xianxiaApplication;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.yalantis.phoenix.PullToRefreshView;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
 /**
  * Created by 海飞 on 2016/5/11.
  */
-public class ReadingFragment extends Fragment {
+public class ReadingFragment extends BaseListFragment {
+    private ReadingCache readingCache;
+    private int pos;
+    private String mCategory;
+    private String [] mUrls;
 
-    private View parentView;
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    protected void onCreateCache() {
+        Utils.DLog("ReadingCache" + mUrls.length);
+        readingCache = new ReadingCache(getContext(),handler,mCategory,mUrls);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    protected RecyclerView.Adapter bindAdapter() {
+        return new ReadingAdapter(getContext(),readingCache);
+    }
+
+    @Override
+    protected void loadFromNet() {
+        readingCache.load();
+    }
+
+    @Override
+    protected void loadFromCache() {
+        readingCache.loadFromCache();
+    }
+
+    @Override
+    protected boolean hasData() {
+        return readingCache.hasData();
+    }
+
+    @Override
+    protected void getArgs() {
+        pos = getArguments().getInt(getString(R.string.id_pos));
+        mCategory = getArguments().getString(getString(R.string.id_category));
+        final String[] tags = ReadingApi.getTags(ReadingApi.getApiTag(pos));
+        mUrls = new String[tags.length];
+        for (int i = 0;i<tags.length;i++){
+            mUrls[i] = ReadingApi.searchByTag + tags[i];
+        }
+    }
+
+    /*private View parentView;
     protected PullToRefreshView refreshView;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -201,7 +219,7 @@ public class ReadingFragment extends Fragment {
             }
         });
         thread.start();
-    }
+    }*/
 }
 
 

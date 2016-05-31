@@ -13,15 +13,15 @@ public class NewsBean {
     private String description;
     private String pubTime;
 
-    public int getIS_COLLECTED() {
-        return IS_COLLECTED;
+    public int getIs_collected() {
+        return is_collected;
     }
 
-    public void setIS_COLLECTED(int IS_COLLECTED) {
-        this.IS_COLLECTED = IS_COLLECTED;
+    public void setIs_collected(int is_collected) {
+        this.is_collected = is_collected;
     }
 
-    private int IS_COLLECTED = 0;
+    private int is_collected = 0;
 
     public String getTitle() {
         return title;
