@@ -63,7 +63,7 @@ public class NewsCache extends BaseCache<NewsBean> {
     }
 
     @Override
-    public synchronized List<NewsBean> loadFromCache() {
+    public synchronized void loadFromCache() {
         String sql = null;
         if (mCategory == null){
             sql = "select * from " + table.NAME;
@@ -82,7 +82,6 @@ public class NewsCache extends BaseCache<NewsBean> {
         }
         mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);
         //cursor.close();
-        return mList;
     }
 
     @Override

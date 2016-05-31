@@ -13,32 +13,32 @@ import com.mecuryli.xianxia.ui.support.BaseListFragment;
  */
 public class ScienceFragment extends BaseListFragment {
 
-    private ScienceCache scienceCache;
+    
     private String mCategory;
     private String mUrl;
     @Override
     protected void onCreateCache() {
-        scienceCache = new ScienceCache(getContext(),handler,mCategory,mUrl);
+        cache = new ScienceCache(getContext(),handler,mCategory,mUrl);
     }
 
     @Override
     protected RecyclerView.Adapter bindAdapter() {
-        return new ScienceAdapter(getContext(),scienceCache);
+        return new ScienceAdapter(getContext(),cache);
     }
 
     @Override
     protected void loadFromNet() {
-        scienceCache.load();
+        cache.load();
     }
 
     @Override
     protected void loadFromCache() {
-        scienceCache.loadFromCache();
+        cache.loadFromCache();
     }
 
     @Override
     protected boolean hasData() {
-        return scienceCache.hasData();
+        return cache.hasData();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ScienceFragment extends BaseListFragment {
     private ProgressBar progressBar;
 
     private String category;
-    private ScienceCache cache;
+    private cache cache;
 
     private Thread thread;
 
@@ -104,7 +104,7 @@ public class ScienceFragment extends BaseListFragment {
                 loadNewsFromNet();
             }
         });
-        cache = new ScienceCache(xianxiaApplication.AppContext);
+        cache = new cache(xianxiaApplication.AppContext);
         loadCache();
     }
 

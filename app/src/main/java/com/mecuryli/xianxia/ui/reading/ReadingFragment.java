@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
 import com.mecuryli.xianxia.cache.cache.ReadingCache;
-import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.ReadingAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
@@ -15,7 +14,6 @@ import com.mecuryli.xianxia.ui.support.BaseListFragment;
  * Created by 海飞 on 2016/5/11.
  */
 public class ReadingFragment extends BaseListFragment {
-    private ReadingCache readingCache;
     private int pos;
     private String mCategory;
     private String [] mUrls;
@@ -23,29 +21,28 @@ public class ReadingFragment extends BaseListFragment {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreateCache() {
-        Utils.DLog("ReadingCache" + mUrls.length);
-        readingCache = new ReadingCache(getContext(),handler,mCategory,mUrls);
+        cache = new ReadingCache(getContext(),handler,mCategory,mUrls);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected RecyclerView.Adapter bindAdapter() {
-        return new ReadingAdapter(getContext(),readingCache);
+        return new ReadingAdapter(getContext(),cache);
     }
 
     @Override
     protected void loadFromNet() {
-        readingCache.load();
+        cache.load();
     }
 
     @Override
     protected void loadFromCache() {
-        readingCache.loadFromCache();
+        cache.loadFromCache();
     }
 
     @Override
     protected boolean hasData() {
-        return readingCache.hasData();
+        return cache.hasData();
     }
 
     @Override

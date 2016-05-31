@@ -59,7 +59,7 @@ public class DailyCache extends BaseCache<DailyBean> {
     }
 
     @Override
-    public synchronized List<DailyBean> loadFromCache() {
+    public synchronized void loadFromCache() {
        // String sql = "select * from " + table.NAME;
         String sql = null;
         sql = "select * from " + table.NAME;
@@ -74,7 +74,6 @@ public class DailyCache extends BaseCache<DailyBean> {
         }
         mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);
         cursor.close();
-        return mList;
     }
 
     public void load(){

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.cache.cache.ICache;
 import com.mecuryli.xianxia.support.CONSTANT;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.xianxiaApplication;
@@ -32,12 +33,13 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected ProgressBar progressBar;
 
     protected RecyclerView.Adapter adapter;
+    protected ICache cache;
 
     protected int mLayout = 0;
 
     protected boolean withHeaderTab = true;     //tab标题栏
     protected boolean withRefreshView = true;  //刷新状态
-    protected boolean needCache = true;     //缓存
+    protected boolean needCache = setCache();     //缓存
 
     //子类需要重写的方法
     protected abstract void onCreateCache();
@@ -68,10 +70,13 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(mLayoutManager);
 
+        View view = getActivity().findViewById(R.id.tab_layout);
         if (withHeaderTab){
-            getActivity().findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);;
+            view.setVisibility(View.VISIBLE);;
         }else{
-            getActivity().findViewById(R.id.tab_layout).setVisibility(View.GONE);
+            if (view != null){
+                view.setVisibility(View.GONE);
+            }
         }
 
         if (withRefreshView){
@@ -107,6 +112,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected boolean setCache(){
         return true;
     }
+
     protected Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -123,7 +129,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
                         refreshView.setRefreshing(false);
                     }
                     if (needCache){
-
+                        cache.cache();
                     }
                     break;
                 case CONSTANT.ID_LOAD_FROM_CACHE:

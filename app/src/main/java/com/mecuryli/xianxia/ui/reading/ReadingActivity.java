@@ -5,11 +5,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
+import com.mecuryli.xianxia.cache.cache.ReadingCache;
+import com.mecuryli.xianxia.support.adapter.ReadingAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
 /**
@@ -52,32 +53,37 @@ public class ReadingActivity extends AppCompatActivity {
 
         @Override
         protected void onCreateCache() {
-
+            cache = new ReadingCache(getContext(),handler,null,new String[]{url});
         }
 
         @Override
         protected RecyclerView.Adapter bindAdapter() {
-            return null;
+            return new ReadingAdapter(getContext(),cache);
         }
 
         @Override
         protected void loadFromNet() {
-
+            cache.load();
         }
 
         @Override
         protected void loadFromCache() {
-
+            loadFromNet();
         }
 
         @Override
         protected boolean hasData() {
-            return false;
+            return cache.hasData();
         }
 
         @Override
         protected void getArgs() {
 
+        }
+
+        @Override
+        protected boolean setCache() {
+            return false;
         }
         /*@Override
         protected void getData() {
