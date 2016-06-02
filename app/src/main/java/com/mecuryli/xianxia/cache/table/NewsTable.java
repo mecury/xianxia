@@ -21,6 +21,7 @@ public class NewsTable {
     public static final int ID_CATEGORY = 4;
     public static final int ID_IS_COLLECTED = 5;
 
+    //建立缓存加载的news信息的表
     public static final String CREATE_TABLE = "create table " + NAME +
             "(" + TITLE + " text," +
             PUBTIME + " text," +
@@ -28,22 +29,31 @@ public class NewsTable {
             LINK + " text," +
             CATEGORY + " text," +
             IS_COLLECTED + " integer)";
+
+    //建立缓存“收藏”中news信息的表
     public static final String CREATE_COLLECTION_TABLE = "create table " + COLLECTION_NAME +
-            "(" + COLLECTION_NAME + " text primary key," +
+            "(" + TITLE + " text ," +
             PUBTIME + " text," +
             DESCRIPTION + " text," +
             LINK + " text," +
             CATEGORY + " text)";
 
+    //“收藏”中的搜索语句
+    public static final String SELECT_ALL_FROM_COLLECTION = "select * from " + COLLECTION_NAME;
+
+    //更新“收藏”标志位IS_COLLECTED为 1
     public static final String SQL_INIT_COLLECTION_FLAG = "update " + NAME +
-            " set " + IS_COLLECTED + "=1 where " + TITLE + " in ( select " +
+            " set " + IS_COLLECTED + "= 1 where " + TITLE + " in ( select " +
             TITLE + " from " + COLLECTION_NAME + ")";
 
+    //更新“收藏”标志位IS_COLLECTED 为flag
     public static String updateCollectionFlag(String title, int flag){
-        return "update "+NAME + " set " + IS_COLLECTED + " =" + flag +
-                "where " + TITLE +"=" + title;
+        return "update "+ NAME + " set " + IS_COLLECTED + " =" + flag +
+                " where " + TITLE +"=\'" + title + "\'";
     }
+
+    //删除“收藏”表中，指定为title的项
     public static String deleteCollectionFlag(String title){
-        return "delete from " + COLLECTION_NAME + " where title=" + title;
+        return "delete from " + COLLECTION_NAME + " where title=" +"\'" + title + "\'";
     }
 }

@@ -70,6 +70,7 @@ public class DailyCache extends BaseCache<DailyBean> {
             dailyBean.setImage(cursor.getString(DailyTable.ID_IMAGE));
             //dailyBean.setDescription(cursor.getString(DailyTable.ID_DESCRIPTION));
             //dailyBean.setInfo(cursor.getString(DailyTable.ID_INFO));
+            dailyBean.setIs_collected(cursor.getInt(DailyTable.ID_IS_COLLETED));
             mList.add(dailyBean);
         }
         mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);

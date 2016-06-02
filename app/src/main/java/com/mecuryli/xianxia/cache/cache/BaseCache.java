@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
 import com.mecuryli.xianxia.cache.DatabaseHelper;
+import com.mecuryli.xianxia.support.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public abstract class BaseCache<T> implements ICache<T>{
 
     protected BaseCache(Context context,Handler handler, String category){
         mContext = context;
-        mHelper = DatabaseHelper.getInstance(context);
+        mHelper = DatabaseHelper.instance(context);
         mHandler = handler;
         mCategory = category;
     }
@@ -49,8 +50,8 @@ public abstract class BaseCache<T> implements ICache<T>{
         this(context,handler,null);
     }
 
-    protected abstract void putData();
-    protected abstract void putData(T object);
+    protected abstract void putData();       //向缓存表中添加数据，可添加很多条
+    protected abstract void putData(T object);  //向“收藏”表中添加一条数据
 
     public synchronized void cache(){
         db = mHelper.getWritableDatabase();
@@ -62,7 +63,9 @@ public abstract class BaseCache<T> implements ICache<T>{
         //db.close();
     }
 
+    //将数据项添加到addToCollection项中
     public synchronized void addToCollection(T object){
+
         db = mHelper.getWritableDatabase();
         db.beginTransaction();
         values = new ContentValues();
@@ -82,6 +85,7 @@ public abstract class BaseCache<T> implements ICache<T>{
     public boolean hasData(){
         return !mList.isEmpty();
     }
+
     public abstract void loadFromCache();
 
     protected Cursor query(String sql){

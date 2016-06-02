@@ -13,6 +13,8 @@ public class NewsBean {
     private String description;
     private String pubTime;
 
+    private int is_collected = 0;
+
     public int getIs_collected() {
         return is_collected;
     }
@@ -20,8 +22,6 @@ public class NewsBean {
     public void setIs_collected(int is_collected) {
         this.is_collected = is_collected;
     }
-
-    private int is_collected = 0;
 
     public String getTitle() {
         return title;

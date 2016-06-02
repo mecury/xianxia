@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.support.ScreenUtil;
 import com.mecuryli.xianxia.support.Utils;
+import com.mecuryli.xianxia.ui.collection.BaseCollectionFragment;
 import com.mecuryli.xianxia.ui.daily.DailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
             switchFragment(currentFragment, getString(R.string.news), R.menu.menu_news);
         }else if (currentFragment instanceof BaseScienceFragment){
             switchFragment(currentFragment, getString(R.string.science),R.menu.menu_science);
+        }else if (currentFragment instanceof BaseCollectionFragment){
+            switchFragment(currentFragment,getString(R.string.shake),R.menu.menu_daily);
         }
     }
     //切换fragment
@@ -98,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.news).withIcon(R.mipmap.ic_news).withIdentifier(R.mipmap.ic_news),
                         new PrimaryDrawerItem().withName(R.string.reading).withIcon(R.mipmap.ic_reading).withIdentifier(R.mipmap.ic_reading),
                         new PrimaryDrawerItem().withName(R.string.science).withIcon(R.mipmap.ic_science).withIdentifier(R.mipmap.ic_science),
-                        new PrimaryDrawerItem().withName(R.string.video).withIcon(R.mipmap.ic_video).withIdentifier(R.mipmap.ic_video),
                         new PrimaryDrawerItem().withName(R.string.shake).withIcon(R.mipmap.ic_shake).withIdentifier(R.mipmap.ic_shake),
                         new SectionDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.setting).withIcon(R.mipmap.ic_setting).withIdentifier(R.mipmap.ic_setting),
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "about", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.mipmap.ic_shake:
+                                currentFragment = new BaseCollectionFragment();
                                 Toast.makeText(MainActivity.this, "shake", Toast.LENGTH_SHORT).show();
                                 break;
                         }

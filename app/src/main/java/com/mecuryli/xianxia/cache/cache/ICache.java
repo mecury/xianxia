@@ -7,11 +7,11 @@ import java.util.List;
  */
 //将BaseCahce中的方法抽象了出来
 public interface ICache<T> {
-    void addToCollection(T object);
-    void execSQL(String sql);
-    List<T> getmList();
-    boolean hasData();
-    void load();
-    void loadFromCache();
-    void cache();
+    void addToCollection(T object); //将object加入“收藏”中
+    void execSQL(String sql);   //执行sql语句
+    List<T> getmList();     //获得mlist
+    boolean hasData();         //判断mlist是否有数据
+    void load();            //由网络中加载数据
+    void loadFromCache();   //由缓存中加载数据
+    void cache();   //缓存
 }

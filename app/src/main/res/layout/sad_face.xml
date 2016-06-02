@@ -3,6 +3,7 @@
     android:layout_width="@dimen/image_width"
     android:layout_height="@dimen/image_width"
     android:id="@+id/sad_face"
+    android:background="@drawable/sad_face"
     android:visibility="gone"
     android:layout_gravity="center"
     />

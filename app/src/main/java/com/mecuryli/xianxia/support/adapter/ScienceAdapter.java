@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.cache.cache.ICache;
 import com.mecuryli.xianxia.cache.table.NewsTable;
+import com.mecuryli.xianxia.cache.table.ScienceTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
 
@@ -36,7 +38,7 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final ArticleBean articleBean = getItem(position);
         holder.title.setText(articleBean.getTitle());
         holder.description.setText(articleBean.getSummary());
@@ -56,6 +58,31 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
         });
 
         if (isCollection){
+            holder.collect_cb.setVisibility(View.GONE);
+            holder.text.setVisibility(View.VISIBLE);
+            holder.text.setText(R.string.text_remove);
+            holder.text.setTextSize(20);
+            holder.text.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+            holder.text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Snackbar.make(holder.parentView,R.string.notify_remove_from_collection,Snackbar.LENGTH_SHORT).
+                            setAction(mContext.getString(R.string.text_ok), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (mItems.contains(articleBean)==false){
+                                        return;
+                                    }
+                                    //将“收藏”中将要删除的项的is_collected置为0
+                                    mCache.execSQL(ScienceTable.updateCollectionFlag(articleBean.getTitle(),0));
+                                    //根据title删除表中的项
+                                    mCache.execSQL(ScienceTable.deleteCollectionFlag(articleBean.getTitle()));
+                                    mItems.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            }).show();
+                }
+            });
             return;
         }
 
@@ -64,7 +91,6 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 articleBean.setIs_collected(isChecked ? 1 : 0);
                 mCache.execSQL(NewsTable.updateCollectionFlag(articleBean.getTitle(), isChecked ? 1 : 0));
-                mCache.execSQL(NewsTable.updateCollectionFlag(articleBean.getTitle(), isChecked ? 1 : 0));
                 if (isChecked) {
                     mCache.addToCollection(articleBean);
                 } else {
@@ -72,6 +98,7 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
                 }
             }
         });
+
         holder.collect_cb.setChecked(articleBean.getIs_collected() == 1 ? true:false);
 
     }
@@ -85,6 +112,7 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
         private TextView comment;
         private SimpleDraweeView image;
         private CheckBox collect_cb;
+        private TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -94,10 +122,8 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
             info = (TextView) parentView.findViewById(R.id.info);
             image = (SimpleDraweeView) parentView.findViewById(R.id.image);
             comment = (TextView) parentView.findViewById(R.id.comment);
-
-            if (isCollection == false){
-                collect_cb = (CheckBox) parentView.findViewById(R.id.collect_cb);
-            }
+            collect_cb = (CheckBox) parentView.findViewById(R.id.collect_cb);
+            text = (TextView) parentView.findViewById(R.id.text);
         }
     }
 }

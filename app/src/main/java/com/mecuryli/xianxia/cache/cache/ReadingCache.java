@@ -57,7 +57,7 @@ public class ReadingCache extends BaseCache<BookBean> {
         values.put(ReadingTable.CATALOG, bookBean.getCatalog()==null ? "" : bookBean.getCatalog());
         values.put(ReadingTable.EBOOK_URL, bookBean.getEbook_url()==null ? "" : bookBean.getEbook_url());
         values.put(ReadingTable.SUMMARY, bookBean.getSummary()==null ? "" : bookBean.getSummary());
-        db.insert(ReadingTable.NAME,null, values);
+        db.insert(ReadingTable.COLLECTION_NAME,null, values);
     }
 
     @Override

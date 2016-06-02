@@ -1,46 +1,37 @@
 package com.mecuryli.xianxia.cache.cache.Collection;
 
-import com.mecuryli.xianxia.cache.cache.ICache;
-import com.mecuryli.xianxia.cache.cache.ScienceCache;
+import android.database.Cursor;
+import android.os.Handler;
 
-import java.util.List;
+import com.mecuryli.xianxia.cache.cache.BaseCollectionCache;
+import com.mecuryli.xianxia.cache.table.ScienceTable;
+import com.mecuryli.xianxia.model.science.ArticleBean;
+import com.mecuryli.xianxia.support.CONSTANT;
 
 /**
  * Created by 海飞 on 2016/5/31.
  */
-public class CollectionScienceCache implements ICache<ScienceCache> {
-    @Override
-    public void addToCollection(ScienceCache object) {
+public class CollectionScienceCache extends BaseCollectionCache<ArticleBean> {
 
-    }
+    ScienceTable table;
 
-    @Override
-    public void execSQL(String sql) {
-
-    }
-
-    @Override
-    public List<ScienceCache> getmList() {
-        return null;
-    }
-
-    @Override
-    public boolean hasData() {
-        return false;
-    }
-
-    @Override
-    public void load() {
-
+    public CollectionScienceCache(Handler mHandler) {
+        super(mHandler);
     }
 
     @Override
     public void loadFromCache() {
-
-    }
-
-    @Override
-    public void cache() {
-
+        Cursor cursor = query(table.SELECT_ALL_FROM_COLLECTION);
+        while(cursor.moveToNext()){
+            ArticleBean articleBean = new ArticleBean();
+            articleBean.setTitle(cursor.getString(ScienceTable.ID_TITLE));
+            articleBean.setSummary(cursor.getString(ScienceTable.ID_DESCRIPTION));
+            articleBean.getImage_info().setUrl(cursor.getString(ScienceTable.ID_IMAGE));
+            articleBean.setReplies_count(cursor.getInt(ScienceTable.ID_COMMENT_COUNT));
+            articleBean.setInfo(cursor.getString(ScienceTable.ID_INFO));
+            articleBean.setUrl(cursor.getString(ScienceTable.ID_URL));
+            mList.add(articleBean);
+        }
+        mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);
     }
 }

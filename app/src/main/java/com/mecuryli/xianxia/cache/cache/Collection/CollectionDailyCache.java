@@ -1,17 +1,24 @@
 package com.mecuryli.xianxia.cache.cache.Collection;
 
 import android.database.Cursor;
+import android.os.Handler;
 
 import com.mecuryli.xianxia.cache.cache.BaseCollectionCache;
 import com.mecuryli.xianxia.cache.table.DailyTable;
 import com.mecuryli.xianxia.model.Daily.DailyBean;
 import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.Utils;
 
 /**
  * Created by 海飞 on 2016/5/31.
  */
 public class CollectionDailyCache extends BaseCollectionCache<DailyBean> {
+
     private DailyTable table;
+
+    public CollectionDailyCache(Handler mHandler) {
+        super(mHandler);
+    }
 
     @Override
     public synchronized void loadFromCache() {

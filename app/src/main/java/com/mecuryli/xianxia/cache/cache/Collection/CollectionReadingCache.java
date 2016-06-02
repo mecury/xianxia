@@ -1,46 +1,38 @@
 package com.mecuryli.xianxia.cache.cache.Collection;
 
-import com.mecuryli.xianxia.cache.cache.ICache;
-import com.mecuryli.xianxia.model.reading.ReadingBean;
+import android.database.Cursor;
+import android.os.Handler;
 
-import java.util.List;
+import com.mecuryli.xianxia.cache.cache.BaseCollectionCache;
+import com.mecuryli.xianxia.cache.table.ReadingTable;
+import com.mecuryli.xianxia.model.reading.BookBean;
+import com.mecuryli.xianxia.support.CONSTANT;
 
 /**
  * Created by 海飞 on 2016/5/31.
  */
-public class CollectionReadingCache implements ICache<ReadingBean> {
-    @Override
-    public void addToCollection(ReadingBean object) {
+public class CollectionReadingCache extends BaseCollectionCache<BookBean> {
 
-    }
+    ReadingTable table;
 
-    @Override
-    public void execSQL(String sql) {
-
-    }
-
-    @Override
-    public List<ReadingBean> getmList() {
-        return null;
-    }
-
-    @Override
-    public boolean hasData() {
-        return false;
-    }
-
-    @Override
-    public void load() {
-
+    public CollectionReadingCache(Handler mHandler) {
+        super(mHandler);
     }
 
     @Override
     public void loadFromCache() {
-
-    }
-
-    @Override
-    public void cache() {
-
+        Cursor cursor = query(table.SELECT_ALL_FROM_COLLECTION);
+        while(cursor.moveToNext()){
+            BookBean bookBean = new BookBean();
+            bookBean.setTitle(cursor.getString(table.ID_TITLE));
+            bookBean.setInfo(cursor.getString(table.ID_INFO));
+            bookBean.setImage(cursor.getString(table.ID_IMAGE));
+            bookBean.setAuthor_intro(cursor.getString(table.ID_AUTHOR_INTRO));
+            bookBean.setCatalog(cursor.getString(table.ID_CATELOG));
+            bookBean.setEbook_url(cursor.getString(table.ID_EBOOK_URL));
+            bookBean.setSummary(cursor.getString(table.ID_SUMMARY));
+            mList.add(bookBean);
+        }
+        mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);
     }
 }

@@ -31,14 +31,12 @@ public class NewsCache extends BaseCache<NewsBean> {
 
     public NewsCache(Context context, Handler handler, String category, String url) {
         super(context,handler,category,url);
-        table = new NewsTable();
     }
 
     @Override
     protected void putData() {
         db.execSQL(mHelper.DROP_TABLE + table.NAME);
         db.execSQL(table.CREATE_TABLE);
-
         for (int i = 0; i<mList.size(); i++){
             NewsBean newsBean = mList.get(i);
             values.put(NewsTable.TITLE, newsBean.getTitle());
@@ -55,7 +53,7 @@ public class NewsCache extends BaseCache<NewsBean> {
     @Override
     protected void putData(NewsBean newsBean) {
         values.put(NewsTable.TITLE, newsBean.getTitle());
-        values.put(NewsTable.DESCRIPTION, newsBean.getTitle());
+        values.put(NewsTable.DESCRIPTION, newsBean.getDescription());
         values.put(NewsTable.PUBTIME, newsBean.getPubTime());
         values.put(NewsTable.LINK, newsBean.getLink());
         db.insert(NewsTable.COLLECTION_NAME, null,values);

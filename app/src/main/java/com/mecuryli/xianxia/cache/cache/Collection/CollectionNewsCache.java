@@ -1,46 +1,36 @@
 package com.mecuryli.xianxia.cache.cache.Collection;
 
-import com.mecuryli.xianxia.cache.cache.ICache;
-import com.mecuryli.xianxia.model.news.NewsBean;
+import android.database.Cursor;
+import android.os.Handler;
 
-import java.util.List;
+import com.mecuryli.xianxia.cache.cache.BaseCollectionCache;
+import com.mecuryli.xianxia.cache.table.NewsTable;
+import com.mecuryli.xianxia.model.news.NewsBean;
+import com.mecuryli.xianxia.support.CONSTANT;
+import com.mecuryli.xianxia.support.Utils;
 
 /**
  * Created by 海飞 on 2016/5/31.
  */
-public class CollectionNewsCache implements ICache<NewsBean> {
-    @Override
-    public void addToCollection(NewsBean object) {
+public class CollectionNewsCache extends BaseCollectionCache<NewsBean> {
 
-    }
+    private NewsTable table;
 
-    @Override
-    public void execSQL(String sql) {
-
-    }
-
-    @Override
-    public List<NewsBean> getmList() {
-        return null;
-    }
-
-    @Override
-    public boolean hasData() {
-        return false;
-    }
-
-    @Override
-    public void load() {
-
+    public CollectionNewsCache(Handler mHandler) {
+        super(mHandler);
     }
 
     @Override
     public void loadFromCache() {
-
-    }
-
-    @Override
-    public void cache() {
-
+        Cursor cursor = query(table.SELECT_ALL_FROM_COLLECTION);
+        while(cursor.moveToNext()){
+            NewsBean newsBean = new NewsBean();
+            newsBean.setTitle(cursor.getString(table.ID_TITLE));
+            newsBean.setDescription(cursor.getString(table.ID_DESCRIPTION));
+            newsBean.setLink(cursor.getString(table.ID_LINK));
+            newsBean.setPubTime(cursor.getString(table.ID_PUBTIME));
+            mList.add(newsBean);
+        }
+        mHandler.sendEmptyMessage(CONSTANT.ID_LOAD_FROM_CACHE);
     }
 }

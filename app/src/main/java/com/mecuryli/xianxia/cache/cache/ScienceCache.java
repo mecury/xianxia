@@ -16,7 +16,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by 海飞 on 2016/5/26.
@@ -38,7 +37,7 @@ public class ScienceCache extends BaseCache<ArticleBean> {
             values.put(ScienceTable.TITLE,articleBean.getTitle());
             values.put(ScienceTable.DESCRIPTION,articleBean.getSummary());
             values.put(ScienceTable.IMAGE,articleBean.getImage_info().getUrl());
-            values.put(ScienceTable.COMMENT_COUNT,articleBean.getReplies_count());
+            //values.put(ScienceTable.COMMENT_COUNT,articleBean.getReplies_count());
             values.put(ScienceTable.INFO,articleBean.getInfo());
             values.put(ScienceTable.URL, articleBean.getUrl());
             values.put(ScienceTable.CATEGORY,mCategory);
@@ -53,7 +52,7 @@ public class ScienceCache extends BaseCache<ArticleBean> {
         values.put(ScienceTable.TITLE,articleBean.getTitle());
         values.put(ScienceTable.DESCRIPTION,articleBean.getSummary());
         values.put(ScienceTable.IMAGE,articleBean.getImage_info().getUrl());
-        values.put(ScienceTable.COMMENT_COUNT,articleBean.getReplies_count());
+        //values.put(ScienceTable.COMMENT_COUNT,articleBean.getReplies_count());
         values.put(ScienceTable.INFO,articleBean.getInfo());
         values.put(ScienceTable.URL, articleBean.getUrl());
         db.insert(ScienceTable.COLLECTION_NAME, null, values);

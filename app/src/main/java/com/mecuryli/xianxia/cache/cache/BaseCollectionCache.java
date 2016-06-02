@@ -1,12 +1,11 @@
 package com.mecuryli.xianxia.cache.cache;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
 import com.mecuryli.xianxia.cache.DatabaseHelper;
+import com.mecuryli.xianxia.xianxiaApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +16,17 @@ import java.util.List;
  */
 public abstract class BaseCollectionCache<T> implements ICache<T> {
 
-    protected Context mContext;
     protected DatabaseHelper mHelper;
     protected SQLiteDatabase db;
-    protected ContentValues values;
 
     protected List<T> mList = new ArrayList<>();
 
     protected Handler mHandler;
+
+    public BaseCollectionCache(Handler mHandler){
+        this.mHandler = mHandler;
+        mHelper = DatabaseHelper.instance(xianxiaApplication.AppContext);
+    }
 
     @Override
     public void addToCollection(T object) {
@@ -33,7 +35,8 @@ public abstract class BaseCollectionCache<T> implements ICache<T> {
 
     @Override
     public void execSQL(String sql) {
-
+        db = mHelper.getWritableDatabase();
+        db.execSQL(sql);
     }
 
     @Override
@@ -43,7 +46,7 @@ public abstract class BaseCollectionCache<T> implements ICache<T> {
 
     @Override
     public boolean hasData() {
-        return mList.isEmpty();
+        return !mList.isEmpty();
     }
 
     @Override

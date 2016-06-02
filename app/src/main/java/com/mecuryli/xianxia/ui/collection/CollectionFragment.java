@@ -25,22 +25,23 @@ public class CollectionFragment extends BaseListFragment {
     protected void onCreateCache() {
         switch (pos){
             case 0:
-                cache = new CollectionDailyCache();
+                cache = new CollectionDailyCache(handler);
                 break;
             case 1:
-                cache = new CollectionReadingCache();
+                cache = new CollectionReadingCache(handler);
                 break;
             case 2:
-                cache = new CollectionNewsCache();
+                cache = new CollectionNewsCache(handler);
                 break;
             case 3:
-                cache = new CollectionScienceCache();
+                cache = new CollectionScienceCache(handler);
                 break;
         }
     }
 
     @Override
     protected RecyclerView.Adapter bindAdapter() {
+
         switch (pos){
             case 0:
                 return new DailyAdapter(getContext(),cache);

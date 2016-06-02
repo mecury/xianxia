@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.cache.cache.NewsCache;
-import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.NewsAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
@@ -17,35 +16,34 @@ import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
 public class NewsFragment extends BaseListFragment {
 
-    private NewsCache newsCache;
     private String mUrl;
     private String mCategory;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreateCache() {
-        newsCache = new NewsCache(getContext(),handler,mCategory,mUrl);
+        cache = new NewsCache(getContext(),handler,mCategory,mUrl);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected RecyclerView.Adapter bindAdapter() {
-        return new NewsAdapter(getContext(),newsCache);
+        return new NewsAdapter(getContext(),cache);
     }
 
     @Override
     protected void loadFromNet() {
-        newsCache.load();
+        cache.load();
     }
 
     @Override
     protected void loadFromCache() {
-        newsCache.loadFromCache();
+        cache.loadFromCache();
     }
 
     @Override
     protected boolean hasData() {
-        return newsCache.hasData();
+        return cache.hasData();
     }
 
     @Override

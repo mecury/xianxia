@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final BookBean bookBean = getItem(position);
         holder.titles.setText(bookBean.getTitle());
         holder.info.setText(bookBean.getInfo());
@@ -61,9 +62,32 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
             holder.parentView.setBackground(mContext.getResources().getDrawable(R.drawable.item_bg, null));
         }
 
-        Utils.DLog("ReadingAdapter====>"+isCollection);
-
         if (isCollection){
+            holder.collect_cb.setVisibility(View.GONE);
+            holder.text.setVisibility(View.VISIBLE);
+            holder.text.setText(R.string.text_remove);
+            holder.text.setTextSize(20);
+            holder.text.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+            holder.text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Snackbar.make(holder.parentView,R.string.notify_remove_from_collection,Snackbar.LENGTH_SHORT).
+                            setAction(mContext.getString(R.string.text_ok), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (mItems.contains(bookBean) == false){
+                                        return;
+                                    }
+                                    //将“收藏”中将要删除的项的is_collected置为0
+                                    mCache.execSQL(ReadingTable.updateCollectionFlag(bookBean.getTitle(),0));
+                                    //根据title删除表中的项
+                                    mCache.execSQL(ReadingTable.deleteCollectionFlag(bookBean.getTitle()));
+                                    mItems.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            }).show();
+                }
+            });
             return;
         }
 
@@ -79,6 +103,7 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
                 }
             }
         });
+
         holder.collect_cb.setChecked(bookBean.getIs_collected()==1 ? true : false);
     }
 
@@ -89,6 +114,8 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
         private TextView titles;
         private TextView info;
         private CheckBox collect_cb;
+        private TextView text;
+
         public ViewHolder(View itemView) {
             super(itemView);
             parentView = itemView;
@@ -96,6 +123,7 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
             titles = (TextView) itemView.findViewById(R.id.bookTitle);
             info = (TextView) itemView.findViewById(R.id.bookInfo);
             collect_cb = (CheckBox) parentView.findViewById(R.id.collect_cb);
+            text = (TextView) parentView.findViewById(R.id.text);
         }
     }
 }

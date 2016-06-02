@@ -39,11 +39,13 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
 
     protected boolean withHeaderTab = true;     //tab标题栏
     protected boolean withRefreshView = true;  //刷新状态
-    protected boolean needCache = setCache();     //缓存
+    protected boolean needCache = true;     //缓存
 
     //子类需要重写的方法
     protected abstract void onCreateCache();
+
     protected abstract RecyclerView.Adapter bindAdapter();
+
     protected abstract void loadFromNet();
     protected abstract void loadFromCache();
     protected abstract boolean hasData();
@@ -53,6 +55,8 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setLayout();
+        needCache = setCache();
+        getArgs();
         parentView = inflater.inflate(mLayout,container,false);
         withHeaderTab = setHeaderTab();
         withRefreshView = setRefreshView();
@@ -60,7 +64,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         progressBar = (ProgressBar) parentView.findViewById(R.id.progressbar);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
         placeHolder = (ImageView) parentView.findViewById(R.id.placeholder);
-        getArgs();
+
         onCreateCache();
 
         adapter = bindAdapter();
@@ -72,7 +76,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
 
         View view = getActivity().findViewById(R.id.tab_layout);
         if (withHeaderTab){
-            view.setVisibility(View.VISIBLE);;
+            view.setVisibility(View.VISIBLE);
         }else{
             if (view != null){
                 view.setVisibility(View.GONE);
@@ -96,19 +100,20 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
                 }
             });
         }
-        loadFromNet();
+        loadFromCache();
         return parentView;
     }
 
     protected boolean setHeaderTab(){
         return true;
-    }
+    }    //tab切换标题栏
     protected boolean setRefreshView(){
         return true;
     }
     protected void setLayout(){
         mLayout = R.layout.layout_commont_list;
     }
+
     protected boolean setCache(){
         return true;
     }
@@ -138,6 +143,9 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
                         return false;
                     }
                     break;
+            }
+            if (withRefreshView){
+                refreshView.setRefreshing(false);
             }
 
             if (hasData()){

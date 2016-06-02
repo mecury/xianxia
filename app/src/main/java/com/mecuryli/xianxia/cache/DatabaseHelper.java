@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public static synchronized DatabaseHelper getInstance(Context context){
+    public static synchronized DatabaseHelper instance(Context context){
         if (instance == null){
             instance = new DatabaseHelper(context,DB_NAME,null,DB_VERSION);
         }

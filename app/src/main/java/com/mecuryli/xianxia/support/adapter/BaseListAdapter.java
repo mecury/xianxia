@@ -16,7 +16,7 @@ public abstract class BaseListAdapter<M,VH extends RecyclerView.ViewHolder> exte
     protected Context mContext;
     protected ICache<M> mCache;
 
-    protected boolean isCollection = false;  //“收藏”状态
+    protected boolean isCollection = false;  //“收藏”状态,false表示不收藏
     protected int mItemLayout = 0;
 
     public BaseListAdapter(Context context, ICache<M> cache){
