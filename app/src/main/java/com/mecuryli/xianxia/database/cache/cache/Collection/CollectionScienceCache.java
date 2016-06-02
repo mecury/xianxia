@@ -1,10 +1,10 @@
-package com.mecuryli.xianxia.cache.cache.Collection;
+package com.mecuryli.xianxia.database.cache.cache.Collection;
 
 import android.database.Cursor;
 import android.os.Handler;
 
-import com.mecuryli.xianxia.cache.cache.BaseCollectionCache;
-import com.mecuryli.xianxia.cache.table.ScienceTable;
+import com.mecuryli.xianxia.database.cache.cache.BaseCollectionCache;
+import com.mecuryli.xianxia.database.cache.table.ScienceTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.support.CONSTANT;
 

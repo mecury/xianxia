@@ -1,12 +1,11 @@
-package com.mecuryli.xianxia.cache.cache;
+package com.mecuryli.xianxia.database.cache.cache;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
 
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.api.DailyApi;
-import com.mecuryli.xianxia.cache.table.DailyTable;
+import com.mecuryli.xianxia.database.cache.table.DailyTable;
 import com.mecuryli.xianxia.model.Daily.DailyBean;
 import com.mecuryli.xianxia.model.Daily.DailyMain;
 import com.mecuryli.xianxia.model.Daily.DailyStories;
@@ -27,8 +26,8 @@ public class DailyCache extends BaseCache<DailyBean> {
 
     private DailyTable table;
 
-    public DailyCache(Context context, Handler handler) {
-        super(context, handler);
+    public DailyCache(Handler handler) {
+        super(handler);
     }
 
     @Override

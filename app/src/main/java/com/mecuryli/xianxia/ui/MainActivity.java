@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.support.ScreenUtil;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.about.AboutActivity;
 import com.mecuryli.xianxia.ui.collection.BaseCollectionFragment;
@@ -36,6 +35,9 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -48,12 +50,21 @@ public class MainActivity extends AppCompatActivity {
     private Fragment currentFragment;
     private Menu menu;
 
+    List<Fragment> list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ScreenUtil.init(this);
         initData();
+
+        list = new ArrayList<>();
+        list.add(new DailyFragment());
+        list.add(new BaseReadingFragment());
+        list.add(new BaseNewsFragment());
+        list.add(new BaseScienceFragment());
+        list.add(new BaseCollectionFragment());
+
         currentFragment = new DailyFragment();
         switchFragment();
     }
@@ -69,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }else if (currentFragment instanceof BaseScienceFragment){
             switchFragment(currentFragment, getString(R.string.science),R.menu.menu_science);
         }else if (currentFragment instanceof BaseCollectionFragment){
-            switchFragment(currentFragment,getString(R.string.shake),R.menu.menu_daily);
+            switchFragment(currentFragment,getString(R.string.text_collection),R.menu.menu_daily);
         }
     }
     //切换fragment
@@ -83,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             getMenuInflater().inflate(resourceMenu, menu);
         }
         currentFragment = null;
+        fragment = null;
     }
 
 
@@ -115,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.reading).withIcon(R.mipmap.ic_reading).withIdentifier(R.mipmap.ic_reading),
                         new PrimaryDrawerItem().withName(R.string.science).withIcon(R.mipmap.ic_science).withIdentifier(R.mipmap.ic_science),
                         new SectionDrawerItem().withName(R.string.app_name),
-                        new PrimaryDrawerItem().withName(R.string.text_collection).withIcon(R.mipmap.ic_shake).withIdentifier(R.mipmap.ic_shake),
+                        new SecondaryDrawerItem().withName(R.string.id_collection).withIcon(R.mipmap.ic_collect).withIdentifier(R.mipmap.ic_collect),
                         new SecondaryDrawerItem().withName(R.string.about).withIcon(R.mipmap.ic_about).withIdentifier(R.mipmap.ic_about)
                 ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -150,10 +162,10 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 return false;
                             case R.mipmap.ic_collect:
-                                currentFragment = new BaseCollectionFragment();
                                 if (currentFragment instanceof BaseCollectionFragment){
                                     return false;
                                 }
+                                currentFragment = new BaseCollectionFragment();
                                 break;
                         }
                         switchFragment();

@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.cache.cache.ICache;
-import com.mecuryli.xianxia.cache.table.NewsTable;
-import com.mecuryli.xianxia.cache.table.ScienceTable;
+import com.mecuryli.xianxia.database.cache.cache.ICache;
+import com.mecuryli.xianxia.database.cache.table.NewsTable;
+import com.mecuryli.xianxia.database.cache.table.ScienceTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
 

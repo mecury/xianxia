@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.cache.cache;
+package com.mecuryli.xianxia.database.cache.cache;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
 import com.mecuryli.xianxia.database.DatabaseHelper;
+import com.mecuryli.xianxia.xianxiaApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by 海飞 on 2016/5/26.
  */
 public abstract class BaseCache<T> implements ICache<T>{
-    protected Context mContext;
+    protected Context mContext = xianxiaApplication.AppContext;
     protected DatabaseHelper mHelper;
     protected SQLiteDatabase db;
 
@@ -28,25 +29,24 @@ public abstract class BaseCache<T> implements ICache<T>{
     protected String mUrl;
     protected String[] mUrls;
 
-    protected BaseCache(Context context,Handler handler, String category){
-        mContext = context;
-        mHelper = DatabaseHelper.instance(context);
+    protected BaseCache(Handler handler, String category){
+        mHelper = DatabaseHelper.instance(mContext);
         mHandler = handler;
         mCategory = category;
     }
 
-    protected BaseCache(Context context,Handler handler, String category,String[] urls){
-        this(context,handler,category);
+    protected BaseCache(Handler handler, String category,String[] urls){
+        this(handler,category);
         mUrls = urls;
     }
 
-    protected BaseCache(Context context,Handler handler, String category, String url){
-        this(context,handler,category);
+    protected BaseCache(Handler handler, String category, String url){
+        this(handler,category);
         mUrl = url;
     }
 
-    protected BaseCache(Context context, Handler handler){
-        this(context,handler,null);
+    protected BaseCache( Handler handler){
+        this(handler,null);
     }
 
     protected abstract void putData();       //向缓存表中添加数据，可添加很多条

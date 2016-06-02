@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ScienceApi;
-import com.mecuryli.xianxia.cache.cache.ScienceCache;
+import com.mecuryli.xianxia.database.cache.cache.ScienceCache;
 import com.mecuryli.xianxia.support.adapter.ScienceAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
@@ -18,7 +18,7 @@ public class ScienceFragment extends BaseListFragment {
     private String mUrl;
     @Override
     protected void onCreateCache() {
-        cache = new ScienceCache(getContext(),handler,mCategory,mUrl);
+        cache = new ScienceCache(handler,mCategory,mUrl);
     }
 
     @Override

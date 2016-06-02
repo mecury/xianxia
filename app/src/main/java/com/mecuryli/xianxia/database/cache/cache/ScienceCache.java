@@ -1,11 +1,10 @@
-package com.mecuryli.xianxia.cache.cache;
+package com.mecuryli.xianxia.database.cache.cache;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
 
 import com.google.gson.Gson;
-import com.mecuryli.xianxia.cache.table.ScienceTable;
+import com.mecuryli.xianxia.database.cache.table.ScienceTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.model.science.ScienceBean;
 import com.mecuryli.xianxia.support.CONSTANT;
@@ -23,8 +22,8 @@ import java.io.IOException;
 public class ScienceCache extends BaseCache<ArticleBean> {
 
     private ScienceTable table;
-    public ScienceCache(Context context, Handler handler, String category, String url) {
-        super(context, handler, category, url);
+    public ScienceCache(Handler handler, String category, String url) {
+        super(handler, category, url);
     }
 
     @Override

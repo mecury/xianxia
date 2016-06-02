@@ -16,7 +16,8 @@
             android:layout_height="match_parent"/>
     </com.yalantis.phoenix.PullToRefreshView>
 
-    <include layout="@layout/sad_face"/>
+    <include android:id="@+id/placeholder"
+        layout="@layout/no_message" />
     <ProgressBar
         android:id="@+id/progressbar"
         android:layout_gravity="center"

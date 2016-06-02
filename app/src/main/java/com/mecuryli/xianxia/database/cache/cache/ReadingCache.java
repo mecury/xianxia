@@ -1,11 +1,10 @@
-package com.mecuryli.xianxia.cache.cache;
+package com.mecuryli.xianxia.database.cache.cache;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
 
 import com.google.gson.Gson;
-import com.mecuryli.xianxia.cache.table.ReadingTable;
+import com.mecuryli.xianxia.database.cache.table.ReadingTable;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.model.reading.ReadingBean;
 import com.mecuryli.xianxia.support.CONSTANT;
@@ -23,8 +22,8 @@ public class ReadingCache extends BaseCache<BookBean> {
 
     private ReadingTable table;
 
-    public ReadingCache(Context context, Handler handler, String category,String[] urls) {
-        super(context,handler,category,urls);
+    public ReadingCache(Handler handler, String category,String[] urls) {
+        super(handler,category,urls);
     }
 
     @Override

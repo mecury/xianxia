@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
-import com.mecuryli.xianxia.cache.cache.ReadingCache;
+import com.mecuryli.xianxia.database.cache.cache.ReadingCache;
 import com.mecuryli.xianxia.support.adapter.ReadingAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
@@ -21,7 +21,7 @@ public class ReadingFragment extends BaseListFragment {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreateCache() {
-        cache = new ReadingCache(getContext(),handler,mCategory,mUrls);
+        cache = new ReadingCache(handler,mCategory,mUrls);
     }
 
     @TargetApi(Build.VERSION_CODES.M)

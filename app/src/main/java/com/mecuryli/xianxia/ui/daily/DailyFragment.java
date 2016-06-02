@@ -4,7 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 
-import com.mecuryli.xianxia.cache.cache.DailyCache;
+import com.mecuryli.xianxia.database.cache.cache.DailyCache;
 import com.mecuryli.xianxia.support.adapter.DailyAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
@@ -22,7 +22,7 @@ public class DailyFragment extends BaseListFragment {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreateCache() {
-        cache = new DailyCache(getContext(),handler);
+        cache = new DailyCache(handler);
     }
 
     @TargetApi(Build.VERSION_CODES.M)

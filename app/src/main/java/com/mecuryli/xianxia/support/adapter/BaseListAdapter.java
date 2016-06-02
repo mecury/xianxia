@@ -3,8 +3,8 @@ package com.mecuryli.xianxia.support.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.mecuryli.xianxia.cache.cache.BaseCollectionCache;
-import com.mecuryli.xianxia.cache.cache.ICache;
+import com.mecuryli.xianxia.database.cache.cache.BaseCollectionCache;
+import com.mecuryli.xianxia.database.cache.cache.ICache;
 
 import java.util.List;
 
@@ -17,7 +17,6 @@ public abstract class BaseListAdapter<M,VH extends RecyclerView.ViewHolder> exte
     protected ICache<M> mCache;
 
     protected boolean isCollection = false;  //“收藏”状态,false表示不收藏
-    protected int mItemLayout = 0;
 
     public BaseListAdapter(Context context, ICache<M> cache){
         mContext = context;

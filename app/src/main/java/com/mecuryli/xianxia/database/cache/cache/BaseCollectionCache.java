@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.cache.cache;
+package com.mecuryli.xianxia.database.cache.cache;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.cache.cache.ICache;
-import com.mecuryli.xianxia.cache.table.DailyTable;
+import com.mecuryli.xianxia.database.cache.cache.ICache;
+import com.mecuryli.xianxia.database.cache.table.DailyTable;
 import com.mecuryli.xianxia.model.Daily.DailyBean;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DailyAdapter.ViewHolder;

@@ -1,10 +1,9 @@
-package com.mecuryli.xianxia.cache.cache;
+package com.mecuryli.xianxia.database.cache.cache;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
 
-import com.mecuryli.xianxia.cache.table.NewsTable;
+import com.mecuryli.xianxia.database.cache.table.NewsTable;
 import com.mecuryli.xianxia.model.news.NewsBean;
 import com.mecuryli.xianxia.support.CONSTANT;
 import com.mecuryli.xianxia.support.HttpUtil;
@@ -29,8 +28,8 @@ public class NewsCache extends BaseCache<NewsBean> {
 
     private NewsTable table; //由于缓存的表
 
-    public NewsCache(Context context, Handler handler, String category, String url) {
-        super(context,handler,category,url);
+    public NewsCache(Handler handler, String category, String url) {
+        super(handler,category,url);
     }
 
     @Override

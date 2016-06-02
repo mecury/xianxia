@@ -5,7 +5,7 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.cache.cache.NewsCache;
+import com.mecuryli.xianxia.database.cache.cache.NewsCache;
 import com.mecuryli.xianxia.support.adapter.NewsAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
@@ -22,7 +22,7 @@ public class NewsFragment extends BaseListFragment {
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreateCache() {
-        cache = new NewsCache(getContext(),handler,mCategory,mUrl);
+        cache = new NewsCache(handler,mCategory,mUrl);
     }
 
     @TargetApi(Build.VERSION_CODES.M)

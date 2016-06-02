@@ -39,13 +39,4 @@ public abstract class AbsTopNavigationFragment extends android.support.v4.app.Fr
         return parentView;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        parentView = null;
-        viewPager = null;
-        pagerAdapter = null;
-        smartTablayout.setVisibility(View.GONE);
-        smartTablayout = null;
-    }
 }

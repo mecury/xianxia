@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.api.ReadingApi;
-import com.mecuryli.xianxia.cache.cache.ReadingCache;
+import com.mecuryli.xianxia.database.cache.cache.ReadingCache;
 import com.mecuryli.xianxia.support.adapter.ReadingAdapter;
 import com.mecuryli.xianxia.ui.support.BaseListFragment;
 
@@ -53,7 +53,7 @@ public class ReadingActivity extends AppCompatActivity {
 
         @Override
         protected void onCreateCache() {
-            cache = new ReadingCache(getContext(),handler,null,new String[]{url});
+            cache = new ReadingCache(handler,null,new String[]{url});
         }
 
         @Override

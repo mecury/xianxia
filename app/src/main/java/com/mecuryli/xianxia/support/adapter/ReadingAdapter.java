@@ -1,8 +1,10 @@
 package com.mecuryli.xianxia.support.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +17,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.cache.cache.ICache;
-import com.mecuryli.xianxia.cache.table.ReadingTable;
+import com.mecuryli.xianxia.database.cache.cache.ICache;
+import com.mecuryli.xianxia.database.cache.table.ReadingTable;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
@@ -38,6 +40,7 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
         return vh;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final BookBean bookBean = getItem(position);
