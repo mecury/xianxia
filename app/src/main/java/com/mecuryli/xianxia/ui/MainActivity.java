@@ -14,11 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.support.ScreenUtil;
 import com.mecuryli.xianxia.support.Utils;
+import com.mecuryli.xianxia.ui.about.AboutActivity;
 import com.mecuryli.xianxia.ui.collection.BaseCollectionFragment;
 import com.mecuryli.xianxia.ui.daily.DailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
@@ -30,9 +30,11 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
         header = new AccountHeaderBuilder().withActivity(this)
                 .withCompactStyle(false)
                 .withHeaderBackground(R.drawable.header)
+                .addProfiles(new ProfileDrawerItem().withIcon(R.drawable.logo)
+                    .withEmail(getString(R.string.author_email))
+                    .withName(getString(R.string.author_name)))
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
+                        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                        startActivity(intent);
+                        return false;
+                    }
+                })
                 .build();
         drawer = new DrawerBuilder().withActivity(this)
                 .withToolbar(toolbar)
@@ -101,9 +114,8 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.news).withIcon(R.mipmap.ic_news).withIdentifier(R.mipmap.ic_news),
                         new PrimaryDrawerItem().withName(R.string.reading).withIcon(R.mipmap.ic_reading).withIdentifier(R.mipmap.ic_reading),
                         new PrimaryDrawerItem().withName(R.string.science).withIcon(R.mipmap.ic_science).withIdentifier(R.mipmap.ic_science),
-                        new PrimaryDrawerItem().withName(R.string.shake).withIcon(R.mipmap.ic_shake).withIdentifier(R.mipmap.ic_shake),
-                        new SectionDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.setting).withIcon(R.mipmap.ic_setting).withIdentifier(R.mipmap.ic_setting),
+                        new SectionDrawerItem().withName(R.string.app_name),
+                        new PrimaryDrawerItem().withName(R.string.text_collection).withIcon(R.mipmap.ic_shake).withIdentifier(R.mipmap.ic_shake),
                         new SecondaryDrawerItem().withName(R.string.about).withIcon(R.mipmap.ic_about).withIdentifier(R.mipmap.ic_about)
                 ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -133,18 +145,15 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 currentFragment = new DailyFragment();
                                 break;
-                            case R.mipmap.ic_music:
-                                Toast.makeText(MainActivity.this, "music", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.mipmap.ic_setting:
-                                Toast.makeText(MainActivity.this, "setting", Toast.LENGTH_SHORT).show();
-                                break;
                             case R.mipmap.ic_about:
-                                Toast.makeText(MainActivity.this, "about", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.mipmap.ic_shake:
+                                Intent intent = new Intent(MainActivity.this,AboutActivity.class);
+                                startActivity(intent);
+                                return false;
+                            case R.mipmap.ic_collect:
                                 currentFragment = new BaseCollectionFragment();
-                                Toast.makeText(MainActivity.this, "shake", Toast.LENGTH_SHORT).show();
+                                if (currentFragment instanceof BaseCollectionFragment){
+                                    return false;
+                                }
                                 break;
                         }
                         switchFragment();

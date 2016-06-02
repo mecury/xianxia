@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
-import com.mecuryli.xianxia.cache.DatabaseHelper;
+import com.mecuryli.xianxia.database.DatabaseHelper;
 import com.mecuryli.xianxia.xianxiaApplication;
 
 import java.util.ArrayList;

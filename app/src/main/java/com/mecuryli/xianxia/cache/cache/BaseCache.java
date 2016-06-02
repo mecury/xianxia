@@ -6,8 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
-import com.mecuryli.xianxia.cache.DatabaseHelper;
-import com.mecuryli.xianxia.support.Utils;
+import com.mecuryli.xianxia.database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -71,7 +71,7 @@ public class NewsFragment extends BaseListFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        parentView = View.inflate(getContext(), R.layout.layout_news,null);
+        parentView = View.inflate(getContext(), R.layout.layout_collection_list,null);
         init();
         return parentView;
     }

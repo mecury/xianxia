@@ -22,6 +22,11 @@ public class CollectionFragment extends BaseListFragment {
     private int pos;
 
     @Override
+    protected void setLayout() {
+        mLayout = R.layout.layout_collection_list;
+    }
+
+    @Override
     protected void onCreateCache() {
         switch (pos){
             case 0:
