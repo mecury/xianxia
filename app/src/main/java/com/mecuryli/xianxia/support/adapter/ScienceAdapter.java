@@ -43,8 +43,13 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
         holder.title.setText(articleBean.getTitle());
         holder.description.setText(articleBean.getSummary());
         holder.info.setText(articleBean.getInfo());
-        holder.image.setImageURI(Uri.parse(articleBean.getImage_info().getUrl()));
+        if (isNoPicMode){
+            holder.image.setImageURI(null);
+        } else {
+            holder.image.setImageURI(Uri.parse(articleBean.getImage_info().getUrl()));
+        }
         holder.comment.setText(String.valueOf(articleBean.getReplies_count()));
+
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

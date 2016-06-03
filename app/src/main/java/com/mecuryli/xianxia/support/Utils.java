@@ -1,10 +1,16 @@
 package com.mecuryli.xianxia.support;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.database.DatabaseHelper;
+import com.mecuryli.xianxia.database.table.DailyTable;
+import com.mecuryli.xianxia.database.table.NewsTable;
+import com.mecuryli.xianxia.database.table.ReadingTable;
+import com.mecuryli.xianxia.database.table.ScienceTable;
 import com.mecuryli.xianxia.xianxiaApplication;
 
 import org.w3c.dom.Document;
@@ -12,6 +18,7 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -86,5 +93,41 @@ public class Utils {
 
     public static void DLog(String text){
         Log.d(mContext.getString(R.string.text_debug_data),text);
+    }
+
+    public static int getCurrentLanguage(){
+        int lang = Settings.getInstance().getInt(Settings.LANGUAGE,-1);
+        if (lang == -1){
+            String language = Locale.getDefault().getLanguage();
+            String country = Locale.getDefault().getCountry();
+
+            if (language.equalsIgnoreCase("zh")){
+                if (country.equalsIgnoreCase("CN")){
+                    lang = 1;
+                }else{
+                    lang = 2;
+                }
+            } else {
+                lang = 0;
+            }
+        }
+        return lang;
+    }
+
+    public static void clearCache(){
+        DatabaseHelper mHelper = DatabaseHelper.instance(mContext);
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+
+        db.execSQL(mHelper.DROP_TABLE + DailyTable.NAME);
+        db.execSQL(DailyTable.CREATE_TABLE);
+
+        db.execSQL(mHelper.DROP_TABLE + NewsTable.NAME);
+        db.execSQL(NewsTable.CREATE_TABLE);
+
+        db.execSQL(mHelper.DROP_TABLE + ReadingTable.NAME);
+        db.execSQL(ReadingTable.CREATE_TABLE);
+
+        db.execSQL(mHelper.DROP_TABLE + ScienceTable.NAME);
+        db.execSQL(ScienceTable.CREATE_TABLE);
     }
 }

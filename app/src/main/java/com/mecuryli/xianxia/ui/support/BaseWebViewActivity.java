@@ -12,7 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.support.Utils;
+import com.mecuryli.xianxia.support.Settings;
 
 /**
  * Created by 海飞 on 2016/5/10.
@@ -44,6 +44,7 @@ public abstract class BaseWebViewActivity extends AppCompatActivity {
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setDatabaseEnabled(true);
+        webView.getSettings().setBlockNetworkImage(Settings.getInstance().getBoolean(Settings.NO_PIC_MODE,false));
 
         loadData();
 
@@ -53,7 +54,6 @@ public abstract class BaseWebViewActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 progressBar.setVisibility(View.GONE);
-                Utils.DLog("==============");
             }
 
             @Override

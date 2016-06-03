@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.mecuryli.xianxia.database.cache.Collection.BaseCollectionCache;
 import com.mecuryli.xianxia.database.cache.ICache;
+import com.mecuryli.xianxia.support.Settings;
 
 import java.util.List;
 
@@ -18,10 +19,14 @@ public abstract class BaseListAdapter<M,VH extends RecyclerView.ViewHolder> exte
 
     protected boolean isCollection = false;  //“收藏”状态,false表示不收藏
 
+    protected boolean isNoPicMode = false; //无图模式标志
+
     public BaseListAdapter(Context context, ICache<M> cache){
         mContext = context;
         mCache = cache;
         mItems = cache.getmList();
+
+        isNoPicMode = Settings.getInstance().getBoolean(Settings.NO_PIC_MODE,false);
 
         if (cache instanceof BaseCollectionCache){
             isCollection = true;

@@ -45,6 +45,7 @@
     <string name="text_shake_to_return">摇晃返回</string>
     <string name="text_network">网络</string>
     <string name="text_author">作者</string>
+    <string name="text_clear_cache_sussessful">清除缓存成功！</string>
 </resources>
 
 

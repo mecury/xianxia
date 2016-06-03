@@ -40,8 +40,12 @@ public class DailyAdapter extends BaseListAdapter<DailyBean, ViewHolder> {
         String images = dailyBean.getImage();
         Uri uri = Uri.parse(images);
         holder.title.setText(dailyBean.getTitle());
-        holder.image.setImageURI(uri);
         holder.info.setText("未定");
+        if (isNoPicMode){
+            holder.image.setImageURI(null);
+        }else{
+            holder.image.setImageURI(uri);
+        }
 
         //点击当前item的点击事件
         holder.itemView.setOnClickListener(new View.OnClickListener() {
