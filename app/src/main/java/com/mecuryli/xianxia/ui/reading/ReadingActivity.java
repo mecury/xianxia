@@ -52,6 +52,11 @@ public class ReadingActivity extends AppCompatActivity {
         }
 
         @Override
+        protected boolean setRefreshView() {
+            return false;
+        }
+
+        @Override
         protected void onCreateCache() {
             cache = new ReadingCache(handler,null,new String[]{url});
         }
