@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.database.cache.cache.ICache;
+import com.mecuryli.xianxia.database.cache.ICache;
 import com.mecuryli.xianxia.support.CONSTANT;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.xianxiaApplication;

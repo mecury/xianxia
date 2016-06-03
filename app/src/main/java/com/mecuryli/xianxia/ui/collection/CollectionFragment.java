@@ -3,10 +3,10 @@ package com.mecuryli.xianxia.ui.collection;
 import android.support.v7.widget.RecyclerView;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.database.cache.cache.Collection.CollectionDailyCache;
-import com.mecuryli.xianxia.database.cache.cache.Collection.CollectionNewsCache;
-import com.mecuryli.xianxia.database.cache.cache.Collection.CollectionReadingCache;
-import com.mecuryli.xianxia.database.cache.cache.Collection.CollectionScienceCache;
+import com.mecuryli.xianxia.database.cache.Collection.CollectionDailyCache;
+import com.mecuryli.xianxia.database.cache.Collection.CollectionNewsCache;
+import com.mecuryli.xianxia.database.cache.Collection.CollectionReadingCache;
+import com.mecuryli.xianxia.database.cache.Collection.CollectionScienceCache;
 import com.mecuryli.xianxia.support.CONSTANT;
 import com.mecuryli.xianxia.support.adapter.DailyAdapter;
 import com.mecuryli.xianxia.support.adapter.NewsAdapter;

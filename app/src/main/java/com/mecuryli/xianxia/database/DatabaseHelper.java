@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.mecuryli.xianxia.database.cache.table.DailyTable;
-import com.mecuryli.xianxia.database.cache.table.NewsTable;
-import com.mecuryli.xianxia.database.cache.table.ReadingTable;
-import com.mecuryli.xianxia.database.cache.table.ScienceTable;
+import com.mecuryli.xianxia.database.table.DailyTable;
+import com.mecuryli.xianxia.database.table.NewsTable;
+import com.mecuryli.xianxia.database.table.ReadingTable;
+import com.mecuryli.xianxia.database.table.ScienceTable;
 
 /**
  * Created by 海飞 on 2016/5/26.

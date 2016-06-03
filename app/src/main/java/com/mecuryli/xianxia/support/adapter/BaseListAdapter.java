@@ -3,8 +3,8 @@ package com.mecuryli.xianxia.support.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.mecuryli.xianxia.database.cache.cache.BaseCollectionCache;
-import com.mecuryli.xianxia.database.cache.cache.ICache;
+import com.mecuryli.xianxia.database.cache.Collection.BaseCollectionCache;
+import com.mecuryli.xianxia.database.cache.ICache;
 
 import java.util.List;
 

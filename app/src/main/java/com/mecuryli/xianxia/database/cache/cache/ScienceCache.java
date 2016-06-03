@@ -4,7 +4,8 @@ import android.database.Cursor;
 import android.os.Handler;
 
 import com.google.gson.Gson;
-import com.mecuryli.xianxia.database.cache.table.ScienceTable;
+import com.mecuryli.xianxia.database.cache.BaseCache;
+import com.mecuryli.xianxia.database.table.ScienceTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
 import com.mecuryli.xianxia.model.science.ScienceBean;
 import com.mecuryli.xianxia.support.CONSTANT;

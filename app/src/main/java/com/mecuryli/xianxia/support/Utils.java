@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,13 +32,6 @@ public class Utils {
         return mContext.getResources().openRawResource(fileID);
     }
 
-    //将输入流is中的元素用分隔符分开
-    public static String rawFileToString(int fileID){
-        InputStream is = readFileFromRaw(fileID);
-        Scanner scanner = new Scanner(is,"UTF-8");
-        String text = scanner.useDelimiter("\\A").next();
-        return text;
-    }
 
     //通过文件的方式获取Document对象
     public static Document getDocmentByIS(InputStream is){

@@ -3,7 +3,8 @@ package com.mecuryli.xianxia.database.cache.cache;
 import android.database.Cursor;
 import android.os.Handler;
 
-import com.mecuryli.xianxia.database.cache.table.NewsTable;
+import com.mecuryli.xianxia.database.cache.BaseCache;
+import com.mecuryli.xianxia.database.table.NewsTable;
 import com.mecuryli.xianxia.model.news.NewsBean;
 import com.mecuryli.xianxia.support.CONSTANT;
 import com.mecuryli.xianxia.support.HttpUtil;

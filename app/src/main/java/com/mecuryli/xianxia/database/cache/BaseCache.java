@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.database.cache.cache;
+package com.mecuryli.xianxia.database.cache;
 
 import android.content.ContentValues;
 import android.content.Context;

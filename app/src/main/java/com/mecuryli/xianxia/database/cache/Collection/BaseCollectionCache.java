@@ -1,10 +1,11 @@
-package com.mecuryli.xianxia.database.cache.cache;
+package com.mecuryli.xianxia.database.cache.Collection;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
 import com.mecuryli.xianxia.database.DatabaseHelper;
+import com.mecuryli.xianxia.database.cache.ICache;
 import com.mecuryli.xianxia.xianxiaApplication;
 
 import java.util.ArrayList;

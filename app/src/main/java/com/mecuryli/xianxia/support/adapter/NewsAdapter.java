@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -12,11 +11,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.database.cache.cache.ICache;
-import com.mecuryli.xianxia.database.cache.table.NewsTable;
-import com.mecuryli.xianxia.database.cache.table.ScienceTable;
+import com.mecuryli.xianxia.database.cache.ICache;
+import com.mecuryli.xianxia.database.table.NewsTable;
 import com.mecuryli.xianxia.model.news.NewsBean;
-import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
 
 /**
@@ -73,8 +70,8 @@ public class NewsAdapter extends BaseListAdapter<NewsBean,NewsAdapter.ViewHolder
                                     if (mItems.contains(newsBean) == false){
                                         return;
                                     }
-                                    mCache.execSQL(ScienceTable.updateCollectionFlag(newsBean.getTitle(),0));
-                                    mCache.execSQL(ScienceTable.deleteCollectionFlag(newsBean.getTitle()));
+                                    mCache.execSQL(NewsTable.updateCollectionFlag(newsBean.getTitle(),0));
+                                    mCache.execSQL(NewsTable.deleteCollectionFlag(newsBean.getTitle()));
                                     mItems.remove(position);
                                     notifyDataSetChanged();
                                 }
@@ -88,7 +85,6 @@ public class NewsAdapter extends BaseListAdapter<NewsBean,NewsAdapter.ViewHolder
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 newsBean.setIs_collected(isChecked ? 1 : 0);
-                Log.e("newsAdatpter:" , newsBean.getIs_collected() +"");
                 mCache.execSQL(NewsTable.updateCollectionFlag(newsBean.getTitle(), isChecked ? 1 : 0));
                 if (isChecked) {
                     mCache.addToCollection(newsBean); //将newsBean添加到“收藏”表中
@@ -98,7 +94,6 @@ public class NewsAdapter extends BaseListAdapter<NewsBean,NewsAdapter.ViewHolder
             }
         });
 
-        Utils.DLog("newAdapter:" + newsBean.getIs_collected());
         holder.collect_cb.setChecked(newsBean.getIs_collected() == 1 ? true:false);
     }
 

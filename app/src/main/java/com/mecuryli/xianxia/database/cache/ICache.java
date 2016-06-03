@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.database.cache.cache;
+package com.mecuryli.xianxia.database.cache;
 
 import java.util.List;
 

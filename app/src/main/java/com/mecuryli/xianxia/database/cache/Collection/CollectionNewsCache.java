@@ -1,10 +1,9 @@
-package com.mecuryli.xianxia.database.cache.cache.Collection;
+package com.mecuryli.xianxia.database.cache.Collection;
 
 import android.database.Cursor;
 import android.os.Handler;
 
-import com.mecuryli.xianxia.database.cache.cache.BaseCollectionCache;
-import com.mecuryli.xianxia.database.cache.table.NewsTable;
+import com.mecuryli.xianxia.database.table.NewsTable;
 import com.mecuryli.xianxia.model.news.NewsBean;
 import com.mecuryli.xianxia.support.CONSTANT;
 

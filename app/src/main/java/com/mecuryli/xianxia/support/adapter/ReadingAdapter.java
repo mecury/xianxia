@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
-import com.mecuryli.xianxia.database.cache.cache.ICache;
-import com.mecuryli.xianxia.database.cache.table.ReadingTable;
+import com.mecuryli.xianxia.database.cache.ICache;
+import com.mecuryli.xianxia.database.table.ReadingTable;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;

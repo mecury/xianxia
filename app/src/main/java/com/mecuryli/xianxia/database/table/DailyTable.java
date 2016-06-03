@@ -1,4 +1,4 @@
-package com.mecuryli.xianxia.database.cache.table;
+package com.mecuryli.xianxia.database.table;
 
 /**
  * Created by 海飞 on 2016/5/26.

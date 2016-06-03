@@ -5,7 +5,8 @@ import android.os.Handler;
 
 import com.google.gson.Gson;
 import com.mecuryli.xianxia.api.DailyApi;
-import com.mecuryli.xianxia.database.cache.table.DailyTable;
+import com.mecuryli.xianxia.database.cache.BaseCache;
+import com.mecuryli.xianxia.database.table.DailyTable;
 import com.mecuryli.xianxia.model.Daily.DailyBean;
 import com.mecuryli.xianxia.model.Daily.DailyMain;
 import com.mecuryli.xianxia.model.Daily.DailyStories;

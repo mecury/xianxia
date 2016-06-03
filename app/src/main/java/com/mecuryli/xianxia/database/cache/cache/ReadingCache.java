@@ -4,7 +4,8 @@ import android.database.Cursor;
 import android.os.Handler;
 
 import com.google.gson.Gson;
-import com.mecuryli.xianxia.database.cache.table.ReadingTable;
+import com.mecuryli.xianxia.database.cache.BaseCache;
+import com.mecuryli.xianxia.database.table.ReadingTable;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.model.reading.ReadingBean;
 import com.mecuryli.xianxia.support.CONSTANT;
