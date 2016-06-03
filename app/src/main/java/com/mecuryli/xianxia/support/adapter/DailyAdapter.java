@@ -98,7 +98,6 @@ public class DailyAdapter extends BaseListAdapter<DailyBean, ViewHolder> {
             }
         });
 
-        Utils.DLog("Dailyadapter：is_collected===>" + dailyBean.getIs_collected());
         //根据dailyBean的is_collected是否为1（是否被点击了），改变单选框状态
         holder.collect_cb.setChecked(dailyBean.getIs_collected() == 1 ? true:false);
     }

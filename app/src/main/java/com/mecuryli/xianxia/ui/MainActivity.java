@@ -24,6 +24,7 @@ import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
 import com.mecuryli.xianxia.ui.reading.ReadingActivity;
 import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
+import com.mecuryli.xianxia.ui.setting.SettingActivity;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -126,8 +127,9 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.news).withIcon(R.mipmap.ic_news).withIdentifier(R.mipmap.ic_news),
                         new PrimaryDrawerItem().withName(R.string.reading).withIcon(R.mipmap.ic_reading).withIdentifier(R.mipmap.ic_reading),
                         new PrimaryDrawerItem().withName(R.string.science).withIcon(R.mipmap.ic_science).withIdentifier(R.mipmap.ic_science),
+                        new PrimaryDrawerItem().withName(R.string.collection).withIcon(R.mipmap.ic_collect).withIdentifier(R.mipmap.ic_collect),
                         new SectionDrawerItem().withName(R.string.app_name),
-                        new SecondaryDrawerItem().withName(R.string.collection).withIcon(R.mipmap.ic_collect).withIdentifier(R.mipmap.ic_collect),
+                        new SecondaryDrawerItem().withName(R.string.setting).withIcon(R.mipmap.ic_setting).withIdentifier(R.mipmap.ic_setting),
                         new SecondaryDrawerItem().withName(R.string.about).withIcon(R.mipmap.ic_about).withIdentifier(R.mipmap.ic_about)
                 ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -157,16 +159,20 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 currentFragment = new DailyFragment();
                                 break;
-                            case R.mipmap.ic_about:
-                                Intent intent = new Intent(MainActivity.this,AboutActivity.class);
-                                startActivity(intent);
-                                return false;
                             case R.mipmap.ic_collect:
                                 if (currentFragment instanceof BaseCollectionFragment){
                                     return false;
                                 }
                                 currentFragment = new BaseCollectionFragment();
                                 break;
+                            case R.mipmap.ic_setting:
+                                Intent toSetting = new Intent(MainActivity.this, SettingActivity.class);
+                                startActivity(toSetting);
+                                return false;
+                            case R.mipmap.ic_about:
+                                Intent toAbout = new Intent(MainActivity.this,AboutActivity.class);
+                                startActivity(toAbout);
+                                return false;
                         }
                         switchFragment();
                         return false;
@@ -229,5 +235,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen()){
+            drawer.closeDrawer();
+        }else{
+            super.onBackPressed();
+        }
     }
 }

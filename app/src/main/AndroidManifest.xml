@@ -39,6 +39,7 @@
         <activity android:launchMode="singleInstance"
             android:name=".ui.reading.ReadingActivity" />
         <activity android:name=".ui.about.AboutActivity"/>
+        <activity android:name=".ui.setting.SettingActivity"/>
     </application>
 
 </manifest>
