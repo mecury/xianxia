@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.mecuryli.xianxia.R;
@@ -119,6 +120,10 @@ public class Utils {
 
     //清除缓存
     public static void clearCache(){
+
+        WebView wb = new WebView(mContext);
+        wb.clearCache(true);
+
         DatabaseHelper mHelper = DatabaseHelper.instance(mContext);
         SQLiteDatabase db = mHelper.getWritableDatabase();
 

@@ -40,6 +40,7 @@ public class ReadingDetailActivity extends AppCompatActivity implements SensorEv
 
     private SensorManager mSensorManager;
     private boolean isShakeMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +133,7 @@ public class ReadingDetailActivity extends AppCompatActivity implements SensorEv
         }
         float value[] = event.values;
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            if (Math.abs(value[0])> CONSTANT.shakeValue || Math.abs(value[1])>CONSTANT.shakeValue || Math.abs(value[2])>CONSTANT.shakeValue){
+            if (Math.abs(value[0])+Math.abs(value[1])+Math.abs(value[2])>CONSTANT.shakeValue){
                 onBackPressed();
             }
         }

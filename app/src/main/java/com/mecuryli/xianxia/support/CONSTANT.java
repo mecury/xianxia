@@ -13,5 +13,5 @@ public class CONSTANT {
     public static final int ID_UPDATE_UI = 4;
     public static final int ID_LOAD_FROM_CACHE = 5;
 
-    public static final float shakeValue = 11f;
+    public static final float shakeValue = 25f;
 }
