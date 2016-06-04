@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -98,7 +98,7 @@ public class NewsCache extends BaseCache<NewsBean> {
                     mHandler.sendEmptyMessage(CONSTANT.ID_FAILURE);
                     return;
                 }
-                InputStream is = new ByteArrayInputStream(response.body().string().getBytes(StandardCharsets.UTF_8));
+                InputStream is = new ByteArrayInputStream(response.body().string().getBytes(Charset.forName("UTF-8")));
 
                 try {
                     mList.addAll(SAXNewsParse.parse(is));

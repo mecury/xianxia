@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -64,10 +65,10 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
         });
 
         if(Utils.hasString(bookBean.getEbook_url())) {
-            holder.parentView.setBackground(mContext.getResources().getDrawable(R.drawable.item_bg_selected,null)); //setBackgroundColor(mContext.getResources().getColor(R.color.item_bg));
+            holder.ebook.setVisibility(View.VISIBLE);
         }
         else {
-            holder.parentView.setBackground(mContext.getResources().getDrawable(R.drawable.item_bg, null));
+            holder.ebook.setVisibility(View.GONE);
         }
 
         if (isCollection){
@@ -123,6 +124,7 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
         private TextView info;
         private CheckBox collect_cb;
         private TextView text;
+        private ImageView ebook;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -132,6 +134,7 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
             info = (TextView) itemView.findViewById(R.id.bookInfo);
             collect_cb = (CheckBox) parentView.findViewById(R.id.collect_cb);
             text = (TextView) parentView.findViewById(R.id.text);
+            ebook = (ImageView) parentView.findViewById(R.id.ebook);
         }
     }
 }
