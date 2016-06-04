@@ -50,8 +50,8 @@
     <string name="text_author">Author</string>
 
     <string-array name="langs" translatable="false">
-        <item>简体中文</item>
         <item>English</item>
+        <item>简体中文</item>
         <item>繁體中文</item>
     </string-array>
     <string name="text_clear_cache_successful">Cache Clear Successfully!</string>

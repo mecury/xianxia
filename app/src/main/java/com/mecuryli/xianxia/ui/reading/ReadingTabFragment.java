@@ -12,6 +12,8 @@ import com.mecuryli.xianxia.api.ReadingApi;
 
 /**
  * Created by 海飞 on 2016/5/15.
+ *
+ * readingDetailActivity界面的tab
  */
 public class ReadingTabFragment extends android.support.v4.app.Fragment {
 

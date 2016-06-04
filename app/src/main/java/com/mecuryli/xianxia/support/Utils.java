@@ -1,6 +1,7 @@
 package com.mecuryli.xianxia.support;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
@@ -95,6 +96,8 @@ public class Utils {
         Log.d(mContext.getString(R.string.text_debug_data),text);
     }
 
+
+    //当前语言
     public static int getCurrentLanguage(){
         int lang = Settings.getInstance().getInt(Settings.LANGUAGE,-1);
         if (lang == -1){
@@ -114,6 +117,7 @@ public class Utils {
         return lang;
     }
 
+    //清除缓存
     public static void clearCache(){
         DatabaseHelper mHelper = DatabaseHelper.instance(mContext);
         SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -129,5 +133,30 @@ public class Utils {
 
         db.execSQL(mHelper.DROP_TABLE + ScienceTable.NAME);
         db.execSQL(ScienceTable.CREATE_TABLE);
+    }
+
+    //改变语言
+    public static void changeLanguage(Context context,int lang){
+        String language = null;
+        String country = null;
+
+        switch (lang){
+            case 1:
+                language = "zh";
+                country = "CN";
+                break;
+            case 2:
+                language = "zh";
+                country = "TW";
+                break;
+            default:
+                language = "en";
+                country = "US";
+                break;
+        }
+        Locale locale = new Locale(language,country);
+        Configuration conf = context.getResources().getConfiguration();
+        conf.locale = locale;
+        context.getApplicationContext().getResources().updateConfiguration(conf,context.getResources().getDisplayMetrics());
     }
 }
