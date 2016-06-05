@@ -107,8 +107,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     //切换fragment
     private void switchFragment(Fragment fragment, String title, int resourceMenu){
+
+        List<Fragment> fragments = fragmentManager.getFragments();
+        if (fragments != null && fragments.size() >1){
+            while(fragments.size()>1){
+                fragmentManager.getFragments().remove(fragments.get(0));
+            }
+        }
+        if (fragmentManager.getFragments()!=null){
+            Utils.DLog("manage  \n" + fragmentManager.getFragments().toString());
+            Utils.DLog(fragmentManager.getFragments().size()+"====");
+        }
+
+
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment, fragment);
+        fragmentTransaction.replace(R.id.fragment, fragment,title);
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(title);
         if (menu != null){

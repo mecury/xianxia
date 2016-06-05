@@ -17,7 +17,7 @@ public class BaseReadingFragment extends AbsTopNavigationFragment {
 
     @Override
     protected PagerAdapter initPagerAdapter() {
-        pagerAdapter = new PagerAdapter(getFragmentManager(), ReadingApi.Tag_Titles){
+        pagerAdapter = new PagerAdapter(getChildFragmentManager(), ReadingApi.Tag_Titles){
             @Override
             public Fragment getItem(int position) {
                 ReadingFragment fragment = new ReadingFragment();
@@ -32,8 +32,10 @@ public class BaseReadingFragment extends AbsTopNavigationFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        pagerAdapter = null;
+    public void onDetach() {
+        super.onDetach();
+        if (getChildFragmentManager().getFragments()!=null){
+            getChildFragmentManager().getFragments().clear();
+        }
     }
 }

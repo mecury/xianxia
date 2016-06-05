@@ -19,8 +19,8 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 public abstract class AbsTopNavigationFragment extends android.support.v4.app.Fragment {
 
     protected  View parentView;
-    private ViewPager viewPager;
-    private PagerAdapter pagerAdapter;
+    protected ViewPager viewPager;
+    protected PagerAdapter pagerAdapter;
     private SmartTabLayout smartTablayout;
     private Toolbar toolbar;
     protected abstract PagerAdapter initPagerAdapter();

@@ -16,7 +16,7 @@ public class BaseScienceFragment extends AbsTopNavigationFragment {
     private PagerAdapter pagerAdapter;
     @Override
     protected PagerAdapter initPagerAdapter() {
-        pagerAdapter = new PagerAdapter(getFragmentManager(), ScienceApi.channel_title){
+        pagerAdapter = new PagerAdapter(getChildFragmentManager(), ScienceApi.channel_title){
             @Override
             public Fragment getItem(int position) {
                 ScienceFragment fragment = new ScienceFragment();
@@ -31,8 +31,10 @@ public class BaseScienceFragment extends AbsTopNavigationFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        pagerAdapter = null;
+    public void onDetach() {
+        super.onDetach();
+        if (getChildFragmentManager().getFragments()!=null){
+            getChildFragmentManager().getFragments().clear();
+        }
     }
 }
