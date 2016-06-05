@@ -46,6 +46,9 @@
     <string name="text_network">网络</string>
     <string name="text_author">作者</string>
     <string name="text_clear_cache_sussessful">清除缓存成功！</string>
+    <string name="text_exit_confirm">退出确认</string>
+    <string name="text_exit_confirm_summary">按两次返回键退出</string>
+    <string name="notify_exit_confirm">再按一次退出</string>
 </resources>
 
 

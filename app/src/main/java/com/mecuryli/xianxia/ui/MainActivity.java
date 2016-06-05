@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -42,9 +43,6 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
     private Toolbar toolbar;
@@ -63,8 +61,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private boolean isShake = false;
     private boolean isShakeMode = true;
+    private boolean isExitConfirm = true;
+    private long lastPressTime = 0;
 
-    List<Fragment> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +78,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         initData();
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        list = new ArrayList<>();
-        list.add(new DailyFragment());
-        list.add(new BaseReadingFragment());
-        list.add(new BaseNewsFragment());
-        list.add(new BaseScienceFragment());
-        list.add(new BaseCollectionFragment());
 
         currentFragment = new DailyFragment();
         switchFragment();
@@ -108,20 +100,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //切换fragment
     private void switchFragment(Fragment fragment, String title, int resourceMenu){
 
-        List<Fragment> fragments = fragmentManager.getFragments();
-        if (fragments != null && fragments.size() >1){
-            while(fragments.size()>1){
-                fragmentManager.getFragments().remove(fragments.get(0));
-            }
-        }
-        if (fragmentManager.getFragments()!=null){
-            Utils.DLog("manage  \n" + fragmentManager.getFragments().toString());
-            Utils.DLog(fragmentManager.getFragments().size()+"====");
-        }
-
-
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment, fragment,title);
+        fragmentTransaction.replace(R.id.fragment, fragment);
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(title);
         if (menu != null){
@@ -274,12 +254,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onBackPressed() {
         if(drawer.isDrawerOpen()){
             drawer.closeDrawer();
-        }else if (isShake == false){
+        }else if (isShake == false && canExit()){
             super.onBackPressed();
         }
         isShake = false;
     }
 
+    public boolean canExit(){
+        if (isExitConfirm){
+            if (System.currentTimeMillis()-lastPressTime>CONSTANT.exitConfirmTime){
+                lastPressTime = System.currentTimeMillis();
+                Snackbar.make(getCurrentFocus(),R.string.notify_exit_confirm,Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
+    }
     @Override
     protected void onResume() {
         super.onResume();

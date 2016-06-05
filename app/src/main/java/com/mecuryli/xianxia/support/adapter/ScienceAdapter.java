@@ -18,6 +18,7 @@ import com.mecuryli.xianxia.database.cache.ICache;
 import com.mecuryli.xianxia.database.table.NewsTable;
 import com.mecuryli.xianxia.database.table.ScienceTable;
 import com.mecuryli.xianxia.model.science.ArticleBean;
+import com.mecuryli.xianxia.support.HttpUtil;
 import com.mecuryli.xianxia.ui.support.WebViewUrlActivity;
 
 /**
@@ -43,7 +44,7 @@ public class ScienceAdapter extends BaseListAdapter<ArticleBean, ScienceAdapter.
         holder.title.setText(articleBean.getTitle());
         holder.description.setText(articleBean.getSummary());
         holder.info.setText(articleBean.getInfo());
-        if (isNoPicMode){
+        if (isNoPicMode && HttpUtil.isWIFI == false){
             holder.image.setImageURI(null);
         } else {
             holder.image.setImageURI(Uri.parse(articleBean.getImage_info().getUrl()));

@@ -16,6 +16,7 @@ import com.mecuryli.xianxia.R;
 import com.mecuryli.xianxia.database.cache.ICache;
 import com.mecuryli.xianxia.database.table.DailyTable;
 import com.mecuryli.xianxia.model.Daily.DailyBean;
+import com.mecuryli.xianxia.support.HttpUtil;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DailyAdapter.ViewHolder;
 
@@ -41,7 +42,7 @@ public class DailyAdapter extends BaseListAdapter<DailyBean, ViewHolder> {
         Uri uri = Uri.parse(images);
         holder.title.setText(dailyBean.getTitle());
         holder.info.setText("未定");
-        if (isNoPicMode){
+        if (isNoPicMode && HttpUtil.isWIFI == false){
             holder.image.setImageURI(null);
         }else{
             holder.image.setImageURI(uri);
