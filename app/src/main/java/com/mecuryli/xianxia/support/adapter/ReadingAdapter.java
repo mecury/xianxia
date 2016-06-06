@@ -22,6 +22,7 @@ import com.mecuryli.xianxia.database.cache.ICache;
 import com.mecuryli.xianxia.database.table.ReadingTable;
 import com.mecuryli.xianxia.model.reading.BookBean;
 import com.mecuryli.xianxia.support.HttpUtil;
+import com.mecuryli.xianxia.support.Settings;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.ui.reading.ReadingDetailActivity;
 
@@ -48,7 +49,7 @@ public class ReadingAdapter extends BaseListAdapter<BookBean,ReadingAdapter.View
         final BookBean bookBean = getItem(position);
         holder.titles.setText(bookBean.getTitle());
         holder.info.setText(bookBean.getInfo());
-        if (isNoPicMode && HttpUtil.isWIFI == false){
+        if (Settings.noPicMode && HttpUtil.isWIFI == false){
             holder.image.setImageURI(null);
         }else{
             holder.image.setImageURI(Uri.parse(bookBean.getImage()));

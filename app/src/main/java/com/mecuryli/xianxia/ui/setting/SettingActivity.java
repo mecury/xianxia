@@ -22,7 +22,6 @@ public class SettingActivity extends AppCompatActivity implements SensorEventLis
     private int mLang = -1;
 
     private SensorManager mSensorManager;
-    private boolean isShakeMode = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,6 @@ public class SettingActivity extends AppCompatActivity implements SensorEventLis
         mSensorManager.registerListener(this,mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
 
-        isShakeMode = Settings.getInstance().getBoolean(Settings.SHAKE_TO_RETURN,true);
     }
 
     @Override
@@ -74,7 +72,7 @@ public class SettingActivity extends AppCompatActivity implements SensorEventLis
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (isShakeMode == false){
+        if (Settings.isShakeMode == false){
             return;
         }
         float value[] = event.values;

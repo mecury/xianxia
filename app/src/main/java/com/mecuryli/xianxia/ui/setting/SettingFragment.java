@@ -19,15 +19,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     private Settings mSettings;
 
-    private String LANGUAGE = "language";
-    private String AUTO_REFRESH = "auto_refresh";
-    private String NIGHT_MODE = "night_mode";
-    private String SHAKE_TO_RETURN = "shake_to_return";
-    private String NO_PIC_MODE = "no_pic_mode";
-    private String EXIT_CONFIRM = "exit_confirm";
-    private String CLEAR_CACHE = "clear_cache";
-
     private Preference mLanguage;
+    private Preference mSearch;
     private CheckBoxPreference mAutoRefresh;
     private CheckBoxPreference mNightMode;
     private CheckBoxPreference mShakeToReturn;
@@ -42,15 +35,17 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
         mSettings = Settings.getInstance();
 
-        mLanguage = findPreference(LANGUAGE);
-        mAutoRefresh = (CheckBoxPreference) findPreference(AUTO_REFRESH);
-        mNightMode = (CheckBoxPreference) findPreference(NIGHT_MODE);
-        mShakeToReturn = (CheckBoxPreference) findPreference(SHAKE_TO_RETURN);
-        mNoPicMode = (CheckBoxPreference) findPreference(NO_PIC_MODE);
-        mExitConfirm = (CheckBoxPreference) findPreference(EXIT_CONFIRM);
-        mClearCache = findPreference(CLEAR_CACHE);
+        mLanguage = findPreference(Settings.LANGUAGE);
+        mSearch = findPreference(Settings.SEARCH);
+        mAutoRefresh = (CheckBoxPreference) findPreference(Settings.AUTO_REFRESH);
+        mNightMode = (CheckBoxPreference) findPreference(Settings.NIGHT_MODE);
+        mShakeToReturn = (CheckBoxPreference) findPreference(Settings.SHAKE_TO_RETURN);
+        mNoPicMode = (CheckBoxPreference) findPreference(Settings.NO_PIC_MODE);
+        mExitConfirm = (CheckBoxPreference) findPreference(Settings.EXIT_CONFIRM);
+        mClearCache = findPreference(Settings.CLEAR_CACHE);
 
         mLanguage.setSummary(this.getResources().getStringArray(R.array.langs)[Utils.getCurrentLanguage()]);
+        mSearch.setSummary(this.getResources().getStringArray(R.array.search)[Settings.searchID]);
         mAutoRefresh.setChecked(mSettings.getBoolean(mSettings.AUTO_REFRESH,false));
         mNightMode.setChecked(mSettings.getBoolean(mSettings.NIGHT_MODE,false));
         mShakeToReturn.setChecked(mSettings.getBoolean(mSettings.SHAKE_TO_RETURN,true));
@@ -64,24 +59,30 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         mNoPicMode.setOnPreferenceChangeListener(this);
 
         mLanguage.setOnPreferenceClickListener(this);
+        mSearch.setOnPreferenceClickListener(this);
         mClearCache.setOnPreferenceClickListener(this);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         if (preference == mAutoRefresh){
-            mSettings.putBoolean(mSettings.AUTO_REFRESH,Boolean.valueOf(newValue.toString()));
+            Settings.isAutoRefresh = Boolean.valueOf(newValue.toString());
+            mSettings.putBoolean(Settings.AUTO_REFRESH,Settings.isAutoRefresh);
             return true;
-        } else if (preference == mNightMode){
-            mSettings.putBoolean(mSettings.NIGHT_MODE, Boolean.valueOf(newValue.toString()));
+        }else if (preference == mNightMode){
+            Settings.isNightMode = Boolean.valueOf(newValue.toString());
+            mSettings.putBoolean(Settings.NIGHT_MODE, Settings.isNightMode);
             return true;
         } else if (preference == mShakeToReturn){
-            mSettings.putBoolean(mSettings.SHAKE_TO_RETURN, Boolean.valueOf(newValue.toString()));
+            Settings.isShakeMode=Boolean.valueOf(newValue.toString());
+            mSettings.putBoolean(Settings.SHAKE_TO_RETURN, Settings.isShakeMode);
             return true;
         } else if (preference == mExitConfirm){
-            mSettings.putBoolean(mSettings.EXIT_CONFIRM, Boolean.valueOf(newValue.toString()));
+            Settings.isExitConfirm = Boolean.valueOf(newValue.toString());
+            mSettings.putBoolean(Settings.EXIT_CONFIRM, Settings.isExitConfirm);
         } else if (preference == mNoPicMode){
-            mSettings.putBoolean(mSettings.NO_PIC_MODE, Boolean.valueOf(newValue.toString()));
+            Settings.noPicMode = Boolean.valueOf(newValue.toString());
+            mSettings.putBoolean(Settings.NO_PIC_MODE, Settings.noPicMode);
             return true;
         }
         return false;
@@ -94,6 +95,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (preference == mClearCache){
             Utils.clearCache();
             Snackbar.make(getView(),R.string.text_clear_cache_successful,Snackbar.LENGTH_SHORT).show();
+        } else if (preference == mSearch){
+            showSearchSettingsDialog();
         }
         return false;
     }
@@ -114,6 +117,21 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                                 if (Settings.needRecreate){
                                     getActivity().recreate();
                                 }
+                            }
+                        }).show();
+    }
+
+    private void showSearchSettingsDialog(){
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.text_search))
+                .setSingleChoiceItems(
+                        getResources().getStringArray(R.array.search), Settings.searchID, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Settings.searchID = which;
+                                mSettings.putInt(Settings.SEARCH,which);
+                                mSearch.setSummary(getResources().getStringArray(R.array.search)[Settings.searchID]);
+                                dialog.dismiss();
                             }
                         }).show();
     }

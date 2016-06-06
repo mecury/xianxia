@@ -42,7 +42,6 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected boolean withHeaderTab = true;     //tab标题栏
     protected boolean withRefreshView = true;  //刷新状态
     protected boolean needCache = true;     //缓存
-    protected boolean autoRefreshMode = false; //自动刷新
 
     //子类需要重写的方法
     protected abstract void onCreateCache();
@@ -111,7 +110,6 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
             });
         }
 
-        autoRefreshMode = Settings.getInstance().getBoolean(Settings.AUTO_REFRESH,false);
         HttpUtil.readNetworkState();
         loadFromCache();
         return parentView;
@@ -154,7 +152,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
                     if (withRefreshView && hasData() == false){
                         loadFromNet();
                         return false;
-                    } else if (withRefreshView && HttpUtil.isWIFI){
+                    } else if (Settings.isAutoRefresh && HttpUtil.isWIFI){
                         progressBar.setVisibility(View.GONE);
                         loadFromNet();
                         return false;

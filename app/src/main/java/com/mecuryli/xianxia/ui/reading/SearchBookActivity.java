@@ -25,7 +25,7 @@ import com.mecuryli.xianxia.ui.support.BaseListFragment;
  *
  * 搜索结束后的acitvity界面的
  */
-public class ReadingActivity extends AppCompatActivity implements SensorEventListener{
+public class SearchBookActivity extends AppCompatActivity implements SensorEventListener{
     private Toolbar toolbar;
     private String url;
     private int mLang = -1;
@@ -58,7 +58,12 @@ public class ReadingActivity extends AppCompatActivity implements SensorEventLis
                 onBackPressed();
             }
         });
-        url = ReadingApi.searchByText + getIntent().getStringExtra(getString(R.string.id_search_text));
+
+        if (Settings.searchID == 0){
+            url = ReadingApi.searchByText + getIntent().getStringExtra(getString(R.string.id_search_text));
+        }else{
+            url = ReadingApi.searchByTag + getIntent().getStringExtra(getString(R.string.id_search_text));
+        }
 
         BookListFragment fragment = new BookListFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

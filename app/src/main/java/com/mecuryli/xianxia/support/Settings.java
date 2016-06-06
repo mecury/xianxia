@@ -11,6 +11,13 @@ import com.mecuryli.xianxia.xianxiaApplication;
 public class Settings {
 
     public static boolean needRecreate = false;
+    public static boolean isShakeMode = true;
+    public static boolean noPicMode = false;
+    public static boolean isNightMode = false;
+    public static boolean isAutoRefresh = false;
+    public static boolean isExitConfirm = true;
+    public static int searchID = 0;
+
     public static final String XML_NAME = "settings";
     public static final String SHAKE_TO_RETURN = "shake_to_return";
     public static final String NO_PIC_MODE = "no_pic_mode";
@@ -18,6 +25,8 @@ public class Settings {
     public static final String AUTO_REFRESH="auto_refresh";
     public static final String LANGUAGE = "language";
     public static final String EXIT_CONFIRM = "exit_confirm";
+    public static final String CLEAR_CACHE = "clear_cache";
+    public static final String SEARCH = "search";
 
     private static Settings sInstance;
 

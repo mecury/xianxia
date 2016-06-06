@@ -29,7 +29,7 @@ import com.mecuryli.xianxia.ui.collection.BaseCollectionFragment;
 import com.mecuryli.xianxia.ui.daily.DailyFragment;
 import com.mecuryli.xianxia.ui.news.BaseNewsFragment;
 import com.mecuryli.xianxia.ui.reading.BaseReadingFragment;
-import com.mecuryli.xianxia.ui.reading.ReadingActivity;
+import com.mecuryli.xianxia.ui.reading.SearchBookActivity;
 import com.mecuryli.xianxia.ui.science.BaseScienceFragment;
 import com.mecuryli.xianxia.ui.setting.SettingActivity;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager; //晃动感应
 
     private boolean isShake = false;
-    private boolean isShakeMode = true;
-    private boolean isExitConfirm = true;
     private long lastPressTime = 0;
 
 
@@ -73,6 +71,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (mLang > -1){
             Utils.changeLanguage(this, mLang);
         }
+
+        //setting
+        Settings.isShakeMode = Settings.getInstance().getBoolean(Settings.SHAKE_TO_RETURN,true);
+        Settings.searchID = Settings.getInstance().getInt(Settings.SEARCH,0);
+        Settings.isAutoRefresh = Settings.getInstance().getBoolean(Settings.AUTO_REFRESH,false);
+        Settings.isExitConfirm = Settings.getInstance().getBoolean(Settings.EXIT_CONFIRM,true);
+        Settings.isNightMode = Settings.getInstance().getBoolean(Settings.NIGHT_MODE,false);
+        Settings.noPicMode = Settings.getInstance().getBoolean(Settings.NO_PIC_MODE,false);
+
 
         setContentView(R.layout.activity_main);
         initData();
@@ -180,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 break;
                             case R.mipmap.ic_setting:
                                 Intent toSetting = new Intent(MainActivity.this, SettingActivity.class);
+                                toSetting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(toSetting);
                                 return false;
                             case R.mipmap.ic_about:
@@ -240,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (Utils.hasString(editText.getText().toString())){
-                            Intent intent = new Intent(MainActivity.this, ReadingActivity.class);
+                            Intent intent = new Intent(MainActivity.this, SearchBookActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(getString(R.string.id_search_text),editText.getText().toString());
                             intent.putExtras(bundle);
@@ -261,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public boolean canExit(){
-        if (isExitConfirm){
+        if (Settings.isExitConfirm){
             if (System.currentTimeMillis()-lastPressTime>CONSTANT.exitConfirmTime){
                 lastPressTime = System.currentTimeMillis();
                 Snackbar.make(getCurrentFocus(),R.string.notify_exit_confirm,Snackbar.LENGTH_SHORT).show();
@@ -277,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
 
-        isShakeMode = Settings.getInstance().getBoolean(Settings.SHAKE_TO_RETURN,true);
         if (Settings.needRecreate){
             Settings.needRecreate = false;
             this.recreate();
@@ -298,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (isShakeMode == false){
+        if (Settings.isShakeMode == false){
             return ;
         }
         float value[] = event.values;
