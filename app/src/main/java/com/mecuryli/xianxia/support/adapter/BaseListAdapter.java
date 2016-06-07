@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.mecuryli.xianxia.database.cache.Collection.BaseCollectionCache;
 import com.mecuryli.xianxia.database.cache.ICache;
-import com.mecuryli.xianxia.support.Settings;
+import com.mecuryli.xianxia.support.HttpUtil;
 
 import java.util.List;
 
@@ -29,6 +29,8 @@ public abstract class BaseListAdapter<M,VH extends RecyclerView.ViewHolder> exte
         if (cache instanceof BaseCollectionCache){
             isCollection = true;
         }
+
+        HttpUtil.readNetworkState();
     }
 
     @Override

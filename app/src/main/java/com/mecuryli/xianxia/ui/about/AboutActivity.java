@@ -55,6 +55,8 @@ public class AboutActivity extends AppCompatActivity implements SensorEventListe
         });
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        getFragmentManager().beginTransaction().replace(R.id.framelayout,new AboutFragment()).commit();
     }
 
     @Override

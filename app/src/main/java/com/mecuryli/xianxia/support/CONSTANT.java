@@ -5,6 +5,11 @@ package com.mecuryli.xianxia.support;
  */
 public class CONSTANT {
     public static final String TYPE_UTF8_CHARSET = "charset=UTF-8";
+
+    public static final String VERSION_URL = "https://raw.githubusercontent.com/MummyDing/Leisure/master/currentVersion.txt";
+
+    public static final String CURRENT_VERSION = "1.0";
+
     public static final String MONTH[] = {"","Jan","Feb","Mar","Apr","May","jun",
             "Jul","Aug","Sept","Oct","Nov","Dec"};
     public static final int ID_SUCCESS = 1;

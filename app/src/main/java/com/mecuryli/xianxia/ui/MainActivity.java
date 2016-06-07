@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 .withTextColor(Settings.isNightMode ? ContextCompat.getColor(this, R.color.white) : ContextCompat.getColor(this, R.color.text_color)),
                         new PrimaryDrawerItem().withName(R.string.science).withIcon(R.mipmap.ic_science).withIdentifier(R.mipmap.ic_science)
                                 .withTextColor(Settings.isNightMode ? ContextCompat.getColor(this, R.color.white) : ContextCompat.getColor(this, R.color.text_color)),
-                        new PrimaryDrawerItem().withName(R.string.collection).withIcon(R.mipmap.ic_collect).withIdentifier(R.mipmap.ic_collect)
+                        new PrimaryDrawerItem().withName(R.string.collection).withIcon(R.mipmap.ic_collect_grey).withIdentifier(R.mipmap.ic_collect_grey)
                                 .withTextColor(Settings.isNightMode ? ContextCompat.getColor(this, R.color.white) : ContextCompat.getColor(this, R.color.text_color)),
                         new SectionDrawerItem().withName(R.string.app_name),
                         new SecondaryDrawerItem().withName(R.string.text_night_mode).withIcon(R.mipmap.ic_night).withIdentifier(R.mipmap.ic_night)
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 }
                                 currentFragment = new DailyFragment();
                                 break;
-                            case R.mipmap.ic_collect:
+                            case R.mipmap.ic_collect_grey:
                                 if (currentFragment instanceof BaseCollectionFragment){
                                     return false;
                                 }

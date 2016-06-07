@@ -1,11 +1,15 @@
 package com.mecuryli.xianxia.support;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -178,5 +182,13 @@ public class Utils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    //复制到粘贴板
+    public static void copyToClipboard(View view, String info){
+        ClipboardManager cm = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
+        ClipData cd = ClipData.newPlainText("msg", info);
+        cm.setPrimaryClip(cd);
+        Snackbar.make(view,R.string.notify_info_copied,Snackbar.LENGTH_SHORT).isShownOrQueued();
     }
 }
