@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.support.HttpUtil;
 import com.mecuryli.xianxia.support.Settings;
 
 /**
@@ -44,8 +45,14 @@ public abstract class BaseWebViewActivity extends AppCompatActivity {
         webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setDatabaseEnabled(true);
-        webView.getSettings().setBlockNetworkImage(Settings.getInstance().getBoolean(Settings.NO_PIC_MODE,false));
 
+        if (HttpUtil.isWIFI == false){
+            webView.getSettings().setBlockNetworkImage(Settings.getInstance().getBoolean(Settings.NO_PIC_MODE,false));
+        }
+
+        if (Settings.isNightMode){
+            webView.setBackgroundColor(getResources().getColor(R.color.night_primary));
+        }
         loadData();
 
         //setWebViewClient主要用于处理解析，渲染网页等浏览器做的事情

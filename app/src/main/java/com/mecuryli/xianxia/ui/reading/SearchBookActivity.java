@@ -42,6 +42,13 @@ public class SearchBookActivity extends AppCompatActivity implements SensorEvent
             Utils.changeLanguage(this, mLang);
         }
 
+        //夜间模式
+        if (Settings.isNightMode){
+            this.setTheme(R.style.NightTheme);
+        }else{
+            this.setTheme(R.style.DayTheme);
+        }
+
         setContentView(R.layout.activity_reading);
         initData();
 

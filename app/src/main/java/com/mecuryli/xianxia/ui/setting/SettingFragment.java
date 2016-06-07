@@ -71,7 +71,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             return true;
         }else if (preference == mNightMode){
             Settings.isNightMode = Boolean.valueOf(newValue.toString());
+            Settings.needRecreate = true;
             mSettings.putBoolean(Settings.NIGHT_MODE, Settings.isNightMode);
+            getActivity().recreate();
             return true;
         } else if (preference == mShakeToReturn){
             Settings.isShakeMode=Boolean.valueOf(newValue.toString());

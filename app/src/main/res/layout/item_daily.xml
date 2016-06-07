@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/item_padding">
+    android:padding="@dimen/item_padding"
+    android:background="?attr/background">
 
     <TextView
         android:id="@+id/title"
         android:paddingTop="5dp"
         android:textSize="@dimen/title_size"
-        android:textColor="@color/md_black_1000"
+        android:textColor="?attr/textColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -30,6 +31,7 @@
         <TextView
             android:id="@+id/info"
             android:textSize="13sp"
+            android:textColor="?attr/textLight"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:layout_weight="1"

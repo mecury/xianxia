@@ -9,7 +9,8 @@
     card_view:cardElevation="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true">
+    android:clickable="true"
+    android:background="?attr/background">
 
     <ImageView
         android:id="@+id/ebook"
@@ -24,7 +25,8 @@
         style="@style/CardView.Content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="?attr/background">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/bookImg"
@@ -42,14 +44,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/md_black_1000"/>
+                android:textColor="?attr/textColor"/>
 
             <TextView
                 android:id="@+id/bookInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/secondary_text"/>
+                android:textColor="?attr/textColor"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -64,6 +66,7 @@
                 <TextView
                     android:id="@+id/text"
                     android:text="@string/text_collection"
+                    android:textColor="?attr/textColor"
                     android:layout_below="@+id/collect_cb"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"

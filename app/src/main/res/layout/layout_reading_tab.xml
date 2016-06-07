@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/background">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/text"
+            android:textColor="?attr/textLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </android.support.v4.widget.NestedScrollView>
