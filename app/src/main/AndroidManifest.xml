@@ -37,6 +37,7 @@
         <activity android:name=".ui.setting.SettingActivity"/>
         <activity android:name=".ui.about.AppIntroActivity"/>
         <activity android:name=".ui.about.DemoVideoActivity"/>
+        <activity android:name=".ui.daily.DailyDetailActivity"/>
     </application>
 
 </manifest>

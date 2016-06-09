@@ -10,6 +10,7 @@ public class DailyTable {
     public static final String TITLE = "title";
     //public static final String INFO = "info";
     public static final String IMAGE = "image";
+    public static final String ID = "id";
     //public static final String DESCRIPTION = "description";
     public static final String IS_COLLECTED = "is_collected";
 
@@ -17,13 +18,15 @@ public class DailyTable {
     //public static final int ID_INFO = 1;
     public static final int ID_IMAGE = 1;
     //public static final int ID_DESCRIPTION = 3;
-    public static final int ID_IS_COLLETED = 2;
+    public static final int ID_ID = 2;
+    public static final int ID_IS_COLLETED = 3;
 
     //用于存储正常加载的缓存
     public static final String CREATE_TABLE = "create table " + NAME +
             "(" + TITLE + " text," +
            // INFO + " text," +
             IMAGE + " text," +
+            ID + " integer," +
            // DESCRIPTION + " text," +
             IS_COLLECTED + " integer)";
 
@@ -31,7 +34,8 @@ public class DailyTable {
     public static final String CREATE_COLLECTION_TABLE = "create table " + COLLECTION_NAME +
             "(" + TITLE + " text," +
            // INFO + " text," +
-            IMAGE + " text)";
+            IMAGE + " text," +
+            ID + " integer)";
             //DESCRIPTION + " text)";
 
     //用于从“收藏”中查找内容

@@ -13,6 +13,7 @@ import com.mecuryli.xianxia.model.Daily.DailyStories;
 import com.mecuryli.xianxia.model.Daily.DailyTop_stories;
 import com.mecuryli.xianxia.support.CONSTANT;
 import com.mecuryli.xianxia.support.HttpUtil;
+import com.mecuryli.xianxia.support.Utils;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -42,6 +43,7 @@ public class DailyCache extends BaseCache<DailyBean> {
             //values.put(DailyTable.DESCRIPTION,tmpDaily.getDescription());
             values.put(DailyTable.IMAGE,tmpDaily.getImage());
             //values.put(DailyTable.INFO, tmpDaily.getInfo());
+            values.put(DailyTable.ID,tmpDaily.getId());
             values.put(DailyTable.IS_COLLECTED,tmpDaily.getIs_collected());
 
             db.insert(DailyTable.NAME, null, values);
@@ -54,6 +56,7 @@ public class DailyCache extends BaseCache<DailyBean> {
         values.put(DailyTable.TITLE,dailyBean.getTitle());
         //values.put(DailyTable.DESCRIPTION,dailyBean.getDescription());
         values.put(DailyTable.IMAGE,dailyBean.getImage());
+        values.put(DailyTable.ID,dailyBean.getId());
         //values.put(DailyTable.INFO, dailyBean.getInfo());
         db.insert(DailyTable.COLLECTION_NAME, null, values);
     }
@@ -68,6 +71,7 @@ public class DailyCache extends BaseCache<DailyBean> {
             DailyBean dailyBean = new DailyBean();
             dailyBean.setTitle(cursor.getString(DailyTable.ID_TITLE));
             dailyBean.setImage(cursor.getString(DailyTable.ID_IMAGE));
+            dailyBean.setId(cursor.getInt(DailyTable.ID_ID));
             //dailyBean.setDescription(cursor.getString(DailyTable.ID_DESCRIPTION));
             //dailyBean.setInfo(cursor.getString(DailyTable.ID_INFO));
             dailyBean.setIs_collected(cursor.getInt(DailyTable.ID_IS_COLLETED));
@@ -102,6 +106,7 @@ public class DailyCache extends BaseCache<DailyBean> {
                     item.setTitle(d.getTitle());
                     item.setGa_prefix(d.getGa_prefix());
                     item.setId(d.getId());
+                    Utils.DLog("DailyCache111:" + d.getId());
                     item.setType(d.getType());
                     item.setImage(d.getImages()[0]);
                     mList.add(item);
@@ -111,6 +116,7 @@ public class DailyCache extends BaseCache<DailyBean> {
                     item.setTitle(d.getTitle());
                     item.setGa_prefix(d.getGa_prefix());
                     item.setId(d.getId());
+                    Utils.DLog("DailyCache222:" + d.getId());
                     item.setType(d.getType());
                     item.setImage(d.getImage());
                     mList.add(item);

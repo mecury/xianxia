@@ -1,7 +1,9 @@
 package com.mecuryli.xianxia.support.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mecuryli.xianxia.R;
+import com.mecuryli.xianxia.api.DailyApi;
 import com.mecuryli.xianxia.database.cache.ICache;
 import com.mecuryli.xianxia.database.table.DailyTable;
 import com.mecuryli.xianxia.model.Daily.DailyBean;
@@ -20,6 +23,7 @@ import com.mecuryli.xianxia.support.HttpUtil;
 import com.mecuryli.xianxia.support.Settings;
 import com.mecuryli.xianxia.support.Utils;
 import com.mecuryli.xianxia.support.adapter.DailyAdapter.ViewHolder;
+import com.mecuryli.xianxia.ui.daily.DailyDetailActivity;
 
 /**
  * Created by 海飞 on 2016/5/18.
@@ -42,7 +46,6 @@ public class DailyAdapter extends BaseListAdapter<DailyBean, ViewHolder> {
         String images = dailyBean.getImage();
         Uri uri = Uri.parse(images);
         holder.title.setText(dailyBean.getTitle());
-        holder.info.setText("未定");
         if (Settings.noPicMode && HttpUtil.isWIFI == false){
             holder.image.setImageURI(null);
         }else{
@@ -53,7 +56,12 @@ public class DailyAdapter extends BaseListAdapter<DailyBean, ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, DailyDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(mContext.getString(R.string.id_url), DailyApi.newsDetail+dailyBean.getId());
+                Utils.DLog("Dialyadapter：" + DailyApi.newsDetail+dailyBean.getId());
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
 
