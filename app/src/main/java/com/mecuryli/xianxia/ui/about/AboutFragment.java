@@ -1,5 +1,6 @@
 package com.mecuryli.xianxia.ui.about;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,8 @@ import java.io.IOException;
  */
 public class AboutFragment extends PreferenceFragment implements  Preference.OnPreferenceClickListener {
 
+    private Preference mAppIntro;
+    private Preference mDemoVideo;
     private Preference mCheckUpdate;
     private Preference mStarProject;
     private Preference mShare;
@@ -31,6 +34,9 @@ public class AboutFragment extends PreferenceFragment implements  Preference.OnP
     private Preference mGitHub;
     private Preference mEmail;
 
+
+    private final String APP_INTRO = "app_intro";
+    private final String DEMO_VIDEO = "demo_video";
     private final String CHECK_UPDATE = "check_update";
     private final String STAR_PROJECT = "star_project";
     private final String SHARE = "share";
@@ -45,6 +51,8 @@ public class AboutFragment extends PreferenceFragment implements  Preference.OnP
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.about);
 
+        mAppIntro = findPreference(APP_INTRO);
+        mDemoVideo = findPreference(DEMO_VIDEO);
         mCheckUpdate = findPreference(CHECK_UPDATE);
         mStarProject = findPreference(STAR_PROJECT);
         mShare = findPreference(SHARE);
@@ -53,6 +61,8 @@ public class AboutFragment extends PreferenceFragment implements  Preference.OnP
         mEmail = findPreference(EMAIL);
 
 
+        mAppIntro.setOnPreferenceClickListener(this);
+        mDemoVideo.setOnPreferenceClickListener(this);
         mCheckUpdate.setOnPreferenceClickListener(this);
         mStarProject.setOnPreferenceClickListener(this);
         mShare.setOnPreferenceClickListener(this);
@@ -65,7 +75,13 @@ public class AboutFragment extends PreferenceFragment implements  Preference.OnP
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        if(mCheckUpdate == preference){
+        if (mAppIntro == preference){
+            Intent toIntro = new Intent(getActivity(),AppIntroActivity.class);
+            startActivity(toIntro);
+        }else if (mDemoVideo == preference){
+            Intent toVideo = new Intent(getActivity(),DemoVideoActivity.class);
+            startActivity(toVideo);
+        }else if(mCheckUpdate == preference){
             progressBar.setVisibility(View.VISIBLE);
 
             Request.Builder builder = new Request.Builder();

@@ -5,11 +5,17 @@
             android:title="声明："
             android:summary="下面是关于原作者的介绍，我因为学习原因而重写了这个项目。如有问题，请联系抽屉菜单中的邮箱。"/>
         <Preference
+            android:key="app_intro"
+            android:title="@string/text_app_intro"/>
+        <Preference
             android:title="@string/text_current_version"
             android:summary="@string/leisure_version"/>
         <Preference
             android:key="check_update"
             android:title="@string/text_check_update"/>
+        <Preference
+            android:key="demo_video"
+            android:title="@string/text_demo_video"/>
         <Preference
             android:key="star_project"
             android:title="@string/text_good_job"
