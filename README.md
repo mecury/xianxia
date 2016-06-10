@@ -1,9 +1,5 @@
 # 闲暇(Leisure)
 Leisure is an Android App,it contains Zhihu Daily,Guokr Scientific,XinhuaNet News and Douban Books
-
-  　　　
-![alt text](./logo.png)
-
 -----------
 
 
@@ -26,4 +22,4 @@ Leisure is an Android App,it contains Zhihu Daily,Guokr Scientific,XinhuaNet New
   - 语言:　支持繁简中文和英文，满足用户语言习惯
   - 清除缓存:用户可以手动清除缓存，节约手机存储空间
 
-[1]:(http://v.youku.com/v_show/id_XMTQwOTU4MzE5Mg==.html)
+声明：本源码是我学习MemmyDing的源码所得，原地址传送门：https://github.com/MummyDing/Leisure。
